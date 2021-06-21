@@ -256,7 +256,7 @@
         End If
     End Sub
 
-    Private Sub btnGetLastRecord_Click(sender As System.Object, e As System.EventArgs) Handles btnGetLastRecord.Click
+    Private Sub btnGetLastRecord_Click(sender As System.Object, e As System.EventArgs)
         SessionIsAlive()
 
         ControlDispo(False)
@@ -320,49 +320,6 @@
         'End If
     End Sub
 
-    Private Sub ChipEncode()
-        FormatCard()
-
-        Dim strData(14) As String
-        strData(0) = txtCIF_Write.Text
-        strData(1) = txtFirst_Write.Text
-        strData(2) = txtMiddle_Write.Text
-        strData(3) = txtLast_Write.Text
-        strData(4) = txtSuffix_Write.Text
-        'strData(5) = txtDOB_Write.Text
-        strData(6) = txtMembershipDate_Write.Text
-        'strData(7) = txtMembershipStatus_Write.Text
-        strData(8) = txtGender_Write.Text
-        'strData(9) = txtMembershipType_Write.Text
-        'strData(10) = txtIDNumber_Write.Text
-        'strData(11) = txtDateIssued_Write.Text
-        strData(12) = txtBranchIssued_Write.Text
-        'strData(13) = txtAssociateType_Write.Text
-        'strData(14) = txtCIF_Principal_Write.Text
-
-        Dim WriteToCard As New WriteToCard(New ListBox, TextBox1, strData)
-        If Not WriteToCard.SuccessWrite Then
-            SystemStatus(WriteToCard.ErrorMessage, 2)
-        Else
-            SystemStatus("Process is complete", 1)
-
-            'Dim DAL As New DAL
-            'DAL.ExecuteQuery("UPDATE tblData SET IDNUMBER='" & WriteToCard.IDNUMBER_PlainText & "', UID='" & WriteToCard.UID & "', Chipencode_Timestamp=GETDATE() WHERE DataID=" & DataID.ToString)
-            'DAL.InsertRelDataCardActivity(txtCIF_Write.Text, "Chip encoding")
-            'If DAL.SelectDataByCIF(txtCIF_Write.Text) Then
-            '    If DAL.TableResult.DefaultView.Count > 0 Then
-            '        BindData(DAL.TableResult.Rows(0))
-            '    Else
-            '        MessageBox.Show("No record found", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            '    End If
-            'End If
-            'DAL.Dispose()
-            'DAL = Nothing
-        End If
-
-        WriteToCard = Nothing
-    End Sub
-
     Private Sub MagEncode()
         Dim strTracks(2) As String
         Dim middleName As String = ""
@@ -382,21 +339,6 @@
     End Sub
 
     Private Sub btnProcessCard_Click(sender As System.Object, e As System.EventArgs) Handles btnProcessCard.Click
-        'txtIDNumber_Write.Clear()
-        ''WriteToCard.Init()
-        ''Dim s As String = WriteToCard.GetUID 'GETUID()
-        'Dim s As String
-        'Dim cntr As Integer = 0
-        'Do While True
-        '    s = WriteToCard.GetUID 'GETUID()
-        '    cntr += 1
-        '    txtIDNumber_Write.Text = s & "," & cntr
-        '    Application.DoEvents()
-        '    System.Threading.Thread.Sleep(1000)
-        'Loop
-        'txtIDNumber_Write.Text = s
-        'Return
-
         SessionIsAlive()
 
         If txtCIF_Write.Text = "" Then Return
@@ -408,28 +350,17 @@
 
         ControlDispo(False)
 
-        If chkMagEncode.Checked Then MagEncode()
 
-        'If Not chkChipEncode.Checked Then EjectCard()
-        If chkMagEncode.Checked Then
-            FeedCard()
-        Else
-            FeedCard()
-        End If
+        FeedCard()
 
-        If chkPrint.Checked Then
-            FeedCard()
-
-            If lblPrintTimestamp.Text <> "DATE PRINTED:" Then
-                If MessageBox.Show("Card has been issued to this record. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                    PrintCard()
-                End If
-            Else
+        If lblPrintTimestamp.Text <> "DATE PRINTED:" Then
+            If MessageBox.Show("Card has been issued to this record. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
                 PrintCard()
             End If
         Else
-            If Not My.Settings.PCSCReader.Contains("OMNIKEY") Then EjectCard()
+            PrintCard()
         End If
+
 
         ControlDispo(True)
     End Sub
@@ -446,11 +377,6 @@
             Return False
         End Try
     End Function
-
-    Private Sub FormatCard()
-        Dim FormatCard As New FormatCard(My.Settings.PCSCReader, New ListBox, TextBox1)
-        FormatCard.FormatAllSectors()
-    End Sub
 
     Private Sub SystemStatus(ByVal status As String, Optional intType As Short = 0)
         Select Case intType
@@ -862,66 +788,5 @@
         txtHeight.Text = ce.Signature_President_Height
         ce = Nothing
     End Sub
-
-    Public Function GETUID() As String
-        Dim bln As Boolean = False
-
-        Dim ReaderName As String = "HID Global OMNIKEY 5422 Smartcard Reader 0"
-
-        retCode = ModWinsCard.SCardEstablishContext(ModWinsCard.SCARD_SCOPE_USER, 0, 0, hContext)
-        Try
-            If retCode <> ModWinsCard.SCARD_S_SUCCESS Then
-                Console.WriteLine("ModWinsCard.SCardEstablishContext failed")
-                Return ""
-            End If
-
-            ' Shared Connection
-            retCode = ModWinsCard.SCardConnect(hContext, ReaderName, ModWinsCard.SCARD_SHARE_SHARED, ModWinsCard.SCARD_PROTOCOL_T0 Or ModWinsCard.SCARD_PROTOCOL_T1, hCard, Protocol)
-
-            If retCode <> ModWinsCard.SCARD_S_SUCCESS Then
-                Console.WriteLine("ModWinsCard.SCardConnect failed")
-                Return ""
-            End If
-
-            Dim tmpStr As String = ""
-            Dim indx As Integer
-
-
-            validATS = False
-
-            Call ClearBuffers()
-
-            SendBuff(0) = &HFF                              ' CLA
-            SendBuff(1) = &HCA                              ' INS
-            SendBuff(2) = &H0                               ' P1 : Other cards
-            SendBuff(3) = &H0                               ' P2
-            SendBuff(4) = &H0                               ' Le : Full Length
-
-            SendLen = SendBuff(4) + 5
-            RecvLen = &HFF
-
-            Dim lstBoxLog As New ListBox
-            retCode = SendAPDUandDisplay(3, lstBoxLog)
-
-            If retCode <> ModWinsCard.SCARD_S_SUCCESS Then Return False
-
-            If validATS Then
-
-                For indx = 0 To (RecvLen - 3)
-                    tmpStr = tmpStr + Microsoft.VisualBasic.Right("00" & Hex(RecvBuff(indx)), 2) + " "
-                Next indx
-
-                'displayOut(3, 0, "UID:" + tmpStr.Trim, lstBoxLog)
-
-                Return tmpStr
-
-            End If
-
-            Return bln
-        Catch ex As Exception
-        Finally
-            retCode = ModWinsCard.SCardDisconnect(hCard, ModWinsCard.SCARD_UNPOWER_CARD)
-        End Try
-    End Function
 
 End Class

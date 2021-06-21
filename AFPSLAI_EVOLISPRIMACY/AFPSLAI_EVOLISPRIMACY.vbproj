@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -13,7 +13,7 @@
     <AssemblyName>AFPSLAI_EVOLISPRIMACY</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
   </PropertyGroup>
@@ -26,6 +26,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>AFPSLAI_EVOLISPRIMACY.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -36,6 +37,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>AFPSLAI_EVOLISPRIMACY.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -69,6 +71,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -89,8 +93,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\CardElements.vb" />
+    <Compile Include="Class\card.vb" />
+    <Compile Include="Class\requestPayload.vb" />
+    <Compile Include="Class\requestCredential.vb" />
     <Compile Include="Class\PrintCard.vb" />
-    <Compile Include="Class\FormatCard.vb" />
     <Compile Include="Class\MagEncoding.vb" />
     <Compile Include="Class\Misc.vb" />
     <Compile Include="Class\Modules\dllEvolib.vb" />
@@ -98,8 +104,7 @@
     <Compile Include="Class\Modules\EnumPrinters.vb" />
     <Compile Include="Class\Modules\spooler.vb" />
     <Compile Include="Class\Modules\StructureDefinition.vb" />
-    <Compile Include="Class\ReadCardData.vb" />
-    <Compile Include="Class\WriteToCard.vb" />
+    <Compile Include="Class\SharedFunction.vb" />
     <Compile Include="Evolis\Discussion\CBmp.vb" />
     <Compile Include="Evolis\Discussion\CIomem.vb" />
     <Compile Include="Evolis\Discussion\CMag.vb" />
@@ -124,6 +129,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>

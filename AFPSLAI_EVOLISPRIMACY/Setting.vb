@@ -15,7 +15,7 @@ Public Class Setting
     Private Sub BindSettings()
         cboCardReader.SelectedIndex = cboCardReader.FindStringExact(My.Settings.PCSCReader)
         cboPrinter.SelectedIndex = cboPrinter.FindStringExact(My.Settings.CardPrinter)
-        txtServer.Text = My.Settings.Server
+        txtServer.Text = My.Settings.MiddleServerUrl
         txtDatabase.Text = My.Settings.Database
         txtUser.Text = My.Settings.User
         txtPassword.Text = My.Settings.Password
@@ -46,17 +46,13 @@ Public Class Setting
     Private Sub SaveSettings()
         If cboCardReader.Text <> "" Then My.Settings.PCSCReader = cboCardReader.Text
         If cboPrinter.Text <> "" Then My.Settings.CardPrinter = cboPrinter.Text
-        My.Settings.Server = txtServer.Text
+        My.Settings.MiddleServerUrl = txtServer.Text
         My.Settings.Database = txtDatabase.Text
         My.Settings.User = txtUser.Text
         My.Settings.Password = txtPassword.Text
         My.Settings.CapturedData = txtCapturedData.Text
         My.Settings.Save()
     End Sub
-
-    Private Function FormatElementValue(ByVal txtBox As TextBox) As Integer
-
-    End Function
 
     Private Sub SaveElements()
         Try

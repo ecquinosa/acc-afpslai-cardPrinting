@@ -33,7 +33,6 @@ Partial Class Main
         Me.chkPreview = New System.Windows.Forms.CheckBox()
         Me.chkIncludeIdTemplate = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.chkMagEncode = New System.Windows.Forms.CheckBox()
         Me.lblMagTimestamp = New System.Windows.Forms.Label()
         Me.lblPrintTimestamp = New System.Windows.Forms.Label()
         Me.Label23 = New System.Windows.Forms.Label()
@@ -48,9 +47,7 @@ Partial Class Main
         Me.btnReset = New System.Windows.Forms.Button()
         Me.btnEjectCard = New System.Windows.Forms.Button()
         Me.btnInsertCard = New System.Windows.Forms.Button()
-        Me.chkPrint = New System.Windows.Forms.CheckBox()
         Me.btnProcessCard = New System.Windows.Forms.Button()
-        Me.btnGetLastRecord = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.txtCIF_Write = New System.Windows.Forms.TextBox()
         Me.txtMiddle_Write = New System.Windows.Forms.TextBox()
@@ -131,7 +128,6 @@ Partial Class Main
         Me.TabPage1.Controls.Add(Me.chkPreview)
         Me.TabPage1.Controls.Add(Me.chkIncludeIdTemplate)
         Me.TabPage1.Controls.Add(Me.Button1)
-        Me.TabPage1.Controls.Add(Me.chkMagEncode)
         Me.TabPage1.Controls.Add(Me.lblMagTimestamp)
         Me.TabPage1.Controls.Add(Me.lblPrintTimestamp)
         Me.TabPage1.Controls.Add(Me.Label23)
@@ -146,9 +142,7 @@ Partial Class Main
         Me.TabPage1.Controls.Add(Me.btnReset)
         Me.TabPage1.Controls.Add(Me.btnEjectCard)
         Me.TabPage1.Controls.Add(Me.btnInsertCard)
-        Me.TabPage1.Controls.Add(Me.chkPrint)
         Me.TabPage1.Controls.Add(Me.btnProcessCard)
-        Me.TabPage1.Controls.Add(Me.btnGetLastRecord)
         Me.TabPage1.Controls.Add(Me.Button3)
         Me.TabPage1.Controls.Add(Me.txtCIF_Write)
         Me.TabPage1.Controls.Add(Me.txtMiddle_Write)
@@ -231,19 +225,6 @@ Partial Class Main
         Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Button1.UseVisualStyleBackColor = False
         Me.Button1.Visible = False
-        '
-        'chkMagEncode
-        '
-        Me.chkMagEncode.AutoSize = True
-        Me.chkMagEncode.Checked = True
-        Me.chkMagEncode.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkMagEncode.Location = New System.Drawing.Point(1023, 585)
-        Me.chkMagEncode.Margin = New System.Windows.Forms.Padding(4)
-        Me.chkMagEncode.Name = "chkMagEncode"
-        Me.chkMagEncode.Size = New System.Drawing.Size(109, 20)
-        Me.chkMagEncode.TabIndex = 109
-        Me.chkMagEncode.Text = "Mag Encode"
-        Me.chkMagEncode.UseVisualStyleBackColor = True
         '
         'lblMagTimestamp
         '
@@ -369,7 +350,7 @@ Partial Class Main
         Me.btnReset.ForeColor = System.Drawing.Color.SeaGreen
         Me.btnReset.Image = CType(resources.GetObject("btnReset.Image"), System.Drawing.Image)
         Me.btnReset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnReset.Location = New System.Drawing.Point(231, 566)
+        Me.btnReset.Location = New System.Drawing.Point(31, 565)
         Me.btnReset.Margin = New System.Windows.Forms.Padding(4)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(157, 39)
@@ -412,19 +393,6 @@ Partial Class Main
         Me.btnInsertCard.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnInsertCard.UseVisualStyleBackColor = False
         '
-        'chkPrint
-        '
-        Me.chkPrint.AutoSize = True
-        Me.chkPrint.Checked = True
-        Me.chkPrint.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkPrint.Location = New System.Drawing.Point(1161, 58)
-        Me.chkPrint.Margin = New System.Windows.Forms.Padding(4)
-        Me.chkPrint.Name = "chkPrint"
-        Me.chkPrint.Size = New System.Drawing.Size(59, 20)
-        Me.chkPrint.TabIndex = 83
-        Me.chkPrint.Text = "Print"
-        Me.chkPrint.UseVisualStyleBackColor = True
-        '
         'btnProcessCard
         '
         Me.btnProcessCard.BackColor = System.Drawing.Color.White
@@ -441,22 +409,6 @@ Partial Class Main
         Me.btnProcessCard.Text = "PERSO CARD"
         Me.btnProcessCard.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnProcessCard.UseVisualStyleBackColor = False
-        '
-        'btnGetLastRecord
-        '
-        Me.btnGetLastRecord.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnGetLastRecord.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGetLastRecord.ForeColor = System.Drawing.Color.SeaGreen
-        Me.btnGetLastRecord.Image = CType(resources.GetObject("btnGetLastRecord.Image"), System.Drawing.Image)
-        Me.btnGetLastRecord.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnGetLastRecord.Location = New System.Drawing.Point(15, 566)
-        Me.btnGetLastRecord.Margin = New System.Windows.Forms.Padding(4)
-        Me.btnGetLastRecord.Name = "btnGetLastRecord"
-        Me.btnGetLastRecord.Size = New System.Drawing.Size(208, 39)
-        Me.btnGetLastRecord.TabIndex = 81
-        Me.btnGetLastRecord.Text = "GET LAST RECORD"
-        Me.btnGetLastRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnGetLastRecord.UseVisualStyleBackColor = True
         '
         'Button3
         '
@@ -1078,9 +1030,7 @@ Partial Class Main
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents btnEjectCard As System.Windows.Forms.Button
     Friend WithEvents btnInsertCard As System.Windows.Forms.Button
-    Friend WithEvents chkPrint As System.Windows.Forms.CheckBox
     Friend WithEvents btnProcessCard As System.Windows.Forms.Button
-    Friend WithEvents btnGetLastRecord As System.Windows.Forms.Button
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents btnReset As System.Windows.Forms.Button
     Friend WithEvents pic1 As System.Windows.Forms.PictureBox
@@ -1095,7 +1045,6 @@ Partial Class Main
     Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
     Friend WithEvents lblPrintTimestamp As System.Windows.Forms.Label
     Friend WithEvents lblMagTimestamp As System.Windows.Forms.Label
-    Friend WithEvents chkMagEncode As System.Windows.Forms.CheckBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents pbSetting As System.Windows.Forms.PictureBox
     Friend WithEvents btnExtract As System.Windows.Forms.Button

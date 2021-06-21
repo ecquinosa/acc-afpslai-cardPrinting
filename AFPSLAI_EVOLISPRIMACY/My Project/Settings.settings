@@ -2,23 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="PCSCReader" Type="System.String" Scope="User">
-      <Value Profile="(Default)">OMNIKEY CardMan 5x21-CL 0</Value>
-    </Setting>
     <Setting Name="CardPrinter" Type="System.String" Scope="User">
       <Value Profile="(Default)">Evolis Primacy</Value>
     </Setting>
-    <Setting Name="Server" Type="System.String" Scope="User">
-      <Value Profile="(Default)">LAPTOP-NIBVC02K</Value>
-    </Setting>
-    <Setting Name="Database" Type="System.String" Scope="User">
-      <Value Profile="(Default)">dbcAFPSLAI</Value>
-    </Setting>
-    <Setting Name="User" Type="System.String" Scope="User">
-      <Value Profile="(Default)">sa</Value>
-    </Setting>
-    <Setting Name="Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">acc2020</Value>
+    <Setting Name="MiddleServerUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://localhost:44348</Value>
     </Setting>
     <Setting Name="CapturedData" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
