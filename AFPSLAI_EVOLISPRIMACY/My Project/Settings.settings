@@ -14,5 +14,11 @@
     <Setting Name="OperatorID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="BranchIssue" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ApiKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">eyJpdiI6IkgzRHhKd2VKVFpmUHZVSitKMVZlUHc9PSIsInZhbHVlIjoiTFMwcVZ0M0JLNVJrR1U0SEJEQWtCUT09IiwibWFjIjoiZTFjMGM0OGU3MmVmNzdkM2MyNmYwYjdjMGFhMTg0Njk4MjcyN2E5ZDM4ZjE0ZWUwZDFkZjUzNDU2ZDg3NDQxYyJ9</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

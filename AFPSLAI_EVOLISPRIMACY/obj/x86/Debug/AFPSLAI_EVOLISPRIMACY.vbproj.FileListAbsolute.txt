@@ -135,3 +135,9 @@ D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AF
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.exe
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.xml
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.pdb
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\accAfpslaiEmvEncDec.dll
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Newtonsoft.Json.dll
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\accAfpslaiEmvEncDec.pdb
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Newtonsoft.Json.xml
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\accAfpslaiEmvObjct.dll
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\accAfpslaiEmvObjct.pdb

@@ -18,7 +18,7 @@ Public Class LogIN
             lblResult.Text = "Please enter valid credential"
             txtUsername.Focus()
         Else
-            If ValidateLogIN_Offline() Then LogIn()
+            If ValidateLogIN_AFPSLAI() Then LogIn()
         End If
     End Sub
 
@@ -41,6 +41,12 @@ Public Class LogIN
         End If
     End Function
 
+    Private Function ValidateLogIN_AFPSLAI() As Boolean
+        Dim response = Main.msa.ValidateLogIn(txtUsername.Text, txtPassword.Text)
+        If response Then Main.dcsUser = Main.msa.dcsUser
+        Return response
+    End Function
+
     Private Sub LogIn()
         IsSuccess = True
         Close()
@@ -51,4 +57,5 @@ Public Class LogIN
             btnLogin.PerformClick()
         End If
     End Sub
+
 End Class

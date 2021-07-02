@@ -29,12 +29,14 @@ Partial Class Main
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.txtCardName = New System.Windows.Forms.TextBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.txtDateCaptured = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.txtDatePrinted = New System.Windows.Forms.TextBox()
         Me.chkPreview = New System.Windows.Forms.CheckBox()
         Me.chkIncludeIdTemplate = New System.Windows.Forms.CheckBox()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.lblMagTimestamp = New System.Windows.Forms.Label()
-        Me.lblPrintTimestamp = New System.Windows.Forms.Label()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
@@ -49,17 +51,17 @@ Partial Class Main
         Me.btnInsertCard = New System.Windows.Forms.Button()
         Me.btnProcessCard = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
-        Me.txtCIF_Write = New System.Windows.Forms.TextBox()
-        Me.txtMiddle_Write = New System.Windows.Forms.TextBox()
-        Me.txtLast_Write = New System.Windows.Forms.TextBox()
-        Me.txtSuffix_Write = New System.Windows.Forms.TextBox()
+        Me.txtCIF = New System.Windows.Forms.TextBox()
+        Me.txtMiddle = New System.Windows.Forms.TextBox()
+        Me.txtLast = New System.Windows.Forms.TextBox()
+        Me.txtSuffix = New System.Windows.Forms.TextBox()
         Me.Label13 = New System.Windows.Forms.Label()
-        Me.txtMembershipDate_Write = New System.Windows.Forms.TextBox()
-        Me.txtBranchIssued_Write = New System.Windows.Forms.TextBox()
-        Me.txtFirst_Write = New System.Windows.Forms.TextBox()
+        Me.txtMembershipDate = New System.Windows.Forms.TextBox()
+        Me.txtBranchIssued = New System.Windows.Forms.TextBox()
+        Me.txtFirst = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.txtGender_Write = New System.Windows.Forms.TextBox()
+        Me.txtGender = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -74,8 +76,6 @@ Partial Class Main
         Me.cboReport = New System.Windows.Forms.ComboBox()
         Me.grid2 = New System.Windows.Forms.DataGridView()
         Me.lblTotal = New System.Windows.Forms.Label()
-        Me.Label26 = New System.Windows.Forms.Label()
-        Me.cboFilter = New System.Windows.Forms.ComboBox()
         Me.btnExtract = New System.Windows.Forms.Button()
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.Label25 = New System.Windows.Forms.Label()
@@ -124,12 +124,14 @@ Partial Class Main
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.Button2)
+        Me.TabPage1.Controls.Add(Me.txtCardName)
+        Me.TabPage1.Controls.Add(Me.Label10)
+        Me.TabPage1.Controls.Add(Me.Label6)
+        Me.TabPage1.Controls.Add(Me.txtDateCaptured)
+        Me.TabPage1.Controls.Add(Me.Label5)
+        Me.TabPage1.Controls.Add(Me.txtDatePrinted)
         Me.TabPage1.Controls.Add(Me.chkPreview)
         Me.TabPage1.Controls.Add(Me.chkIncludeIdTemplate)
-        Me.TabPage1.Controls.Add(Me.Button1)
-        Me.TabPage1.Controls.Add(Me.lblMagTimestamp)
-        Me.TabPage1.Controls.Add(Me.lblPrintTimestamp)
         Me.TabPage1.Controls.Add(Me.Label23)
         Me.TabPage1.Controls.Add(Me.Label22)
         Me.TabPage1.Controls.Add(Me.Label21)
@@ -144,17 +146,17 @@ Partial Class Main
         Me.TabPage1.Controls.Add(Me.btnInsertCard)
         Me.TabPage1.Controls.Add(Me.btnProcessCard)
         Me.TabPage1.Controls.Add(Me.Button3)
-        Me.TabPage1.Controls.Add(Me.txtCIF_Write)
-        Me.TabPage1.Controls.Add(Me.txtMiddle_Write)
-        Me.TabPage1.Controls.Add(Me.txtLast_Write)
-        Me.TabPage1.Controls.Add(Me.txtSuffix_Write)
+        Me.TabPage1.Controls.Add(Me.txtCIF)
+        Me.TabPage1.Controls.Add(Me.txtMiddle)
+        Me.TabPage1.Controls.Add(Me.txtLast)
+        Me.TabPage1.Controls.Add(Me.txtSuffix)
         Me.TabPage1.Controls.Add(Me.Label13)
-        Me.TabPage1.Controls.Add(Me.txtMembershipDate_Write)
-        Me.TabPage1.Controls.Add(Me.txtBranchIssued_Write)
-        Me.TabPage1.Controls.Add(Me.txtFirst_Write)
+        Me.TabPage1.Controls.Add(Me.txtMembershipDate)
+        Me.TabPage1.Controls.Add(Me.txtBranchIssued)
+        Me.TabPage1.Controls.Add(Me.txtFirst)
         Me.TabPage1.Controls.Add(Me.Label8)
         Me.TabPage1.Controls.Add(Me.Label9)
-        Me.TabPage1.Controls.Add(Me.txtGender_Write)
+        Me.TabPage1.Controls.Add(Me.txtGender)
         Me.TabPage1.Controls.Add(Me.Label7)
         Me.TabPage1.Controls.Add(Me.Label4)
         Me.TabPage1.Controls.Add(Me.Label3)
@@ -169,84 +171,99 @@ Partial Class Main
         Me.TabPage1.Text = "CARD PERSO"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'Button2
+        'txtCardName
         '
-        Me.Button2.BackColor = System.Drawing.Color.White
-        Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button2.Location = New System.Drawing.Point(1161, 518)
-        Me.Button2.Margin = New System.Windows.Forms.Padding(4)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(191, 39)
-        Me.Button2.TabIndex = 113
-        Me.Button2.Text = "PERSO CARD (TEST ONLY)"
-        Me.Button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Button2.UseVisualStyleBackColor = False
-        Me.Button2.Visible = False
+        Me.txtCardName.BackColor = System.Drawing.Color.White
+        Me.txtCardName.Location = New System.Drawing.Point(851, 155)
+        Me.txtCardName.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtCardName.Name = "txtCardName"
+        Me.txtCardName.ReadOnly = True
+        Me.txtCardName.Size = New System.Drawing.Size(281, 23)
+        Me.txtCardName.TabIndex = 119
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.ForeColor = System.Drawing.Color.Gray
+        Me.Label10.Location = New System.Drawing.Point(749, 158)
+        Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(89, 16)
+        Me.Label10.TabIndex = 118
+        Me.Label10.Text = "CARD NAME"
+        Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.ForeColor = System.Drawing.Color.Gray
+        Me.Label6.Location = New System.Drawing.Point(715, 282)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(123, 16)
+        Me.Label6.TabIndex = 116
+        Me.Label6.Text = "DATE CAPTURED"
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'txtDateCaptured
+        '
+        Me.txtDateCaptured.BackColor = System.Drawing.Color.White
+        Me.txtDateCaptured.Location = New System.Drawing.Point(851, 279)
+        Me.txtDateCaptured.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtDateCaptured.Name = "txtDateCaptured"
+        Me.txtDateCaptured.ReadOnly = True
+        Me.txtDateCaptured.Size = New System.Drawing.Size(281, 23)
+        Me.txtDateCaptured.TabIndex = 117
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.ForeColor = System.Drawing.Color.Gray
+        Me.Label5.Location = New System.Drawing.Point(731, 313)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(107, 16)
+        Me.Label5.TabIndex = 114
+        Me.Label5.Text = "DATE PRINTED"
+        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'txtDatePrinted
+        '
+        Me.txtDatePrinted.BackColor = System.Drawing.Color.White
+        Me.txtDatePrinted.Location = New System.Drawing.Point(851, 310)
+        Me.txtDatePrinted.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtDatePrinted.Name = "txtDatePrinted"
+        Me.txtDatePrinted.ReadOnly = True
+        Me.txtDatePrinted.Size = New System.Drawing.Size(281, 23)
+        Me.txtDatePrinted.TabIndex = 115
         '
         'chkPreview
         '
         Me.chkPreview.AutoSize = True
-        Me.chkPreview.Location = New System.Drawing.Point(1161, 483)
+        Me.chkPreview.Checked = True
+        Me.chkPreview.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkPreview.Location = New System.Drawing.Point(1161, 578)
         Me.chkPreview.Margin = New System.Windows.Forms.Padding(4)
         Me.chkPreview.Name = "chkPreview"
         Me.chkPreview.Size = New System.Drawing.Size(109, 20)
         Me.chkPreview.TabIndex = 112
         Me.chkPreview.Text = "Preview only"
         Me.chkPreview.UseVisualStyleBackColor = True
+        Me.chkPreview.Visible = False
         '
         'chkIncludeIdTemplate
         '
         Me.chkIncludeIdTemplate.AutoSize = True
-        Me.chkIncludeIdTemplate.Location = New System.Drawing.Point(1161, 454)
+        Me.chkIncludeIdTemplate.Checked = True
+        Me.chkIncludeIdTemplate.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkIncludeIdTemplate.Location = New System.Drawing.Point(1161, 549)
         Me.chkIncludeIdTemplate.Margin = New System.Windows.Forms.Padding(4)
         Me.chkIncludeIdTemplate.Name = "chkIncludeIdTemplate"
         Me.chkIncludeIdTemplate.Size = New System.Drawing.Size(148, 20)
         Me.chkIncludeIdTemplate.TabIndex = 111
         Me.chkIncludeIdTemplate.Text = "Include id template"
         Me.chkIncludeIdTemplate.UseVisualStyleBackColor = True
-        '
-        'Button1
-        '
-        Me.Button1.BackColor = System.Drawing.Color.White
-        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
-        Me.Button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button1.Location = New System.Drawing.Point(1161, 565)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(191, 39)
-        Me.Button1.TabIndex = 110
-        Me.Button1.Text = "FEED CARD"
-        Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Button1.UseVisualStyleBackColor = False
-        Me.Button1.Visible = False
-        '
-        'lblMagTimestamp
-        '
-        Me.lblMagTimestamp.AutoSize = True
-        Me.lblMagTimestamp.ForeColor = System.Drawing.Color.Gray
-        Me.lblMagTimestamp.Location = New System.Drawing.Point(27, 432)
-        Me.lblMagTimestamp.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lblMagTimestamp.Name = "lblMagTimestamp"
-        Me.lblMagTimestamp.Size = New System.Drawing.Size(155, 16)
-        Me.lblMagTimestamp.TabIndex = 108
-        Me.lblMagTimestamp.Text = "DATE MAG ENCODED:"
-        '
-        'lblPrintTimestamp
-        '
-        Me.lblPrintTimestamp.AutoSize = True
-        Me.lblPrintTimestamp.ForeColor = System.Drawing.Color.Gray
-        Me.lblPrintTimestamp.Location = New System.Drawing.Point(27, 407)
-        Me.lblPrintTimestamp.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lblPrintTimestamp.Name = "lblPrintTimestamp"
-        Me.lblPrintTimestamp.Size = New System.Drawing.Size(111, 16)
-        Me.lblPrintTimestamp.TabIndex = 106
-        Me.lblPrintTimestamp.Text = "DATE PRINTED:"
+        Me.chkIncludeIdTemplate.Visible = False
         '
         'Label23
         '
@@ -303,6 +320,7 @@ Partial Class Main
         Me.txtHeight.Name = "txtHeight"
         Me.txtHeight.Size = New System.Drawing.Size(133, 23)
         Me.txtHeight.TabIndex = 101
+        Me.txtHeight.Text = "152"
         Me.txtHeight.Visible = False
         '
         'txtWidth
@@ -312,6 +330,7 @@ Partial Class Main
         Me.txtWidth.Name = "txtWidth"
         Me.txtWidth.Size = New System.Drawing.Size(133, 23)
         Me.txtWidth.TabIndex = 100
+        Me.txtWidth.Text = "122"
         Me.txtWidth.Visible = False
         '
         'txtY
@@ -321,6 +340,7 @@ Partial Class Main
         Me.txtY.Name = "txtY"
         Me.txtY.Size = New System.Drawing.Size(133, 23)
         Me.txtY.TabIndex = 99
+        Me.txtY.Text = "235"
         Me.txtY.Visible = False
         '
         'txtX
@@ -330,6 +350,7 @@ Partial Class Main
         Me.txtX.Name = "txtX"
         Me.txtX.Size = New System.Drawing.Size(133, 23)
         Me.txtX.TabIndex = 98
+        Me.txtX.Text = "30"
         Me.txtX.Visible = False
         '
         'pic1
@@ -367,7 +388,7 @@ Partial Class Main
         Me.btnEjectCard.ForeColor = System.Drawing.Color.SeaGreen
         Me.btnEjectCard.Image = CType(resources.GetObject("btnEjectCard.Image"), System.Drawing.Image)
         Me.btnEjectCard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnEjectCard.Location = New System.Drawing.Point(1161, 176)
+        Me.btnEjectCard.Location = New System.Drawing.Point(1161, 107)
         Me.btnEjectCard.Margin = New System.Windows.Forms.Padding(4)
         Me.btnEjectCard.Name = "btnEjectCard"
         Me.btnEjectCard.Size = New System.Drawing.Size(191, 39)
@@ -384,7 +405,7 @@ Partial Class Main
         Me.btnInsertCard.ForeColor = System.Drawing.Color.SeaGreen
         Me.btnInsertCard.Image = CType(resources.GetObject("btnInsertCard.Image"), System.Drawing.Image)
         Me.btnInsertCard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnInsertCard.Location = New System.Drawing.Point(1161, 128)
+        Me.btnInsertCard.Location = New System.Drawing.Point(1161, 59)
         Me.btnInsertCard.Margin = New System.Windows.Forms.Padding(4)
         Me.btnInsertCard.Name = "btnInsertCard"
         Me.btnInsertCard.Size = New System.Drawing.Size(191, 39)
@@ -422,160 +443,168 @@ Partial Class Main
         Me.Button3.Text = "..."
         Me.Button3.UseVisualStyleBackColor = True
         '
-        'txtCIF_Write
+        'txtCIF
         '
-        Me.txtCIF_Write.Location = New System.Drawing.Point(851, 11)
-        Me.txtCIF_Write.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtCIF_Write.MaxLength = 13
-        Me.txtCIF_Write.Name = "txtCIF_Write"
-        Me.txtCIF_Write.Size = New System.Drawing.Size(228, 23)
-        Me.txtCIF_Write.TabIndex = 1
+        Me.txtCIF.Location = New System.Drawing.Point(851, 11)
+        Me.txtCIF.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtCIF.MaxLength = 13
+        Me.txtCIF.Name = "txtCIF"
+        Me.txtCIF.Size = New System.Drawing.Size(228, 23)
+        Me.txtCIF.TabIndex = 1
+        Me.txtCIF.Text = "1111111111101"
         '
-        'txtMiddle_Write
+        'txtMiddle
         '
-        Me.txtMiddle_Write.BackColor = System.Drawing.Color.White
-        Me.txtMiddle_Write.Location = New System.Drawing.Point(851, 68)
-        Me.txtMiddle_Write.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtMiddle_Write.Name = "txtMiddle_Write"
-        Me.txtMiddle_Write.ReadOnly = True
-        Me.txtMiddle_Write.Size = New System.Drawing.Size(281, 23)
-        Me.txtMiddle_Write.TabIndex = 50
+        Me.txtMiddle.BackColor = System.Drawing.Color.White
+        Me.txtMiddle.Location = New System.Drawing.Point(851, 68)
+        Me.txtMiddle.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtMiddle.Name = "txtMiddle"
+        Me.txtMiddle.ReadOnly = True
+        Me.txtMiddle.Size = New System.Drawing.Size(281, 23)
+        Me.txtMiddle.TabIndex = 50
         '
-        'txtLast_Write
+        'txtLast
         '
-        Me.txtLast_Write.BackColor = System.Drawing.Color.White
-        Me.txtLast_Write.Location = New System.Drawing.Point(851, 96)
-        Me.txtLast_Write.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtLast_Write.Name = "txtLast_Write"
-        Me.txtLast_Write.ReadOnly = True
-        Me.txtLast_Write.Size = New System.Drawing.Size(281, 23)
-        Me.txtLast_Write.TabIndex = 52
+        Me.txtLast.BackColor = System.Drawing.Color.White
+        Me.txtLast.Location = New System.Drawing.Point(851, 96)
+        Me.txtLast.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtLast.Name = "txtLast"
+        Me.txtLast.ReadOnly = True
+        Me.txtLast.Size = New System.Drawing.Size(281, 23)
+        Me.txtLast.TabIndex = 52
         '
-        'txtSuffix_Write
+        'txtSuffix
         '
-        Me.txtSuffix_Write.BackColor = System.Drawing.Color.White
-        Me.txtSuffix_Write.Location = New System.Drawing.Point(851, 124)
-        Me.txtSuffix_Write.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtSuffix_Write.Name = "txtSuffix_Write"
-        Me.txtSuffix_Write.ReadOnly = True
-        Me.txtSuffix_Write.Size = New System.Drawing.Size(281, 23)
-        Me.txtSuffix_Write.TabIndex = 54
+        Me.txtSuffix.BackColor = System.Drawing.Color.White
+        Me.txtSuffix.Location = New System.Drawing.Point(851, 124)
+        Me.txtSuffix.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtSuffix.Name = "txtSuffix"
+        Me.txtSuffix.ReadOnly = True
+        Me.txtSuffix.Size = New System.Drawing.Size(281, 23)
+        Me.txtSuffix.TabIndex = 54
         '
         'Label13
         '
         Me.Label13.AutoSize = True
         Me.Label13.ForeColor = System.Drawing.Color.Gray
-        Me.Label13.Location = New System.Drawing.Point(716, 220)
+        Me.Label13.Location = New System.Drawing.Point(721, 251)
         Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(117, 16)
         Me.Label13.TabIndex = 73
         Me.Label13.Text = "BRANCH ISSUED"
+        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'txtMembershipDate_Write
+        'txtMembershipDate
         '
-        Me.txtMembershipDate_Write.BackColor = System.Drawing.Color.White
-        Me.txtMembershipDate_Write.Location = New System.Drawing.Point(851, 155)
-        Me.txtMembershipDate_Write.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtMembershipDate_Write.Name = "txtMembershipDate_Write"
-        Me.txtMembershipDate_Write.ReadOnly = True
-        Me.txtMembershipDate_Write.Size = New System.Drawing.Size(281, 23)
-        Me.txtMembershipDate_Write.TabIndex = 58
+        Me.txtMembershipDate.BackColor = System.Drawing.Color.White
+        Me.txtMembershipDate.Location = New System.Drawing.Point(851, 186)
+        Me.txtMembershipDate.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtMembershipDate.Name = "txtMembershipDate"
+        Me.txtMembershipDate.ReadOnly = True
+        Me.txtMembershipDate.Size = New System.Drawing.Size(281, 23)
+        Me.txtMembershipDate.TabIndex = 58
         '
-        'txtBranchIssued_Write
+        'txtBranchIssued
         '
-        Me.txtBranchIssued_Write.BackColor = System.Drawing.Color.White
-        Me.txtBranchIssued_Write.Location = New System.Drawing.Point(851, 217)
-        Me.txtBranchIssued_Write.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtBranchIssued_Write.Name = "txtBranchIssued_Write"
-        Me.txtBranchIssued_Write.ReadOnly = True
-        Me.txtBranchIssued_Write.Size = New System.Drawing.Size(281, 23)
-        Me.txtBranchIssued_Write.TabIndex = 74
+        Me.txtBranchIssued.BackColor = System.Drawing.Color.White
+        Me.txtBranchIssued.Location = New System.Drawing.Point(851, 248)
+        Me.txtBranchIssued.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtBranchIssued.Name = "txtBranchIssued"
+        Me.txtBranchIssued.ReadOnly = True
+        Me.txtBranchIssued.Size = New System.Drawing.Size(281, 23)
+        Me.txtBranchIssued.TabIndex = 74
         '
-        'txtFirst_Write
+        'txtFirst
         '
-        Me.txtFirst_Write.BackColor = System.Drawing.Color.White
-        Me.txtFirst_Write.Location = New System.Drawing.Point(851, 39)
-        Me.txtFirst_Write.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtFirst_Write.Name = "txtFirst_Write"
-        Me.txtFirst_Write.Size = New System.Drawing.Size(281, 23)
-        Me.txtFirst_Write.TabIndex = 62
+        Me.txtFirst.BackColor = System.Drawing.Color.White
+        Me.txtFirst.Location = New System.Drawing.Point(851, 39)
+        Me.txtFirst.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtFirst.Name = "txtFirst"
+        Me.txtFirst.Size = New System.Drawing.Size(281, 23)
+        Me.txtFirst.TabIndex = 62
         '
         'Label8
         '
         Me.Label8.AutoSize = True
         Me.Label8.ForeColor = System.Drawing.Color.Gray
-        Me.Label8.Location = New System.Drawing.Point(772, 190)
+        Me.Label8.Location = New System.Drawing.Point(772, 221)
         Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(66, 16)
         Me.Label8.TabIndex = 65
         Me.Label8.Text = "GENDER"
+        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label9
         '
         Me.Label9.AutoSize = True
         Me.Label9.ForeColor = System.Drawing.Color.Gray
-        Me.Label9.Location = New System.Drawing.Point(747, 42)
+        Me.Label9.Location = New System.Drawing.Point(748, 42)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(90, 16)
         Me.Label9.TabIndex = 61
         Me.Label9.Text = "FIRST NAME"
+        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'txtGender_Write
+        'txtGender
         '
-        Me.txtGender_Write.BackColor = System.Drawing.Color.White
-        Me.txtGender_Write.Location = New System.Drawing.Point(851, 186)
-        Me.txtGender_Write.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtGender_Write.Name = "txtGender_Write"
-        Me.txtGender_Write.ReadOnly = True
-        Me.txtGender_Write.Size = New System.Drawing.Size(281, 23)
-        Me.txtGender_Write.TabIndex = 66
+        Me.txtGender.BackColor = System.Drawing.Color.White
+        Me.txtGender.Location = New System.Drawing.Point(851, 217)
+        Me.txtGender.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtGender.Name = "txtGender"
+        Me.txtGender.ReadOnly = True
+        Me.txtGender.Size = New System.Drawing.Size(281, 23)
+        Me.txtGender.TabIndex = 66
         '
         'Label7
         '
         Me.Label7.AutoSize = True
         Me.Label7.ForeColor = System.Drawing.Color.Gray
-        Me.Label7.Location = New System.Drawing.Point(695, 159)
+        Me.Label7.Location = New System.Drawing.Point(701, 190)
         Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(137, 16)
         Me.Label7.TabIndex = 57
         Me.Label7.Text = "MEMBERSHIP DATE"
+        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label4
         '
         Me.Label4.AutoSize = True
         Me.Label4.ForeColor = System.Drawing.Color.Gray
-        Me.Label4.Location = New System.Drawing.Point(784, 128)
+        Me.Label4.Location = New System.Drawing.Point(783, 128)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(55, 16)
         Me.Label4.TabIndex = 53
         Me.Label4.Text = "SUFFIX"
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label3
         '
         Me.Label3.AutoSize = True
         Me.Label3.ForeColor = System.Drawing.Color.Gray
-        Me.Label3.Location = New System.Drawing.Point(752, 100)
+        Me.Label3.Location = New System.Drawing.Point(753, 100)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(85, 16)
         Me.Label3.TabIndex = 51
         Me.Label3.Text = "LAST NAME"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label2
         '
         Me.Label2.AutoSize = True
         Me.Label2.ForeColor = System.Drawing.Color.Gray
-        Me.Label2.Location = New System.Drawing.Point(733, 71)
+        Me.Label2.Location = New System.Drawing.Point(737, 71)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(101, 16)
         Me.Label2.TabIndex = 49
         Me.Label2.Text = "MIDDLE NAME"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label1
         '
@@ -587,6 +616,7 @@ Partial Class Main
         Me.Label1.Size = New System.Drawing.Size(34, 18)
         Me.Label1.TabIndex = 47
         Me.Label1.Text = "CIF"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'TabPage2
         '
@@ -598,8 +628,6 @@ Partial Class Main
         Me.TabPage2.Controls.Add(Me.cboReport)
         Me.TabPage2.Controls.Add(Me.grid2)
         Me.TabPage2.Controls.Add(Me.lblTotal)
-        Me.TabPage2.Controls.Add(Me.Label26)
-        Me.TabPage2.Controls.Add(Me.cboFilter)
         Me.TabPage2.Controls.Add(Me.btnExtract)
         Me.TabPage2.Controls.Add(Me.btnSubmit)
         Me.TabPage2.Controls.Add(Me.Label25)
@@ -710,27 +738,6 @@ Partial Class Main
         Me.lblTotal.Size = New System.Drawing.Size(96, 23)
         Me.lblTotal.TabIndex = 87
         Me.lblTotal.Text = "TOTAL: 0"
-        '
-        'Label26
-        '
-        Me.Label26.AutoSize = True
-        Me.Label26.ForeColor = System.Drawing.Color.Gray
-        Me.Label26.Location = New System.Drawing.Point(27, 170)
-        Me.Label26.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(59, 16)
-        Me.Label26.TabIndex = 86
-        Me.Label26.Text = "FILTER:"
-        '
-        'cboFilter
-        '
-        Me.cboFilter.FormattingEnabled = True
-        Me.cboFilter.Items.AddRange(New Object() {"-NO FILTER-", "NOT VOID", "VOID ONLY"})
-        Me.cboFilter.Location = New System.Drawing.Point(151, 166)
-        Me.cboFilter.Margin = New System.Windows.Forms.Padding(4)
-        Me.cboFilter.Name = "cboFilter"
-        Me.cboFilter.Size = New System.Drawing.Size(197, 24)
-        Me.cboFilter.TabIndex = 85
         '
         'btnExtract
         '
@@ -951,6 +958,7 @@ Partial Class Main
         Me.TextBox1.Location = New System.Drawing.Point(12, 689)
         Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(1405, 22)
         Me.TextBox1.TabIndex = 1
         '
@@ -993,7 +1001,7 @@ Partial Class Main
         Me.MaximizeBox = False
         Me.Name = "Main"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "AFPSLAI - CARD PERSO AND REPORTING"
+        Me.Text = "AFPSLAI - CARD PRINTING AND MERGING SOFTWARE"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
@@ -1011,21 +1019,21 @@ Partial Class Main
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
-    Friend WithEvents txtBranchIssued_Write As System.Windows.Forms.TextBox
+    Friend WithEvents txtBranchIssued As System.Windows.Forms.TextBox
     Friend WithEvents Label13 As System.Windows.Forms.Label
-    Friend WithEvents txtGender_Write As System.Windows.Forms.TextBox
+    Friend WithEvents txtGender As System.Windows.Forms.TextBox
     Friend WithEvents Label8 As System.Windows.Forms.Label
-    Friend WithEvents txtFirst_Write As System.Windows.Forms.TextBox
+    Friend WithEvents txtFirst As System.Windows.Forms.TextBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents txtMembershipDate_Write As System.Windows.Forms.TextBox
+    Friend WithEvents txtMembershipDate As System.Windows.Forms.TextBox
     Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents txtSuffix_Write As System.Windows.Forms.TextBox
+    Friend WithEvents txtSuffix As System.Windows.Forms.TextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents txtLast_Write As System.Windows.Forms.TextBox
+    Friend WithEvents txtLast As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents txtMiddle_Write As System.Windows.Forms.TextBox
+    Friend WithEvents txtMiddle As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents txtCIF_Write As System.Windows.Forms.TextBox
+    Friend WithEvents txtCIF As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents btnEjectCard As System.Windows.Forms.Button
@@ -1043,9 +1051,6 @@ Partial Class Main
     Friend WithEvents Label20 As System.Windows.Forms.Label
     Friend WithEvents Label23 As System.Windows.Forms.Label
     Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
-    Friend WithEvents lblPrintTimestamp As System.Windows.Forms.Label
-    Friend WithEvents lblMagTimestamp As System.Windows.Forms.Label
-    Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents pbSetting As System.Windows.Forms.PictureBox
     Friend WithEvents btnExtract As System.Windows.Forms.Button
     Friend WithEvents btnSubmit As System.Windows.Forms.Button
@@ -1054,8 +1059,6 @@ Partial Class Main
     Friend WithEvents grid As System.Windows.Forms.DataGridView
     Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents dtpStart As System.Windows.Forms.DateTimePicker
-    Friend WithEvents Label26 As System.Windows.Forms.Label
-    Friend WithEvents cboFilter As System.Windows.Forms.ComboBox
     Friend WithEvents lblTotal As System.Windows.Forms.Label
     Friend WithEvents CIF As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents FName As System.Windows.Forms.DataGridViewTextBoxColumn
@@ -1073,7 +1076,6 @@ Partial Class Main
     Friend WithEvents chkIncludeIdTemplate As System.Windows.Forms.CheckBox
     Friend WithEvents chkPreview As System.Windows.Forms.CheckBox
     Friend WithEvents Timer1 As System.Windows.Forms.Timer
-    Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents grid2 As System.Windows.Forms.DataGridView
     Friend WithEvents Label29 As System.Windows.Forms.Label
     Friend WithEvents cboReason As System.Windows.Forms.ComboBox
@@ -1081,4 +1083,10 @@ Partial Class Main
     Friend WithEvents cboPrintingType As System.Windows.Forms.ComboBox
     Friend WithEvents Label27 As System.Windows.Forms.Label
     Friend WithEvents cboReport As System.Windows.Forms.ComboBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents txtDatePrinted As TextBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents txtDateCaptured As TextBox
+    Friend WithEvents txtCardName As TextBox
+    Friend WithEvents Label10 As Label
 End Class

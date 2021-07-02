@@ -2,24 +2,20 @@
 Public Class Setting
 
     Private Sub Setting_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-        InitializeReaderList()
         GetInstalledPrinters()
 
         BindSettings()
         BindCardElements()
 
-        'lblSignaturePresident.Text = PrintCard.presidentSignatureFile
-        'If System.IO.File.Exists(PrintCard.presidentSignatureFile) Then picSignaturePresident.Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(PrintCard.presidentSignatureFile)))
+        ComboBox1.SelectedIndex = 0
+        ComboBox2.SelectedIndex = 0
+        ComboBox3.SelectedIndex = 0
+        ComboBox4.SelectedIndex = 0
     End Sub
 
     Private Sub BindSettings()
-        cboCardReader.SelectedIndex = cboCardReader.FindStringExact(My.Settings.PCSCReader)
         cboPrinter.SelectedIndex = cboPrinter.FindStringExact(My.Settings.CardPrinter)
         txtServer.Text = My.Settings.MiddleServerUrl
-        txtDatabase.Text = My.Settings.Database
-        txtUser.Text = My.Settings.User
-        txtPassword.Text = My.Settings.Password
-        txtCapturedData.Text = My.Settings.CapturedData
     End Sub
 
     Private Sub BindCardElements()
@@ -44,13 +40,8 @@ Public Class Setting
     End Sub
 
     Private Sub SaveSettings()
-        If cboCardReader.Text <> "" Then My.Settings.PCSCReader = cboCardReader.Text
         If cboPrinter.Text <> "" Then My.Settings.CardPrinter = cboPrinter.Text
         My.Settings.MiddleServerUrl = txtServer.Text
-        My.Settings.Database = txtDatabase.Text
-        My.Settings.User = txtUser.Text
-        My.Settings.Password = txtPassword.Text
-        My.Settings.CapturedData = txtCapturedData.Text
         My.Settings.Save()
     End Sub
 
@@ -69,43 +60,6 @@ Public Class Setting
             MessageBox.Show("Failed to save card elements..." & vbNewLine & vbNewLine & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End Try
 
-    End Sub
-
-    Public Sub InitializeReaderList()
-
-        Dim sReaderList As String = ""
-        Dim ReaderCount As Integer
-        Dim ctr As Integer
-
-        For ctr = 0 To 255
-            sReaderList = sReaderList + vbNullChar
-        Next
-
-        ReaderCount = 255
-
-        retCode = ModWinsCard.SCardEstablishContext(ModWinsCard.SCARD_SCOPE_USER, 0, 0, hContext)
-
-        If retCode <> ModWinsCard.SCARD_S_SUCCESS Then
-            displayOut(1, retCode, "", New ListBox)
-            Exit Sub
-        End If
-
-        retCode = ModWinsCard.SCardListReaders(hContext, "", sReaderList, ReaderCount)
-
-        If retCode <> ModWinsCard.SCARD_S_SUCCESS Then
-            displayOut(1, retCode, "", New ListBox)
-            Exit Sub
-
-        End If
-
-        Dim SmartCardReaders(9) As String
-        LoadListToControl(SmartCardReaders, sReaderList)
-
-        For Each strReader As String In SmartCardReaders
-            If Not strReader Is Nothing Then
-                cboCardReader.Items.Add(strReader)
-            End If
-        Next
     End Sub
 
     Public Sub LoadListToControl(ByVal Readers As String(), ByVal ReaderList As String)
@@ -161,36 +115,11 @@ Public Class Setting
         End If
     End Sub
 
-    Private Sub btnBrowse_Click(sender As System.Object, e As System.EventArgs) Handles btnBrowse.Click
-        Dim fbd As New FolderBrowserDialog
-        If fbd.ShowDialog = Windows.Forms.DialogResult.OK Then
-            txtCapturedData.Text = fbd.SelectedPath
-        End If
-        fbd.Dispose()
-        fbd = Nothing
-    End Sub
-
-    Private Sub btnBrowseSignature_Click(sender As Object, e As EventArgs)
-        System.Diagnostics.Process.Start("Explorer", Application.StartupPath & "\Images")
-
-        'Dim ofd As New OpenFileDialog
-        'ofd.InitialDirectory = Application.StartupPath & "\Images"
-        'If ofd.ShowDialog = Windows.Forms.DialogResult.OK Then
-        '    If System.IO.File.Exists(ofd.FileName) Then picSignaturePresident.Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(ofd.FileName)))
-        'End If
-        'ofd.Dispose()
-        'ofd = Nothing
-    End Sub
-
     Private Sub btnTestCon_Click(sender As Object, e As EventArgs) Handles btnTestCon.Click
-        'Dim ConStr As String = "Server=" & txtServer.Text & ";Database=" & txtDatabase.Text & ";User=" & txtUser.Text & ";Password=" & txtPassword.Text & ";"
-        'Dim DAL As New DAL
-        'If DAL.IsConnectionOK(ConStr) Then
-        '    MessageBox.Show("Connection is success...", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        'Else
-        '    MessageBox.Show("Connection is failed...", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        'End If
-        'DAL.Dispose()
-        'DAL = Nothing
+        If Main.msa.checkServerDBStatus(txtServer.Text) Then
+            SharedFunction.ShowInfoMessage("Connection success.")
+        Else
+            SharedFunction.ShowWarningMessage("Connection failed.")
+        End If
     End Sub
 End Class

@@ -1,21 +1,11 @@
-﻿Public Class Main
+﻿
+Imports accAfpslaiEmvObjct
+
+Public Class Main
 
     Private DataID As Integer = 0
-    Private CompleteAddress As String = ""
-    Private Address1 As String = ""
-    Private Address2 As String = ""
-    Private Address3 As String = ""
-    Private AddressCity As String = ""
-    Private AddressProvince As String = ""
-    Private AddressCountry As String = ""
-    Private AddressZipCode As String = ""
-
-    Private ContactNos As String = ""
-    Private Contact_Name As String = ""
-    Private Contact_ContactNos As String = ""
 
     Private PhotoPath As String = "" '"E:\Projects\DCS2015\DCS2015\bin\Debug\Captured Data\05052017\3333322222222\3333322222222_Photo.jpg"
-    Private SignaturePath As String = "" '"E:\Projects\DCS2015\DCS2015\bin\Debug\Captured Data\05052017\3333322222222\3333322222222_Signature4.tiff"
 
     Private BarcodeJPG As String = "tempBarcode.jpg"
     Private lPrimaryJpg As String = ""
@@ -26,30 +16,24 @@
     Private IsNotIdle As Boolean = False
     Private IdleCounter As Integer = 0
 
-    Dim TerminalID As String = ""
-    Dim BranchCode As String = ""
-    Dim fingerprints As New List(Of String)
+    Private TerminalID As String = ""
+    Private BranchCode As String = ""
+    Private fingerprints As New List(Of String)
+
+    Public dcsUser As user = Nothing
+    Public cfp As cardForPrint = Nothing
+    Public msa As MiddleServerApi
 
     Private Sub Button3_Click(sender As System.Object, e As System.EventArgs) Handles Button3.Click
         SessionIsAlive()
         ResetForm()
 
-        If txtCIF_Write.Text = "" Then
+        If txtCIF.Text = "" Then
             MessageBox.Show("Please enter CIF to search...", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        'Dim DAL As New DAL
-        'If DAL.SelectDataByCIF(txtCIF_Write.Text) Then
-        '    If DAL.TableResult.DefaultView.Count > 0 Then
-        '        BindData(DAL.TableResult.Rows(0))
-        '    Else
-        '        MessageBox.Show("No record found", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        '        ResetForm()
-        '    End If
-        'End If
-        'DAL.Dispose()
-        'DAL = Nothing
+        BindData()
     End Sub
 
     Private Sub PopulatePrintingType()
@@ -74,117 +58,30 @@
         'DAL = Nothing
     End Sub
 
-    Private Sub BindData(ByVal rw As DataRow)
+    Private Sub BindData()
         TerminalID = ""
         BranchCode = ""
-        'fingerprints.Clear()
 
-        'DataID = rw("DataID")
-        'If Not IsDBNull(rw("CIF")) Then txtCIF_Write.Text = rw("CIF").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("FName")) Then txtFirst_Write.Text = rw("FName").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("MName")) Then txtMiddle_Write.Text = rw("MName").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("LName")) Then txtLast_Write.Text = rw("LName").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("Suffix")) Then txtSuffix_Write.Text = rw("Suffix").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("DateOfBirth")) Then txtDOB_Write.Text = CDate(rw("DateOfBirth")).ToString("MM/dd/yyyy")
-        'If Not IsDBNull(rw("MembershipDate")) Then txtMembershipDate_Write.Text = CDate(rw("MembershipDate")).ToString("MM/dd/yyyy")
-        'If Not IsDBNull(rw("MembershipStatus")) Then txtMembershipStatus_Write.Text = rw("MembershipStatus").ToString.Trim
-        'If Not IsDBNull(rw("Gender")) Then txtGender_Write.Text = rw("Gender").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("MembershipType")) Then txtMembershipType_Write.Text = rw("MembershipType").ToString.ToUpper.Trim
-        ''If Not IsDBNull(rw("TerminalName")) Then txtIDNumber_Write.Text = String.Format("{0}_{1}", rw("TerminalName").ToString.Trim, rw("BranchCode").ToString.ToUpper.Trim)
+        cfp = New cardForPrint
+        Dim obj As Object
+        If msa.GetCardForPrint(txtCIF.Text, obj) Then
+            cfp = Newtonsoft.Json.JsonConvert.DeserializeObject(Of cardForPrint)(obj.ToString)
+            txtFirst.Text = cfp.first_name
+            txtMiddle.Text = cfp.middle_name
+            txtLast.Text = cfp.last_name
+            txtSuffix.Text = cfp.suffix
+            txtCardName.Text = cfp.cardName
+            txtGender.Text = cfp.gender
+            txtMembershipDate.Text = cfp.membership_date
+            txtBranchIssued.Text = cfp.branch_issued
+            txtDateCaptured.Text = cfp.dateCaptured
+            txtDatePrinted.Text = cfp.datePrinted
 
-        'Dim UID As String = ""
-        ''Dim TerminalID As String = ""
-        ''Dim BranchCode As String = ""
-        'If Not IsDBNull(rw("UID")) Then UID = rw("UID").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("TerminalName")) Then TerminalID = rw("TerminalName").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("BranchCode")) Then BranchCode = rw("BranchCode").ToString.ToUpper.Trim
-        'If UID = "" Then
-        '    txtIDNumber_Write.Text = String.Format("{0}_{1}", TerminalID, BranchCode)
-        'Else
-        '    If UID = "FAILED" Then
-        '        txtIDNumber_Write.Text = String.Format("{0}_{1}", TerminalID, BranchCode)
-        '    Else
-        '        txtIDNumber_Write.Text = String.Format("{0}_{1}_{2}", UID, TerminalID, BranchCode)
-        '    End If
-        'End If
-
-        'If Not IsDBNull(rw("DatePosted")) Then txtDateIssued_Write.Text = CDate(rw("DatePosted")).ToString("MM/dd/yyyy")
-        'If Not IsDBNull(rw("Branch")) Then txtBranchIssued_Write.Text = rw("Branch").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("AssociateType")) Then txtAssociateType_Write.Text = rw("AssociateType").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("CIF_PrincipalMember")) Then txtCIF_Principal_Write.Text = rw("CIF_PrincipalMember").ToString.ToUpper.Trim
-
-        'If Not IsDBNull(rw("Address1")) Then Address1 = rw("Address1").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("Address2")) Then Address2 = rw("Address2").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("Address3")) Then Address3 = rw("Address3").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("City")) Then AddressCity = rw("City").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("Province")) Then AddressProvince = rw("Province").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("Country")) Then AddressCountry = rw("Country").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("ZipCode")) Then AddressZipCode = rw("ZipCode").ToString.ToUpper.Trim
-        'CompleteAddress = String.Format("{0}{1}{2}{3}{4}{5}{6}",
-        '                                Address1,
-        '                                IIf(Address2 = "", "", " " & Address2),
-        '                                IIf(Address3 = "", "", " " & Address3),
-        '                                IIf(AddressCity = "", "", " " & AddressCity),
-        '                                IIf(AddressProvince = "", "", " " & AddressProvince),
-        '                                IIf(AddressCountry = "", "", " " & AddressCountry),
-        '                                IIf(AddressZipCode = "", "", " " & AddressZipCode))
-
-        ''If Not IsDBNull(rw("MobileNos")) Then ContactNos = rw("MobileNos").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("ContactNos")) Then ContactNos = rw("ContactNos").ToString.ToUpper.Trim
-
-        'If ContactNos = "" Then _
-        '    If Not IsDBNull(rw("MobileNos")) Then ContactNos = rw("MobileNos").ToString.ToUpper.Trim
-
-        'If Not IsDBNull(rw("FullName_Contact")) Then Contact_Name = rw("FullName_Contact").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("ContactNos_Contact")) Then Contact_ContactNos = rw("ContactNos_Contact").ToString.ToUpper.Trim
-
-        'If Not IsDBNull(rw("Printed_Timestamp")) Then lblPrintTimestamp.Text = "DATE PRINTED: " & rw("Printed_Timestamp").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("Magencode_Timestamp")) Then lblMagTimestamp.Text = "DATE MAG ENCODED: " & rw("Magencode_Timestamp").ToString.ToUpper.Trim
-        'If Not IsDBNull(rw("Chipencode_Timestamp")) Then lblChipEncodeTimestamp.Text = "DATE CHIP ENCODED: " & rw("Chipencode_Timestamp").ToString.ToUpper.Trim
-
-        'txtContactNos.Text = ContactNos
-        'txtContactName.Text = Contact_Name
-        'txtContactContactNos.Text = Contact_ContactNos
-        'txtAddress.Text = CompleteAddress
-
-        ''PhotoPath = String.Format("{0}\{1}\{2}\{2}_Photo.jpg", My.Settings.CapturedData, CDate(rw("DatePosted")).ToString("MMddyyyy"), txtCIF_Write.Text)
-        'PhotoPath = String.Format("{0}\{1}\{2}\{2}_photo_{3}.jpg", My.Settings.CapturedData, CDate(rw("DatePosted")).ToString("MMddyyyy"), txtCIF_Write.Text, CDate(rw("DatePosted")).ToString("ddMMyyyy"))
-        'SignaturePath = String.Format("{0}\{1}\{2}\{2}_signature_{3}.tiff", My.Settings.CapturedData, CDate(rw("DatePosted")).ToString("MMddyyyy"), txtCIF_Write.Text, CDate(rw("DatePosted")).ToString("ddMMyyyy"))
-
-        'Dim fingerprintsSource As String = String.Format("{0}\{1}\{2}", My.Settings.CapturedData, CDate(rw("DatePosted")).ToString("MMddyyyy"), txtCIF_Write.Text)
-        'If System.IO.Directory.Exists(fingerprintsSource) Then
-        '    For Each fingerprint As String In System.IO.Directory.GetFiles(fingerprintsSource)
-        '        If System.IO.Path.GetExtension(fingerprint).ToUpper = ".JPG" Then
-        '            If System.IO.Path.GetFileNameWithoutExtension(fingerprint).Contains("_Lprimary") Then
-        '                lPrimaryJpg = fingerprint
-        '                'fingerprints.Add(fingerprint)
-        '            ElseIf System.IO.Path.GetFileNameWithoutExtension(fingerprint).Contains("_Rprimary") Then
-        '                rPrimaryJpg = fingerprint
-        '                'fingerprints.Add(fingerprint)
-        '            ElseIf System.IO.Path.GetFileNameWithoutExtension(fingerprint).Contains("_Lbackup") Then
-        '                lBackupJpg = fingerprint
-        '                'fingerprints.Add(fingerprint)
-        '            ElseIf System.IO.Path.GetFileNameWithoutExtension(fingerprint).Contains("_Rbackup") Then
-        '                rBackupJpg = fingerprint
-        '                'fingerprints.Add(fingerprint)
-        '            End If
-        '        End If
-        '    Next
-
-
-        '    If IO.File.Exists(rPrimaryJpg) Then
-        '        fingerprints.Add(rPrimaryJpg)
-        '    ElseIf IO.File.Exists(rBackupJpg) Then
-        '        fingerprints.Add(rBackupJpg)
-        '    ElseIf IO.File.Exists(lPrimaryJpg) Then
-        '        fingerprints.Add(lPrimaryJpg)
-        '    ElseIf IO.File.Exists(lBackupJpg) Then
-        '        fingerprints.Add(lBackupJpg)
-        '    End If
-        'End If
-
-        'If Not System.IO.File.Exists(PhotoPath) Then Return
-        'If Not System.IO.File.Exists(SignaturePath) Then Return
+            'temp
+            cfp.cardNo = "1234567890123456"
+            cfp.card_valid_thru = "2501"
+            If txtBranchIssued.Text = "" Then txtBranchIssued.Text = "AGUINALDO"
+        End If
 
         ShowPreview = True
         pic1.Refresh()
@@ -192,28 +89,18 @@
 
     Private Sub ResetForm()
         DataID = 0
-        txtFirst_Write.Clear()
-        txtMiddle_Write.Clear()
-        txtLast_Write.Clear()
-        txtSuffix_Write.Clear()
-        txtMembershipDate_Write.Clear()
-        txtGender_Write.Clear()
-        txtBranchIssued_Write.Clear()
+        txtFirst.Clear()
+        txtMiddle.Clear()
+        txtLast.Clear()
+        txtSuffix.Clear()
+        txtMembershipDate.Clear()
+        txtGender.Clear()
+        txtBranchIssued.Clear()
+        txtDateCaptured.Clear()
+        txtDatePrinted.Clear()
 
-        lblPrintTimestamp.Text = "DATE PRINTED:"
-        lblMagTimestamp.Text = "DATE MAG ENCODED:"
-
-        CompleteAddress = ""
-        Address1 = ""
-        Address2 = ""
-        Address3 = ""
-        AddressCity = ""
-        AddressProvince = ""
-        AddressCountry = ""
-        AddressZipCode = ""
-        ContactNos = ""
-        Contact_Name = ""
-        Contact_ContactNos = ""
+        ShowPreview = False
+        pic1.Refresh()
     End Sub
 
     Private Function GetAppVersion() As String
@@ -225,6 +112,8 @@
     Private Sub Main_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Me.Text &= GetAppVersion()
         grid2.AutoGenerateColumns = True
+
+        msa = New MiddleServerApi(My.Settings.MiddleServerUrl, My.Settings.ApiKey, My.Settings.BranchIssue, "Card Printing Software")
 
         Dim li As New LogIN
         li.ShowDialog()
@@ -244,10 +133,9 @@
 
             If cboReport.Items.Count > 0 Then cboReport.SelectedIndex = 0
 
-            txtCIF_Write.SelectAll()
-            txtCIF_Write.Focus()
+            txtCIF.SelectAll()
+            txtCIF.Focus()
             grid.AutoGenerateColumns = False
-            cboFilter.SelectedIndex = 0
 
             BindCardElements()
         Else
@@ -283,47 +171,24 @@
 
         Dim middlename As String = ""
         Dim suffix As String = ""
-        If txtMiddle_Write.Text.Trim <> "" Then middlename = " " & txtMiddle_Write.Text.Substring(0, 1) & "."
-        If txtSuffix_Write.Text.Trim <> "" Then suffix = " " & txtSuffix_Write.Text
-        Return String.Format("{0}{1}{2}{3}", txtFirst_Write.Text, middlename, " " & txtLast_Write.Text, suffix)
+        If txtMiddle.Text.Trim <> "" Then middlename = " " & txtMiddle.Text.Substring(0, 1) & "."
+        If txtSuffix.Text.Trim <> "" Then suffix = " " & txtSuffix.Text
+        Return String.Format("{0}{1}{2}{3}", txtFirst.Text, middlename, " " & txtLast.Text, suffix)
     End Function
 
     Private Sub PrintCard()
-        Dim chipEncodeFailed As Boolean = True
-
-        If Not chipEncodeFailed Then
-            If MessageBox.Show("Card is not yet chip encoded, Abort?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                Exit Sub
-            End If
+        Dim pc As New PrintCard
+        If chkPreview.Checked Then
+            pc.Preview()
+        Else
+            pc.Print()
         End If
-
-        'Dim intPrinterCounterBefore As Integer = GetPrinterCounter()
-        'If GenerateBarcode(txtCIF_Write.Text) Then
-        '    Dim pc As New PrintCard(fingerprints, txtCIF_Write.Text, CompleteName, txtAddress.Text, txtContactNos.Text, txtDOB_Write.Text, txtIDNumber_Write.Text, txtDateIssued_Write.Text, txtContactName.Text, txtContactContactNos.Text, txtBranchIssued_Write.Text, PhotoPath, SignaturePath, BarcodeJPG, chkIncludeIdTemplate.Checked.ToString)
-        '    pc.X = txtX.Text
-        '    pc.Y = txtY.Text
-        '    pc.imgWidth = txtWidth.Text
-        '    pc.imgHeight = txtHeight.Text
-        '    If chkPreview.Checked Then
-        '        pc.Preview()
-        '    Else
-        '        pc.Print()
-        '    End If
-
-        '    Dim intPrinterCounterAfter As Integer = GetPrinterCounter()
-        '    'Dim DAL As New DAL
-        '    'DAL.ExecuteQuery("UPDATE tblData SET Printed_Timestamp=GETDATE() WHERE DataID=" & DataID.ToString)
-        '    'DAL.InsertRelDataCardActivity(txtCIF_Write.Text, "Card printing")
-        '    'DAL.AddPrinterCounter(txtCIF_Write.Text, intPrinterCounterBefore, intPrinterCounterAfter)
-        '    'DAL.Dispose()
-        '    'DAL = Nothing
-        'End If
     End Sub
 
     Private Sub MagEncode()
         Dim strTracks(2) As String
         Dim middleName As String = ""
-        If txtMiddle_Write.Text <> "" Then middleName = txtMiddle_Write.Text.Substring(0, 1).ToUpper
+        If txtMiddle.Text <> "" Then middleName = txtMiddle.Text.Substring(0, 1).ToUpper
         'strTracks(0) = String.Format("{0}^{1}/{2}{3}^{4}", txtCIF_Write.Text.Trim, txtLast_Write.Text, txtFirst_Write.Text, middleName, CDate(txtDOB_Write.Text).ToString("yyyyMMdd"))
         'strTracks(1) = String.Format("{0}={1}", txtCIF_Write.Text.Trim, CDate(txtDOB_Write.Text).ToString("yyyyMMdd"))
         strTracks(2) = ""
@@ -341,7 +206,7 @@
     Private Sub btnProcessCard_Click(sender As System.Object, e As System.EventArgs) Handles btnProcessCard.Click
         SessionIsAlive()
 
-        If txtCIF_Write.Text = "" Then Return
+        If txtCIF.Text = "" Then Return
 
         If MessageBox.Show("Are you sure you want to proceed?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
             ControlDispo(True)
@@ -350,17 +215,19 @@
 
         ControlDispo(False)
 
-
         FeedCard()
 
-        If lblPrintTimestamp.Text <> "DATE PRINTED:" Then
+        'read cardNo and validThru from card
+        'cfp.cardNo = "1234567890123456"
+        'cfp.card_valid_thru = "2501"
+
+        If txtDatePrinted.Text <> "" Then
             If MessageBox.Show("Card has been issued to this record. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
                 PrintCard()
             End If
         Else
             PrintCard()
         End If
-
 
         ControlDispo(True)
     End Sub
@@ -393,7 +260,7 @@
 
     Private Sub btnReset_Click(sender As System.Object, e As System.EventArgs) Handles btnReset.Click
         SessionIsAlive()
-        txtCIF_Write.Clear()
+        txtCIF.Clear()
         ResetForm()
     End Sub
 
@@ -441,7 +308,6 @@
     End Sub
 
     Private Sub ControlDispo(ByVal bln As Boolean)
-        btnGetLastRecord.Enabled = bln
         btnProcessCard.Enabled = bln
         btnInsertCard.Enabled = bln
         btnEjectCard.Enabled = bln
@@ -619,50 +485,36 @@
 
     Private Sub pic1_Paint(sender As System.Object, e As System.Windows.Forms.PaintEventArgs) Handles pic1.Paint
         If ShowPreview Then
-            Dim imgPhoto As Image = Nothing
+            If cfp.memberId > 0 Then
+                Dim imgPhoto As Image = Nothing
 
-            If System.IO.File.Exists(PhotoPath) Then
-                imgPhoto = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(PhotoPath)))
-                e.Graphics.DrawImage(imgPhoto, 48, 92, 122, 152)
+                'If System.IO.File.Exists(PhotoPath) Then
+                imgPhoto = Image.FromStream(New System.IO.MemoryStream(Convert.FromBase64String(cfp.base64Photo)))
+                e.Graphics.DrawImage(imgPhoto, 357, 25, 92, 85)
+                'e.Graphics.DrawImage(imgPhoto, Convert.ToInt32(txtX.Text), Convert.ToInt32(txtY.Text), Convert.ToInt32(txtWidth.Text), Convert.ToInt32(txtHeight.Text))
+                'End If
+
+                Dim fontCard As New Font("OCRB", 20, FontStyle.Bold)
+                Dim fontHightlight As New Font("OCRB", 15, FontStyle.Bold)
+                Dim fontGeneric As New Font("OCRB", 13)
+                Dim dBlack As New SolidBrush(Color.Black)
+
+                Dim intLeft As Integer = Convert.ToInt32(txtX.Text)
+                Dim intTop As Integer = Convert.ToInt32(txtY.Text)
+
+                Dim cardNo As String = cfp.cardNo
+                e.Graphics.DrawString(String.Format("{0} {1} {2} {3}", cardNo.Substring(0, 4), cardNo.Substring(4, 4), cardNo.Substring(8, 4), cardNo.Substring(12, 4)), fontCard, New SolidBrush(Color.White), intLeft + 17, intTop - 70)
+                e.Graphics.DrawString(Convert.ToDateTime(txtMembershipDate.Text).ToString("MM/yy"), fontGeneric, dBlack, intLeft + 40, intTop - 27)
+                e.Graphics.DrawString(String.Format("{0}/{1}", cfp.card_valid_thru.Substring(2, 2), cfp.card_valid_thru.Substring(0, 2)), fontGeneric, dBlack, intLeft + 150, intTop - 27)
+
+                e.Graphics.DrawString(txtCardName.Text, fontHightlight, dBlack, intLeft, intTop)
+                e.Graphics.DrawString(txtCIF.Text, fontGeneric, dBlack, intLeft, intTop + 25)
+                ShowPreview = False
             End If
-
-            'If System.IO.File.Exists(SignaturePath) Then
-            '    Dim myBitmap As New Bitmap(SignaturePath)
-            '    myBitmap.MakeTransparent()
-            '    e.Graphics.DrawImage(myBitmap, 210, 100, 200, 70)
-            'Else
-            '    Dim myBitmap As New Bitmap(SignaturePath)
-            '    myBitmap.MakeTransparent()
-            '    e.Graphics.DrawImage(myBitmap, 210, 100, 200, 70)
-            'End If
-
-            If System.IO.File.Exists(SignaturePath) Then
-                Dim myBitmap As New Bitmap(SignaturePath)
-                myBitmap.MakeTransparent()
-                e.Graphics.DrawImage(myBitmap, 210, 100, 200, 70)
-            Else
-                If fingerprints.Count > 0 Then
-                    Dim myBitmap As New Bitmap(fingerprints(0))
-                    myBitmap.MakeTransparent()
-                    'e.Graphics.DrawImage(myBitmap, 210, 100, 200, 70)
-                    e.Graphics.DrawImage(myBitmap, 250, 120, 50, 50)
-                End If
-            End If
-
-            Dim fontHightlight As New Font("Arial", 10, FontStyle.Bold)
-            Dim fontGeneric As New Font("Arial", 8)
-            Dim dBlack As New SolidBrush(Color.Black)
-
-            Dim intLeft As Integer = 210
-            Dim intTop As Integer = 170
-
-            e.Graphics.DrawString(CompleteName, fontHightlight, dBlack, intLeft, intTop)
-            e.Graphics.DrawString(txtCIF_Write.Text, fontGeneric, dBlack, intLeft + 20, intTop + 20)
-            ShowPreview = False
         End If
     End Sub
 
-    Private Sub txtCIF_Write_KeyPress(sender As System.Object, e As System.Windows.Forms.KeyPressEventArgs) Handles txtCIF_Write.KeyPress
+    Private Sub txtCIF_Write_KeyPress(sender As System.Object, e As System.Windows.Forms.KeyPressEventArgs) Handles txtCIF.KeyPress
         If e.KeyChar = Microsoft.VisualBasic.ChrW(Keys.Return) Then
             'SessionIsAlive()
             'If txtCIF_Write.Text.Length = 13 Then
@@ -718,8 +570,8 @@
         'DAL = Nothing
     End Sub
 
-    
-    Private Sub Button2_Click(sender As System.Object, e As System.EventArgs) Handles Button2.Click
+
+    Private Sub Button2_Click(sender As System.Object, e As System.EventArgs)
         ''PrintCard()
         'GenerateBarcode(txtCIF_Write.Text)
         'Dim pc As New PrintCard(fingerprints, txtCIF_Write.Text, CompleteName, txtAddress.Text, txtContactNos.Text, txtDOB_Write.Text, txtIDNumber_Write.Text, txtDateIssued_Write.Text, txtContactName.Text, txtContactContactNos.Text, txtBranchIssued_Write.Text, PhotoPath, SignaturePath, BarcodeJPG, chkIncludeIdTemplate.Checked.ToString)
@@ -744,19 +596,16 @@
                     grid2.Visible = False
                     cboPrintingType.Enabled = False
                     cboReason.Enabled = False
-                    cboFilter.Enabled = False
                 Case 1
                     grid.Visible = True
                     grid2.Visible = False
                     cboPrintingType.Enabled = True
                     'cboReason.Enabled = True
-                    cboFilter.Enabled = True
                 Case Else
                     grid.Visible = False
                     grid2.Visible = True
                     cboPrintingType.Enabled = False
                     'cboReason.Enabled = False
-                    cboFilter.Enabled = False
             End Select
         Catch ex As Exception
 
@@ -781,12 +630,12 @@
     End Sub
 
     Private Sub BindCardElements()
-        Dim ce As New CardElements
-        txtX.Text = ce.Signature_President_X
-        txtY.Text = ce.Signature_President_Y
-        txtWidth.Text = ce.Signature_President_Width
-        txtHeight.Text = ce.Signature_President_Height
-        ce = Nothing
+        'Dim ce As New CardElements
+        'txtX.Text = ce.Signature_President_X
+        'txtY.Text = ce.Signature_President_Y
+        'txtWidth.Text = ce.Signature_President_Width
+        'txtHeight.Text = ce.Signature_President_Height
+        'ce = Nothing
     End Sub
 
 End Class

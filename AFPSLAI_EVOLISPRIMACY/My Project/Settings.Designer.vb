@@ -101,6 +101,32 @@ Namespace My
                 Me("OperatorID") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property BranchIssue() As String
+            Get
+                Return CType(Me("BranchIssue"),String)
+            End Get
+            Set
+                Me("BranchIssue") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("eyJpdiI6IkgzRHhKd2VKVFpmUHZVSitKMVZlUHc9PSIsInZhbHVlIjoiTFMwcVZ0M0JLNVJrR1U0SEJEQ"& _ 
+            "WtCUT09IiwibWFjIjoiZTFjMGM0OGU3MmVmNzdkM2MyNmYwYjdjMGFhMTg0Njk4MjcyN2E5ZDM4ZjE0Z"& _ 
+            "WUwZDFkZjUzNDU2ZDg3NDQxYyJ9")>  _
+        Public Property ApiKey() As String
+            Get
+                Return CType(Me("ApiKey"),String)
+            End Get
+            Set
+                Me("ApiKey") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

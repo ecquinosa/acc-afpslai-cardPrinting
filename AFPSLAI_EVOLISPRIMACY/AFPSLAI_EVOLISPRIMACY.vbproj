@@ -55,6 +55,12 @@
     <ApplicationIcon>evolis-primacy.png.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="accAfpslaiEmvEncDec">
+      <HintPath>..\..\acc-afpslai-accAfpslaiEmvSrvc\accAfpslaiEmvEncDec\bin\Debug\accAfpslaiEmvEncDec.dll</HintPath>
+    </Reference>
+    <Reference Include="accAfpslaiEmvObjct">
+      <HintPath>..\..\accAfpslaiEmvObjct\bin\Debug\accAfpslaiEmvObjct.dll</HintPath>
+    </Reference>
     <Reference Include="AllcardEncryptDecrypt">
       <HintPath>..\..\CPS2016\CPS2016\bin\AllcardEncryptDecrypt.dll</HintPath>
     </Reference>
@@ -66,6 +72,9 @@
     </Reference>
     <Reference Include="GenCode128">
       <HintPath>..\..\CPS2016\CPS2016\bin\GenCode128.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -93,9 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\CardElements.vb" />
-    <Compile Include="Class\card.vb" />
-    <Compile Include="Class\requestPayload.vb" />
-    <Compile Include="Class\requestCredential.vb" />
     <Compile Include="Class\PrintCard.vb" />
     <Compile Include="Class\MagEncoding.vb" />
     <Compile Include="Class\Misc.vb" />
@@ -141,10 +147,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SCard\ClassDES.vb" />
-    <Compile Include="SCard\ConversionRoutine.vb" />
-    <Compile Include="SCard\ModWinsCard.vb" />
-    <Compile Include="SCard\PCSCRoutines.vb" />
     <Compile Include="Setting.Designer.vb">
       <DependentUpon>Setting.vb</DependentUpon>
     </Compile>
@@ -180,6 +182,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
