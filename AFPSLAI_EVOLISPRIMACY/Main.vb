@@ -23,6 +23,8 @@ Public Class Main
     Public dcsUser As user = Nothing
     Public cfp As cardForPrint = Nothing
     Public msa As MiddleServerApi
+    Public cardElements As CardElements
+
 
     Private Sub Button3_Click(sender As System.Object, e As System.EventArgs) Handles Button3.Click
         SessionIsAlive()
@@ -113,13 +115,15 @@ Public Class Main
         Me.Text &= GetAppVersion()
         grid2.AutoGenerateColumns = True
 
-        msa = New MiddleServerApi(My.Settings.MiddleServerUrl, My.Settings.ApiKey, My.Settings.BranchIssue, "Card Printing Software")
+        msa = New MiddleServerApi(My.Settings.MiddleServerUrl, My.Settings.ApiKey, My.Settings.BranchIssue, MiddleServerApi.afpslaiEmvSystem.cps)
 
         Dim li As New LogIN
         li.ShowDialog()
 
         If li.IsSuccess Then
             SessionIsAlive()
+
+            cardElements = New CardElements
 
             CheckForIllegalCrossThreadCalls = False
             StartThread()
@@ -140,7 +144,7 @@ Public Class Main
             BindCardElements()
         Else
             Close()
-            Application.Exit()
+            Environment.Exit(0)
         End If
     End Sub
 

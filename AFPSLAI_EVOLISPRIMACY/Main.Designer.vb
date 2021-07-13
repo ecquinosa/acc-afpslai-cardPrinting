@@ -979,7 +979,7 @@ Partial Class Main
         Me.pbSetting.Location = New System.Drawing.Point(4, 4)
         Me.pbSetting.Margin = New System.Windows.Forms.Padding(4)
         Me.pbSetting.Name = "pbSetting"
-        Me.pbSetting.Size = New System.Drawing.Size(37, 30)
+        Me.pbSetting.Size = New System.Drawing.Size(34, 27)
         Me.pbSetting.TabIndex = 112
         Me.pbSetting.TabStop = False
         '
