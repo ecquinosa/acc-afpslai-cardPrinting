@@ -14,8 +14,8 @@ Public Class MagEncoding
 
 #Region " Variables "
 
-    Private TrackWrite(0 To 2) As String
-    Private TrackRead(0 To 2) As String
+    'Private TrackWrite(0 To 2) As String
+    Public TrackRead(0 To 2) As String
     Private Answers As String = ""
 
     Public Printer As New CPrinter '= New CPrinter
@@ -25,8 +25,8 @@ Public Class MagEncoding
     Private _coer As Char = "h"
     Private ListViewInfo As New ListView
     Private ListViewStat As New ListView
-    
-    Private strTracks() As String
+
+    'Private strTracks() As String
 
     Private cmbPrinters As New ComboBox
 
@@ -39,23 +39,23 @@ Public Class MagEncoding
 
 #End Region
 
-    Public Sub New(ByVal strTracks() As String)
-        Me.strTracks = strTracks
+    'Public Sub New(ByVal strTracks() As String)
+    '    Me.strTracks = strTracks
 
-        cmbPrinters.Items.Clear()
+    '    cmbPrinters.Items.Clear()
 
-        For Each strPrinter As [String] In System.Drawing.Printing.PrinterSettings.InstalledPrinters
-            If strPrinter.StartsWith("Evolis") Then
-                cmbPrinters.Items.Add(strPrinter)
-            End If
-        Next
+    '    For Each strPrinter As [String] In System.Drawing.Printing.PrinterSettings.InstalledPrinters
+    '        If strPrinter.StartsWith("Evolis") Then
+    '            cmbPrinters.Items.Add(strPrinter)
+    '        End If
+    '    Next
 
-        If InitPrinterList() Then
-            RefreshListStat()
-        End If
+    '    If InitPrinterList() Then
+    '        RefreshListStat()
+    '    End If
 
-        InitializePrinters()
-    End Sub
+    '    InitializePrinters()
+    'End Sub
 
     Public Sub New()
 
@@ -72,7 +72,6 @@ Public Class MagEncoding
         End If
 
         InitializePrinters()
-
     End Sub
 
     Public Sub CheckSlotForCard()
@@ -144,22 +143,35 @@ Public Class MagEncoding
         System.Threading.Thread.Sleep(x)
     End Sub
 
-    Private Function WriteMags() As Boolean
+    'Private Function WriteMags() As Boolean
+    '    Me.Printer.mag.gsCoer = Me._coer
+    '    Me.Printer.mag.SetDownloadData(TrackWrite(0), 1)
+    '    Me.Printer.mag.SetDownloadData(TrackWrite(1), 2)
+    '    Me.Printer.mag.SetDownloadData(TrackWrite(2), 3)
+    '    If (Me.Printer.WriteTracks() = True) Then
+    '        TrackRead(0) = Me.Printer.mag.gDataReadFromTrack(1)
+    '        TrackRead(1) = Me.Printer.mag.gDataReadFromTrack(2)
+    '        TrackRead(2) = Me.Printer.mag.gDataReadFromTrack(3)
+    '        Return True
+    '    Else
+    '        TrackRead(0) = Me.Printer.mag.gDataReadFromTrack(1)
+    '        TrackRead(1) = Me.Printer.mag.gDataReadFromTrack(2)
+    '        TrackRead(2) = Me.Printer.mag.gDataReadFromTrack(3)
+    '        Return False
+    '        'MessageBox.Show(Me.Printer.analyzeAnswer() & Chr(13) & Chr(10) & Me.Printer.getLastAnswerError, "Fails to write magnetic tracks.", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    End If
+    'End Function
+
+    Private Function ReadMags() As Boolean
         Me.Printer.mag.gsCoer = Me._coer
-        Me.Printer.mag.SetDownloadData(TrackWrite(0), 1)
-        Me.Printer.mag.SetDownloadData(TrackWrite(1), 2)
-        Me.Printer.mag.SetDownloadData(TrackWrite(2), 3)
-        If (Me.Printer.WriteTracks() = True) Then
-            TrackRead(0) = Me.Printer.mag.gDataReadFromTrack(1)
+
+        If Me.Printer.ReadTracks() Then
+            'TrackRead(0) = Me.Printer.mag.gDataReadFromTrack(1)
             TrackRead(1) = Me.Printer.mag.gDataReadFromTrack(2)
-            TrackRead(2) = Me.Printer.mag.gDataReadFromTrack(3)
+            'TrackRead(2) = Me.Printer.mag.gDataReadFromTrack(3)
             Return True
         Else
-            TrackRead(0) = Me.Printer.mag.gDataReadFromTrack(1)
-            TrackRead(1) = Me.Printer.mag.gDataReadFromTrack(2)
-            TrackRead(2) = Me.Printer.mag.gDataReadFromTrack(3)
             Return False
-            'MessageBox.Show(Me.Printer.analyzeAnswer() & Chr(13) & Chr(10) & Me.Printer.getLastAnswerError, "Fails to write magnetic tracks.", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
     End Function
 
@@ -339,25 +351,39 @@ Public Class MagEncoding
 
     End Function
 
-    Public Function MagEncode() As Boolean
+    'Public Function MagEncode() As Boolean
+    '    Try
+    '        TrackWrite(0) = strTracks(0)
+    '        TrackWrite(1) = strTracks(1)
+    '        TrackWrite(2) = strTracks(2)
+
+    '        'ThrowCommand("Si") 'Insert Card
+
+    '        If WriteMags() = False Then 'Write Tracks
+    '            ThrowCommand("Ser")
+
+    '        Else
+    '            IsMagEncode_Success = True
+    '        End If
+    '        'ThrowCommand("Se")
+
+    '        Return True
+    '    Catch ex As Exception
+
+    '        ThrowCommand("Ser")
+    '        Return False
+    '    End Try
+    'End Function
+
+    Public Function ReadTracks() As Boolean
         Try
-            TrackWrite(0) = strTracks(0)
-            TrackWrite(1) = strTracks(1)
-            TrackWrite(2) = strTracks(2)
-
-            'ThrowCommand("Si") 'Insert Card
-
-            If WriteMags() = False Then 'Write Tracks
+            If ReadMags() = False Then 'Write Tracks
                 ThrowCommand("Ser")
-
-            Else
-                IsMagEncode_Success = True
+                Return False
             End If
-            'ThrowCommand("Se")
 
             Return True
         Catch ex As Exception
-
             ThrowCommand("Ser")
             Return False
         End Try

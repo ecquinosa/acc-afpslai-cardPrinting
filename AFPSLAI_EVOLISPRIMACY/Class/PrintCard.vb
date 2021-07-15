@@ -11,10 +11,10 @@ Public Class PrintCard
 #Region " Printing "
 
     Private Sub m_pDoc_BeginPrint(ByVal sender As Object, ByVal e As System.Drawing.Printing.PrintEventArgs) Handles m_pDoc.BeginPrint
-        'm_pDoc.DocumentName = "Card Personalization of ID No." & cardElements(0)
-        'm_pDoc.DefaultPageSettings.Landscape = True
-        'm_pDoc.PrinterSettings.Copies = 1
-        'm_pDoc.PrinterSettings.PrinterName = My.Settings.CardPrinter
+        m_pDoc.DocumentName = "Card Personalization of ID No." & Main.cfp.cardNo
+        m_pDoc.DefaultPageSettings.Landscape = True
+        m_pDoc.PrinterSettings.Copies = 1
+        m_pDoc.PrinterSettings.PrinterName = My.Settings.CardPrinter
 
         ''for testing purpose only
         'Dim ps As PaperSize = Nothing
@@ -26,11 +26,11 @@ Public Class PrintCard
         '    End If
         'Next
 
-        m_pDoc.DocumentName = "Card Personalization of ID No." & Main.cfp.cardNo
-        'm_pDoc.DefaultPageSettings.PaperSize = ps
-        m_pDoc.DefaultPageSettings.Landscape = False
-        m_pDoc.PrinterSettings.Copies = 1
-        m_pDoc.PrinterSettings.PrinterName = "Microsoft XPS Document Writer"
+        'm_pDoc.DocumentName = "Card Personalization of ID No." & Main.cfp.cardNo
+        ''m_pDoc.DefaultPageSettings.PaperSize = ps
+        'm_pDoc.DefaultPageSettings.Landscape = False
+        'm_pDoc.PrinterSettings.Copies = 1
+        'm_pDoc.PrinterSettings.PrinterName = "Microsoft XPS Document Writer"
     End Sub
 
     Private Function GetFontStyle(ByVal fs As Integer) As FontStyle

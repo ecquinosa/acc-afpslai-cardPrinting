@@ -60,6 +60,30 @@ Public Class Main
         'DAL = Nothing
     End Sub
 
+    Private Function PushToCMS() As Boolean
+        Dim cbsCms As New cbsCms
+        cbsCms.cardId = cfp.cardId
+        cbsCms.memberId = cfp.memberId
+        cbsCms.cardNo = cfp.cardNo
+        cbsCms.cif = cfp.cif
+        cbsCms.mobileNo = cfp.mobileNo
+        cbsCms.branchId = cfp.branch_issued
+        cbsCms.terminalId = cfp.terminalId
+        cbsCms.timeStamp = Date.Now
+        Dim response As Boolean = msa.PushCMSData(cbsCms)
+        cbsCms = Nothing
+        Return response
+    End Function
+
+    Private Function AddCard() As Boolean
+        Dim card As New card
+        card.member_id = cfp.memberId
+        card.cardNo = cfp.cardNo
+        Dim response As Boolean = msa.addCard(card, cfp.cardId)
+        card = Nothing
+        Return response
+    End Function
+
     Private Sub BindData()
         TerminalID = ""
         BranchCode = ""
@@ -79,9 +103,14 @@ Public Class Main
             txtDateCaptured.Text = cfp.dateCaptured
             txtDatePrinted.Text = cfp.datePrinted
 
-            'temp
-            cfp.cardNo = "1234567890123456"
-            cfp.card_valid_thru = "2501"
+            If String.IsNullOrEmpty(cfp.cardNo) Then
+                cfp.cardNo = "0000000000000000"
+                cfp.card_valid_thru = "0000"
+            Else
+                cfp.cardNo = cfp.cardNo
+                cfp.card_valid_thru = ""
+            End If
+
             If txtBranchIssued.Text = "" Then txtBranchIssued.Text = "AGUINALDO"
         End If
 
@@ -181,31 +210,30 @@ Public Class Main
     End Function
 
     Private Sub PrintCard()
-        Dim pc As New PrintCard
-        If chkPreview.Checked Then
-            pc.Preview()
-        Else
-            pc.Print()
-        End If
+        Try
+            Dim pc As New PrintCard
+            If chkPreview.Checked Then
+                pc.Preview()
+            Else
+                pc.Print()
+            End If
+            pc = Nothing
+        Catch ex As Exception
+
+        End Try
+
     End Sub
 
-    Private Sub MagEncode()
-        Dim strTracks(2) As String
-        Dim middleName As String = ""
-        If txtMiddle.Text <> "" Then middleName = txtMiddle.Text.Substring(0, 1).ToUpper
-        'strTracks(0) = String.Format("{0}^{1}/{2}{3}^{4}", txtCIF_Write.Text.Trim, txtLast_Write.Text, txtFirst_Write.Text, middleName, CDate(txtDOB_Write.Text).ToString("yyyyMMdd"))
-        'strTracks(1) = String.Format("{0}={1}", txtCIF_Write.Text.Trim, CDate(txtDOB_Write.Text).ToString("yyyyMMdd"))
-        strTracks(2) = ""
-
-        Dim magEnc As New MagEncoding(strTracks)
-        If magEnc.MagEncode() Then
-            'Dim DAL As New DAL
-            'DAL.ExecuteQuery("UPDATE tblData SET Magencode_Timestamp=GETDATE() WHERE DataID=" & DataID.ToString)
-            'DAL.InsertRelDataCardActivity(txtCIF_Write.Text, "Mag encoding")
-            'DAL.Dispose()
-            'DAL = Nothing
-        End If
-    End Sub
+    'Private Sub ReadTracks()
+    '    Dim magEnc As New MagEncoding()
+    '    If magEnc.ReadTracks() Then
+    '        'Dim DAL As New DAL
+    '        'DAL.ExecuteQuery("UPDATE tblData SET Magencode_Timestamp=GETDATE() WHERE DataID=" & DataID.ToString)
+    '        'DAL.InsertRelDataCardActivity(txtCIF_Write.Text, "Mag encoding")
+    '        'DAL.Dispose()
+    '        'DAL = Nothing
+    '    End If
+    'End Sub
 
     Private Sub btnProcessCard_Click(sender As System.Object, e As System.EventArgs) Handles btnProcessCard.Click
         SessionIsAlive()
@@ -219,21 +247,51 @@ Public Class Main
 
         ControlDispo(False)
 
-        FeedCard()
+        'FeedCard()
 
-        'read cardNo and validThru from card
-        'cfp.cardNo = "1234567890123456"
-        'cfp.card_valid_thru = "2501"
+        'cfp.cardNo =txt
+        cfp.card_valid_thru = "2405"
+        PrintCard()
+        Return
 
-        If txtDatePrinted.Text <> "" Then
-            If MessageBox.Show("Card has been issued to this record. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                PrintCard()
+        Dim meap As New MagEncoding
+        Try
+            If meap.ReadTracks() Then
+                Dim track2 As String = meap.TrackRead(1)
+
+                If track2.Contains("=") Then
+                    cfp.cardNo = track2.Split("=")(0)
+                    cfp.card_valid_thru = track2.Split("=")(1).Substring(0, 4)
+                    ShowPreview = True
+                    pic1.Refresh()
+
+                    System.Threading.Thread.Sleep(1000)
+                    Application.DoEvents()
+
+                    If AddCard() Then
+                        If PushToCMS() Then
+                            If txtDatePrinted.Text <> "" Then _
+                                If MessageBox.Show("Card has been issued to this record before. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Return
+
+                            PrintCard()
+                        End If
+                    End If
+
+                Else
+                    Utilities.ShowWarningMessage("Card's mag data is invalid '" & track2 & "'.")
+                    EjectCard()
+                End If
+            Else
+                Utilities.ShowWarningMessage("Failed to read card's mag data.")
+                EjectCard()
             End If
-        Else
-            PrintCard()
-        End If
-
-        ControlDispo(True)
+        Catch ex As Exception
+            Utilities.ShowErrorMessage(ex.Message)
+            EjectCard()
+        Finally
+            meap = Nothing
+            ControlDispo(True)
+        End Try
     End Sub
 
     Public Function GenerateBarcode(ByVal strBarcode As String) As Boolean
@@ -282,6 +340,28 @@ Public Class Main
     Private Sub EjectCard()
         Dim meap As New MagEncoding
         meap.EjectCard()
+        meap = Nothing
+    End Sub
+
+    Private Sub ReadCardMags()
+        Dim meap As New MagEncoding
+        If meap.ReadTracks() Then
+            'read cardNo and validThru from card
+            'cfp.cardNo = "1234567890123456"
+            'cfp.card_valid_thru = "2501"
+            Dim track2 As String = meap.TrackRead(1)
+
+            If track2.Contains("=") Then
+                cfp.cardNo = track2.Split("=")(0)
+                cfp.card_valid_thru = track2.Split("=")(1).Substring(0, 4)
+                ShowPreview = True
+                pic1.Refresh()
+            Else
+                Utilities.ShowWarningMessage("Card's mag data is invalid '" & track2 & "'.")
+            End If
+        Else
+            Utilities.ShowWarningMessage("Failed to read card's mag data.")
+        End If
         meap = Nothing
     End Sub
 
@@ -507,9 +587,9 @@ Public Class Main
                 Dim intTop As Integer = Convert.ToInt32(txtY.Text)
 
                 Dim cardNo As String = cfp.cardNo
-                e.Graphics.DrawString(String.Format("{0} {1} {2} {3}", cardNo.Substring(0, 4), cardNo.Substring(4, 4), cardNo.Substring(8, 4), cardNo.Substring(12, 4)), fontCard, New SolidBrush(Color.White), intLeft + 17, intTop - 70)
+                If cardNo <> "" Then e.Graphics.DrawString(String.Format("{0} {1} {2} {3}", cardNo.Substring(0, 4), cardNo.Substring(4, 4), cardNo.Substring(8, 4), cardNo.Substring(12, 4)), fontCard, New SolidBrush(Color.White), intLeft + 17, intTop - 70)
                 e.Graphics.DrawString(Convert.ToDateTime(txtMembershipDate.Text).ToString("MM/yy"), fontGeneric, dBlack, intLeft + 40, intTop - 27)
-                e.Graphics.DrawString(String.Format("{0}/{1}", cfp.card_valid_thru.Substring(2, 2), cfp.card_valid_thru.Substring(0, 2)), fontGeneric, dBlack, intLeft + 150, intTop - 27)
+                If cfp.card_valid_thru <> "" Then e.Graphics.DrawString(String.Format("{0}/{1}", cfp.card_valid_thru.Substring(2, 2), cfp.card_valid_thru.Substring(0, 2)), fontGeneric, dBlack, intLeft + 150, intTop - 27)
 
                 e.Graphics.DrawString(txtCardName.Text, fontHightlight, dBlack, intLeft, intTop)
                 e.Graphics.DrawString(txtCIF.Text, fontGeneric, dBlack, intLeft, intTop + 25)

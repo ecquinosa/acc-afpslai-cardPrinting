@@ -249,7 +249,6 @@ Partial Class Main
         Me.chkPreview.TabIndex = 112
         Me.chkPreview.Text = "Preview only"
         Me.chkPreview.UseVisualStyleBackColor = True
-        Me.chkPreview.Visible = False
         '
         'chkIncludeIdTemplate
         '
@@ -263,7 +262,6 @@ Partial Class Main
         Me.chkIncludeIdTemplate.TabIndex = 111
         Me.chkIncludeIdTemplate.Text = "Include id template"
         Me.chkIncludeIdTemplate.UseVisualStyleBackColor = True
-        Me.chkIncludeIdTemplate.Visible = False
         '
         'Label23
         '
@@ -451,7 +449,7 @@ Partial Class Main
         Me.txtCIF.Name = "txtCIF"
         Me.txtCIF.Size = New System.Drawing.Size(228, 23)
         Me.txtCIF.TabIndex = 1
-        Me.txtCIF.Text = "1111111111101"
+        Me.txtCIF.Text = "1111111111104"
         '
         'txtMiddle
         '
@@ -1001,7 +999,7 @@ Partial Class Main
         Me.MaximizeBox = False
         Me.Name = "Main"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "AFPSLAI - CARD PRINTING AND MERGING SOFTWARE"
+        Me.Text = "] v2"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()

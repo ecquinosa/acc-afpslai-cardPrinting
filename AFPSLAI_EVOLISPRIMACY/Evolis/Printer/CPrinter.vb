@@ -226,14 +226,25 @@ Public Class CPrinter
             Me.gsTimeout() = 30000
             Me.setCde() = mag.ReadMagTracks()
             If (Me.WRPrinterOK(ReadTracks) = True) Then
-                For i = 1 To 3
+                'For i = 1 To 3
+                '    If (ReadTracks) Then
+                '        Me.setCde() = mag.ReadMagTracksBuffer(i)
+                '        If (Me.WRPrinter(ReadTracks) = False) Then
+                '            ReadTracks = False
+                '        End If
+
+                '        mag.SetStatusCdeTrack(getLastAnswer(), i)
+                '    End If
+                'Next i
+
+                For i = 1 To 1
                     If (ReadTracks) Then
-                        Me.setCde() = mag.ReadMagTracksBuffer(i)
+                        Me.setCde() = mag.ReadMagTracksBuffer(i + 1)
                         If (Me.WRPrinter(ReadTracks) = False) Then
                             ReadTracks = False
                         End If
 
-                        mag.SetStatusCdeTrack(getLastAnswer(), i)
+                        mag.SetStatusCdeTrack(getLastAnswer(), i + 1)
                     End If
                 Next i
             End If
