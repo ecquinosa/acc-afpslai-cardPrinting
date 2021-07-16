@@ -5,161 +5,35 @@ Public Class Main
 
     Private DataID As Integer = 0
 
-    Private PhotoPath As String = "" '"E:\Projects\DCS2015\DCS2015\bin\Debug\Captured Data\05052017\3333322222222\3333322222222_Photo.jpg"
-
-    Private BarcodeJPG As String = "tempBarcode.jpg"
-    Private lPrimaryJpg As String = ""
-    Private rPrimaryJpg As String = ""
-    Private lBackupJpg As String = ""
-    Private rBackupJpg As String = ""
-
     Private IsNotIdle As Boolean = False
     Private IdleCounter As Integer = 0
-
-    Private TerminalID As String = ""
-    Private BranchCode As String = ""
-    Private fingerprints As New List(Of String)
 
     Public dcsUser As user = Nothing
     Public cfp As cardForPrint = Nothing
     Public msa As MiddleServerApi
     Public cardElements As CardElements
 
-
-    Private Sub Button3_Click(sender As System.Object, e As System.EventArgs) Handles Button3.Click
-        SessionIsAlive()
-        ResetForm()
-
-        If txtCIF.Text = "" Then
-            MessageBox.Show("Please enter CIF to search...", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
-
-        BindData()
-    End Sub
-
-    Private Sub PopulatePrintingType()
-        'Dim DAL As New DAL
-        'If DAL.SelectQuery("SELECT 0 As PrintingTypeID, '-SELECT-' As PrintingType UNION SELECT PrintingTypeID, PrintingType FROM tblPrintingType WHERE ISNULL(IsDeleted,0)=0") Then
-        '    cboPrintingType.DataSource = DAL.TableResult
-        '    cboPrintingType.ValueMember = "PrintingTypeID"
-        '    cboPrintingType.DisplayMember = "PrintingType"
-        'End If
-        'DAL.Dispose()
-        'DAL = Nothing
-    End Sub
-
-    Private Sub PopulateReplaceReason()
-        'Dim DAL As New DAL
-        'If DAL.SelectQuery("SELECT 0 As ReasonID, '-SELECT-' As Reason UNION SELECT ReasonID, Reason FROM tblReplaceReason WHERE ISNULL(IsDeleted,0)=0") Then
-        '    cboReason.DataSource = DAL.TableResult
-        '    cboReason.ValueMember = "ReasonID"
-        '    cboReason.DisplayMember = "Reason"
-        'End If
-        'DAL.Dispose()
-        'DAL = Nothing
-    End Sub
-
-    Private Function PushToCMS() As Boolean
-        Dim cbsCms As New cbsCms
-        cbsCms.cardId = cfp.cardId
-        cbsCms.memberId = cfp.memberId
-        cbsCms.cardNo = cfp.cardNo
-        cbsCms.cif = cfp.cif
-        cbsCms.mobileNo = cfp.mobileNo
-        cbsCms.branchId = cfp.branch_issued
-        cbsCms.terminalId = cfp.terminalId
-        cbsCms.timeStamp = Date.Now
-        Dim response As Boolean = msa.PushCMSData(cbsCms)
-        cbsCms = Nothing
-        Return response
-    End Function
-
-    Private Function AddCard() As Boolean
-        Dim card As New card
-        card.member_id = cfp.memberId
-        card.cardNo = cfp.cardNo
-        Dim response As Boolean = msa.addCard(card, cfp.cardId)
-        card = Nothing
-        Return response
-    End Function
-
-    Private Sub BindData()
-        TerminalID = ""
-        BranchCode = ""
-
-        cfp = New cardForPrint
-        Dim obj As Object
-        If msa.GetCardForPrint(txtCIF.Text, obj) Then
-            cfp = Newtonsoft.Json.JsonConvert.DeserializeObject(Of cardForPrint)(obj.ToString)
-            txtFirst.Text = cfp.first_name
-            txtMiddle.Text = cfp.middle_name
-            txtLast.Text = cfp.last_name
-            txtSuffix.Text = cfp.suffix
-            txtCardName.Text = cfp.cardName
-            txtGender.Text = cfp.gender
-            txtMembershipDate.Text = cfp.membership_date
-            txtBranchIssued.Text = cfp.branch_issued
-            txtDateCaptured.Text = cfp.dateCaptured
-            txtDatePrinted.Text = cfp.datePrinted
-
-            If String.IsNullOrEmpty(cfp.cardNo) Then
-                cfp.cardNo = "0000000000000000"
-                cfp.card_valid_thru = "0000"
-            Else
-                cfp.cardNo = cfp.cardNo
-                cfp.card_valid_thru = ""
-            End If
-
-            If txtBranchIssued.Text = "" Then txtBranchIssued.Text = "AGUINALDO"
-        End If
-
-        ShowPreview = True
-        pic1.Refresh()
-    End Sub
-
-    Private Sub ResetForm()
-        DataID = 0
-        txtFirst.Clear()
-        txtMiddle.Clear()
-        txtLast.Clear()
-        txtSuffix.Clear()
-        txtMembershipDate.Clear()
-        txtGender.Clear()
-        txtBranchIssued.Clear()
-        txtDateCaptured.Clear()
-        txtDatePrinted.Clear()
-
-        ShowPreview = False
-        pic1.Refresh()
-    End Sub
-
-    Private Function GetAppVersion() As String
-        Dim assembly As System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly()
-        Dim fvi As System.Diagnostics.FileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location)
-        Return String.Format(" v{0}", fvi.FileVersion)
-    End Function
+    Public Shared logger As NLog.Logger = NLog.LogManager.GetCurrentClassLogger()
 
     Private Sub Main_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Me.Text &= GetAppVersion()
-        grid2.AutoGenerateColumns = True
 
         msa = New MiddleServerApi(My.Settings.MiddleServerUrl, My.Settings.ApiKey, My.Settings.BranchIssue, MiddleServerApi.afpslaiEmvSystem.cps)
-
         Dim li As New LogIN
         li.ShowDialog()
 
         If li.IsSuccess Then
             SessionIsAlive()
 
+            logger.Info(String.Format("{0} login", dcsUser.userName))
+
+            lblHeader.Text = String.Format("USER: {0}   |   ROLE: {1}   |   {2}", dcsUser.fullName, dcsUser.roleDesc, Date.Now.ToString("MMMM dd, yyyy"))
+            If dcsUser.roleId = 2 Then pbSetting.Visible = True Else pbSetting.Visible = False
+
             cardElements = New CardElements
 
             CheckForIllegalCrossThreadCalls = False
             StartThread()
-            'Timer1.Start()
-
-            '   btnGetLastRecord.PerformClick()
-            'txtFirst_Write.Text = "ANACLETO JOSEFINO P. BUENCAMINO"
 
             PopulatePrintingType()
             PopulateReplaceReason()
@@ -168,35 +42,11 @@ Public Class Main
 
             txtCIF.SelectAll()
             txtCIF.Focus()
-            grid.AutoGenerateColumns = False
-
-            BindCardElements()
+            grid.AutoGenerateColumns = True
         Else
             Close()
             Environment.Exit(0)
         End If
-    End Sub
-
-    Private Sub btnGetLastRecord_Click(sender As System.Object, e As System.EventArgs)
-        SessionIsAlive()
-
-        ControlDispo(False)
-
-        ResetForm()
-
-        'Dim DAL As New DAL
-        'If DAL.SelectDataByMaxDataID() Then
-        '    If DAL.TableResult.DefaultView.Count > 0 Then
-        '        BindData(DAL.TableResult.Rows(0))
-        '    Else
-        '        MessageBox.Show("No record found", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        '        ResetForm()
-        '    End If
-        'End If
-        'DAL.Dispose()
-        'DAL = Nothing
-
-        ControlDispo(True)
     End Sub
 
     Private Function CompleteName() As String
@@ -218,22 +68,12 @@ Public Class Main
                 pc.Print()
             End If
             pc = Nothing
+            logger.Info(String.Format("CIF {0} - successfully sent to printer", cfp.cif))
         Catch ex As Exception
-
+            Main.logger.Error(String.Format("CIF {0} - {1}", cfp.cif, ex.Message))
         End Try
 
     End Sub
-
-    'Private Sub ReadTracks()
-    '    Dim magEnc As New MagEncoding()
-    '    If magEnc.ReadTracks() Then
-    '        'Dim DAL As New DAL
-    '        'DAL.ExecuteQuery("UPDATE tblData SET Magencode_Timestamp=GETDATE() WHERE DataID=" & DataID.ToString)
-    '        'DAL.InsertRelDataCardActivity(txtCIF_Write.Text, "Mag encoding")
-    '        'DAL.Dispose()
-    '        'DAL = Nothing
-    '    End If
-    'End Sub
 
     Private Sub btnProcessCard_Click(sender As System.Object, e As System.EventArgs) Handles btnProcessCard.Click
         SessionIsAlive()
@@ -246,6 +86,8 @@ Public Class Main
         End If
 
         ControlDispo(False)
+
+        logger.Info(String.Format("CIF {0} - start of perso process", cfp.cif))
 
         'FeedCard()
 
@@ -260,32 +102,43 @@ Public Class Main
                 Dim track2 As String = meap.TrackRead(1)
 
                 If track2.Contains("=") Then
+
                     cfp.cardNo = track2.Split("=")(0)
                     cfp.card_valid_thru = track2.Split("=")(1).Substring(0, 4)
                     ShowPreview = True
                     pic1.Refresh()
+
+                    logger.Info(String.Format("CIF {0} - printer read card track " & Microsoft.VisualBasic.Right(cfp.cardNo, 4), cfp.cif))
 
                     System.Threading.Thread.Sleep(1000)
                     Application.DoEvents()
 
                     If AddCard() Then
                         If PushToCMS() Then
-                            If txtDatePrinted.Text <> "" Then _
+                            If txtDatePrinted.Text <> "" Then
                                 If MessageBox.Show("Card has been issued to this record before. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Return
+                                Dim cc As New cancelCapture
+                                cc.cardId = cfp.cardId
+                                Dim responseCancelCapture = msa.cancelCapture(cc)
+                                logger.Info(String.Format("{0} proceeded to recard cif {1}. cancelCapture response for cardId {2} is {3}", dcsUser.userName, cfp.cif, cfp.cardId, responseCancelCapture))
+                            End If
 
                             PrintCard()
                         End If
                     End If
 
                 Else
+                    logger.Error(String.Format("CIF {0} - Card's mag data is invalid {1}", cfp.cif, track2))
                     Utilities.ShowWarningMessage("Card's mag data is invalid '" & track2 & "'.")
                     EjectCard()
                 End If
             Else
+                logger.Error(String.Format("CIF {0} - Failed to read card's mag data", cfp.cif))
                 Utilities.ShowWarningMessage("Failed to read card's mag data.")
                 EjectCard()
             End If
         Catch ex As Exception
+            Main.logger.Error(String.Format("CIF {0} - {1}", cfp.cif, ex.Message))
             Utilities.ShowErrorMessage(ex.Message)
             EjectCard()
         Finally
@@ -293,19 +146,6 @@ Public Class Main
             ControlDispo(True)
         End Try
     End Sub
-
-    Public Function GenerateBarcode(ByVal strBarcode As String) As Boolean
-        Try
-            Dim _image As System.Drawing.Image = GenCode128.Code128Rendering.MakeBarcodeImage(strBarcode, 2, True)
-            _image.Save(BarcodeJPG, System.Drawing.Imaging.ImageFormat.Jpeg)
-            _image.Dispose()
-            _image = Nothing
-
-            Return True
-        Catch ex As Exception
-            Return False
-        End Try
-    End Function
 
     Private Sub SystemStatus(ByVal status As String, Optional intType As Short = 0)
         Select Case intType
@@ -388,7 +228,6 @@ Public Class Main
     Private Sub pbSetting_Click(sender As System.Object, e As System.EventArgs) Handles pbSetting.Click
         Dim frm As New Setting
         frm.ShowDialog()
-        BindCardElements()
     End Sub
 
     Private Sub ControlDispo(ByVal bln As Boolean)
@@ -404,91 +243,36 @@ Public Class Main
         End If
     End Sub
 
-    Private dtData As DataTable
-
-    Private Function GetDTTotal() As Integer
-        Dim intCnt As Integer = CInt(dtData.Rows(dtData.DefaultView.Count - 1)("Total"))
-        'For Each rw As DataRow In dtData.Rows
-        '    intCnt += rw("Total")
-        'Next
-
-        Return intCnt
-    End Function
-
     Private Sub btnSubmit_Click(sender As System.Object, e As System.EventArgs) Handles btnSubmit.Click
         SessionIsAlive()
 
-        'Dim DAL As New DAL
-        'Select Case cboReport.SelectedIndex
-        '    Case 0
-        '    Case 3
-        '        If DAL.SelectPrintingTypeSummary(CDate(dtpStart.Value).ToString("yyyy-MM-dd"), CDate(dtpEnd.Value).ToString("yyyy-MM-dd")) Then
-        '            If DAL.TableResult.DefaultView.Count > 0 Then
-        '                btnExtract.Visible = True
-        '            Else
-        '                btnExtract.Visible = False
-        '            End If
+        Dim branch As String = My.Settings.BranchIssue
+        If dcsUser.roleId = 2 Then branch = ""
+        Dim obj As Object
+        Select Case cboReport.SelectedIndex
+            Case 0
+            Case 1
+                If msa.GetMembersPrintingTypeSummary(branch, dtpStart.Value.Date, dtpEnd.Value.Date, obj) Then
+                    Dim data = obj
+                    grid.DataSource = data
+                End If
+            Case 2
+                If msa.GetMembersRecardReasonSummary(branch, dtpStart.Value.Date, dtpEnd.Value.Date, obj) Then
+                    Dim data = obj
+                    grid.DataSource = data
+                End If
+            Case 3
+                If msa.GetMember(0, "", branch, obj) Then
+                    Dim data = obj
+                    grid.DataSource = data
+                End If
+        End Select
 
-        '            dtData = DAL.TableResult
-
-        '            Dim intCnt As Integer = 0
-        '            For Each rw As DataRow In dtData.Rows
-        '                intCnt += rw("Total")
-        '            Next
-
-        '            lblTotal.Text = "TOTAL: " & GetDTTotal.ToString("N0") 'dtData.DefaultView.Count.ToString("N0")
-        '        End If
-        '    Case Else
-        '        If DAL.SelectDataByDataTypeIDAndRange(2, dtpStart.Value, dtpEnd.Value) Then
-        '            Dim sbFilter As New System.Text.StringBuilder
-
-        '            If DAL.TableResult.DefaultView.Count > 0 Then
-        '                btnExtract.Visible = True
-        '            Else
-        '                btnExtract.Visible = False
-        '            End If
-
-        '            If cboPrintingType.SelectedIndex > 0 Then _
-        '                sbFilter.Append("PrintingTypeID=" & cboPrintingType.SelectedValue)
-
-        '            If cboPrintingType.SelectedIndex = 2 Then
-        '                If sbFilter.ToString <> "" Then sbFilter.Append(" AND ")
-        '                sbFilter.Append("ReplaceReason='" & cboReason.Text & "'")
-        '            End If
-
-
-        '            If cboFilter.SelectedIndex = 0 Then
-        '                dtData = DAL.TableResult
-        '            ElseIf cboFilter.SelectedIndex = 1 Then
-        '                'dtData = DAL.TableResult.Select("ISNULL(IsVoid,0)=0").CopyToDataTable
-        '                If sbFilter.ToString <> "" Then sbFilter.Append(" AND ")
-        '                sbFilter.Append("ISNULL(IsVoid,0)=0")
-        '            ElseIf cboFilter.SelectedIndex = 2 Then
-        '                'dtData = DAL.TableResult.Select("ISNULL(IsVoid,0)=1").CopyToDataTable
-        '                If sbFilter.ToString <> "" Then sbFilter.Append(" AND ")
-        '                sbFilter.Append("ISNULL(IsVoid,0)=1")
-        '            End If
-
-        '            Try
-        '                dtData = DAL.TableResult.Select(sbFilter.ToString).CopyToDataTable
-        '            Catch ex As Exception
-        '                'dtData = DAL.TableResult.Select(sbFilter.ToString).CopyToDataTable
-        '            End Try
-
-        '            lblTotal.Text = "TOTAL: " & dtData.DefaultView.Count.ToString("N0")
-        '        End If
-        'End Select
-
-        'Select Case cboReport.SelectedIndex
-        '    Case 0
-        '    Case 1
-        '        grid.DataSource = dtData
-        '    Case Else
-        '        grid2.DataSource = dtData
-        'End Select
-
-        'DAL.Dispose()
-        'DAL = Nothing
+        If grid.Rows.Count = 0 Then
+            btnExtract.Visible = False
+        Else
+            btnExtract.Visible = True
+        End If
     End Sub
 
     Private Sub btnExtract_Click(sender As System.Object, e As System.EventArgs) Handles btnExtract.Click
@@ -498,69 +282,21 @@ Public Class Main
         Dim sbHeader As New System.Text.StringBuilder
         Dim IsHeaderComplete As Boolean = False
 
-        Dim strRange As String = String.Format("{0} to {1}", dtpStart.Value.ToString("MMM dd, yy"), dtpEnd.Value.ToString("MMM dd, yy"))
+        Dim strRange As String = String.Format("{0} to {1}", dtpStart.Value.ToString("MMM dd, yyyy"), dtpEnd.Value.ToString("MMM dd, yyyy"))
+
         Dim strReportHeader As String = "AFPSLAI - CAPTURED DATA REPORT" & vbNewLine & strRange & vbNewLine & "TOTAL: " & grid.Rows.Count.ToString("N0") & vbNewLine & vbNewLine
 
         Select Case cboReport.SelectedIndex
             Case 0
-            Case 3
-                strReportHeader = "AFPSLAI - CAPTURED SUMMARY REPORT" & vbNewLine & strRange & vbNewLine & "TOTAL: " & "TOTAL: " & GetDTTotal.ToString("N0") & vbNewLine & vbNewLine
-            Case Else
-                strReportHeader = "AFPSLAI - CAPTURED DATA REPORT" & vbNewLine & strRange & vbNewLine & "TOTAL: " & grid.Rows.Count.ToString("N0") & vbNewLine & vbNewLine
-        End Select
-
-        Select Case cboReport.SelectedIndex
-            Case 0
             Case 1
-                For Each gridRow As DataGridViewRow In grid.Rows
-                    Dim sbLine As New System.Text.StringBuilder
-                    For Each col As DataGridViewColumn In grid.Columns
-                        If sbLine.ToString = "" Then
-                            If Not IsHeaderComplete Then sbHeader.Append(col.Name)
-                            sbLine.Append(gridRow.Cells(col.Name).Value.ToString)
-                        Else
-                            If Not IsHeaderComplete Then sbHeader.Append(vbTab & col.Name)
-                            sbLine.Append(vbTab & gridRow.Cells(col.Name).Value.ToString)
-                        End If
-                    Next
-
-                    sb.AppendLine(sbLine.ToString)
-                    IsHeaderComplete = True
-                Next
+                strReportHeader = "AFPSLAI - CAPTURED DATA SUMMARY REPORT - PRINT TYPE"
+            Case 2
+                strReportHeader = "AFPSLAI - CAPTURED DATA SUMMARY REPORT - REPLACE CARDS"
             Case Else
-                For Each rw As DataRow In dtData.Rows
-                    Dim sbLine As New System.Text.StringBuilder
-                    For Each col As DataColumn In dtData.Columns
-                        If sbLine.ToString = "" Then
-                            If Not IsHeaderComplete Then sbHeader.Append(col.ColumnName)
-                            sbLine.Append(rw(col.ColumnName))
-                        Else
-                            If Not IsHeaderComplete Then sbHeader.Append(vbTab & col.ColumnName)
-                            sbLine.Append(vbTab & rw(col.ColumnName))
-                        End If
-                    Next
-
-                    sb.AppendLine(sbLine.ToString)
-                    IsHeaderComplete = True
-                Next
+                strReportHeader = "AFPSLAI - CAPTURED DATA REPORT"
         End Select
 
-
-        Dim sfd As New SaveFileDialog
-        If sfd.ShowDialog = Windows.Forms.DialogResult.OK Then
-            Dim _file As String = sfd.FileName.Replace(".txt", "") & ".csv"
-            Try
-                IO.File.WriteAllText(_file, strReportHeader & sbHeader.ToString & vbNewLine & sb.ToString)
-                Process.Start(_file.Substring(0, _file.LastIndexOf("\")))
-            Catch ex As Exception
-                sfd.Dispose()
-                sfd = Nothing
-                MessageBox.Show("Unable to save data. Please check if file wih same name is open.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Return
-            End Try
-        End If
-        sfd.Dispose()
-        sfd = Nothing
+        Report.GenerateReport(grid, strReportHeader, strRange)
 
         MessageBox.Show("Done", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
@@ -600,20 +336,7 @@ Public Class Main
 
     Private Sub txtCIF_Write_KeyPress(sender As System.Object, e As System.Windows.Forms.KeyPressEventArgs) Handles txtCIF.KeyPress
         If e.KeyChar = Microsoft.VisualBasic.ChrW(Keys.Return) Then
-            'SessionIsAlive()
-            'If txtCIF_Write.Text.Length = 13 Then
-            '    Dim DAL As New DAL
-            '    If DAL.SelectDataByCIF(txtCIF_Write.Text) Then
-            '        If DAL.TableResult.DefaultView.Count > 0 Then
-            '            BindData(DAL.TableResult.Rows(0))
-            '        Else
-            '            MessageBox.Show("No record found", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            '            ResetForm()
-            '        End If
-            '    End If
-            '    DAL.Dispose()
-            '    DAL = Nothing
-            'End If
+            Button3.PerformClick()
         End If
     End Sub
 
@@ -647,13 +370,6 @@ Public Class Main
         Loop
     End Sub
 
-    Private Sub AddSystemLog()
-        'Dim DAL As New DAL
-
-        'DAL.Dispose()
-        'DAL = Nothing
-    End Sub
-
 
     Private Sub Button2_Click(sender As System.Object, e As System.EventArgs)
         ''PrintCard()
@@ -676,20 +392,19 @@ Public Class Main
         Try
             Select Case cboReport.SelectedIndex
                 Case 0
-                    grid.Visible = False
-                    grid2.Visible = False
                     cboPrintingType.Enabled = False
                     cboReason.Enabled = False
-                Case 1
-                    grid.Visible = True
-                    grid2.Visible = False
-                    cboPrintingType.Enabled = True
-                    'cboReason.Enabled = True
-                Case Else
-                    grid.Visible = False
-                    grid2.Visible = True
+                    dtpStart.Enabled = False
+                    dtpEnd.Enabled = False
+                Case 1, 2
                     cboPrintingType.Enabled = False
-                    'cboReason.Enabled = False
+                    cboReason.Enabled = False
+                    dtpStart.Enabled = True
+                    dtpEnd.Enabled = True
+                Case Else
+                    cboPrintingType.Enabled = True
+                    dtpStart.Enabled = True
+                    dtpEnd.Enabled = True
             End Select
         Catch ex As Exception
 
@@ -713,13 +428,138 @@ Public Class Main
         Invoke(New Action(AddressOf SessionIsAlive))
     End Sub
 
-    Private Sub BindCardElements()
-        'Dim ce As New CardElements
-        'txtX.Text = ce.Signature_President_X
-        'txtY.Text = ce.Signature_President_Y
-        'txtWidth.Text = ce.Signature_President_Width
-        'txtHeight.Text = ce.Signature_President_Height
-        'ce = Nothing
+    Private Sub Button3_Click(sender As System.Object, e As System.EventArgs) Handles Button3.Click
+        SessionIsAlive()
+        ResetForm()
+
+        If txtCIF.Text = "" Then
+            MessageBox.Show("Please enter CIF to search...", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        BindData()
+    End Sub
+
+    Private Sub PopulatePrintingType()
+        Dim obj As Object
+        If msa.GetTable(MiddleServerApi.msApi.getPrintType, obj) Then
+            Dim printTypes = Newtonsoft.Json.JsonConvert.DeserializeObject(Of List(Of print_type))(obj.ToString())
+            printTypes.Insert(0, New print_type With {
+        .id = 0,
+        .printType = "-Select-"
+    })
+            cboPrintingType.DataSource = printTypes
+            cboPrintingType.DisplayMember = "printType"
+            cboPrintingType.ValueMember = "id"
+            cboPrintingType.SelectedIndex = 0
+        End If
+    End Sub
+
+    Private Sub PopulateReplaceReason()
+        Dim obj As Object
+        If msa.GetTable(MiddleServerApi.msApi.getRecardReason, obj) Then
+            Dim replaceReasons = Newtonsoft.Json.JsonConvert.DeserializeObject(Of List(Of recard_reason))(obj.ToString())
+            replaceReasons.Insert(0, New recard_reason With {
+        .id = 0,
+        .recardReason = "-Select-"
+    })
+            cboReason.DataSource = replaceReasons
+            cboReason.DisplayMember = "recardReason"
+            cboReason.ValueMember = "id"
+            cboReason.SelectedIndex = 0
+        End If
+    End Sub
+
+    Private Function PushToCMS() As Boolean
+        Dim cbsCms As New cbsCms
+        cbsCms.cardId = cfp.cardId
+        cbsCms.memberId = cfp.memberId
+        cbsCms.cardNo = cfp.cardNo
+        cbsCms.cif = cfp.cif
+        cbsCms.mobileNo = cfp.mobileNo
+        cbsCms.branchId = cfp.branch_issued
+        cbsCms.terminalId = cfp.terminalId
+        cbsCms.timeStamp = Date.Now
+        Dim response As Boolean = msa.PushCMSData(cbsCms)
+        cbsCms = Nothing
+        If response Then
+            logger.Info(String.Format("CIF {0} - pushToCMS response {1}", cfp.cif, response))
+        Else
+            logger.Error(String.Format("CIF {0} - pushToCMS response {1}", cfp.cif, response))
+        End If
+        Return response
+    End Function
+
+    Private Function AddCard() As Boolean
+        Dim card As New card
+        card.member_id = cfp.memberId
+        card.cardNo = cfp.cardNo
+        Dim response As Boolean = msa.addCard(card, cfp.cardId)
+        card = Nothing
+        If response Then
+            logger.Info(String.Format("CIF {0} - addCard response {1}", cfp.cif, response))
+        Else
+            logger.Error(String.Format("CIF {0} - addCard response {1}", cfp.cif, response))
+        End If
+        Return response
+    End Function
+
+    Private Sub BindData()
+        cfp = New cardForPrint
+        Dim obj As Object
+        If msa.GetCardForPrint(txtCIF.Text, obj) Then
+            cfp = Newtonsoft.Json.JsonConvert.DeserializeObject(Of cardForPrint)(obj.ToString)
+            txtFirst.Text = cfp.first_name
+            txtMiddle.Text = cfp.middle_name
+            txtLast.Text = cfp.last_name
+            txtSuffix.Text = cfp.suffix
+            txtCardName.Text = cfp.cardName
+            txtGender.Text = cfp.gender
+            txtMembershipDate.Text = cfp.membership_date
+            txtBranchIssued.Text = cfp.branch_issued
+            txtDateCaptured.Text = cfp.dateCaptured
+            txtDatePrinted.Text = cfp.datePrinted
+
+            If String.IsNullOrEmpty(cfp.cardNo) Then
+                cfp.cardNo = "0000000000000000"
+                cfp.card_valid_thru = "0000"
+            Else
+                cfp.cardNo = cfp.cardNo
+                cfp.card_valid_thru = ""
+            End If
+
+            If txtBranchIssued.Text = "" Then txtBranchIssued.Text = "AGUINALDO"
+            logger.Info(String.Format("{0} searched cif {1}", dcsUser.userName, cfp.cif))
+        End If
+
+        ShowPreview = True
+        pic1.Refresh()
+    End Sub
+
+    Private Sub ResetForm()
+        DataID = 0
+        txtFirst.Clear()
+        txtMiddle.Clear()
+        txtLast.Clear()
+        txtSuffix.Clear()
+        txtMembershipDate.Clear()
+        txtGender.Clear()
+        txtBranchIssued.Clear()
+        txtDateCaptured.Clear()
+        txtDatePrinted.Clear()
+
+        ShowPreview = False
+        pic1.Refresh()
+    End Sub
+
+    Private Function GetAppVersion() As String
+        Dim assembly As System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly()
+        Dim fvi As System.Diagnostics.FileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location)
+        Return String.Format(" v{0}", fvi.FileVersion)
+    End Function
+
+    Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        logger.Info(String.Format("{0} logout", dcsUser.userName))
     End Sub
 
 End Class

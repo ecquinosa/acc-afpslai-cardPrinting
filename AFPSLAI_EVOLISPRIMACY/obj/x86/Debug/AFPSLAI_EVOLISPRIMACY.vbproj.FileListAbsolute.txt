@@ -179,3 +179,10 @@ C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_
 C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.exe
 C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.xml
 C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.pdb
+C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\System.ComponentModel.Annotations.dll
+C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\EPPlus.xml
+C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
+C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.config
+C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.dll
+C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.xml

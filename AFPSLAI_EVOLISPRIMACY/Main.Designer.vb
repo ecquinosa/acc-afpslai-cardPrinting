@@ -24,9 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.txtCardName = New System.Windows.Forms.TextBox()
@@ -74,37 +72,23 @@ Partial Class Main
         Me.cboPrintingType = New System.Windows.Forms.ComboBox()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.cboReport = New System.Windows.Forms.ComboBox()
-        Me.grid2 = New System.Windows.Forms.DataGridView()
+        Me.grid = New System.Windows.Forms.DataGridView()
         Me.lblTotal = New System.Windows.Forms.Label()
         Me.btnExtract = New System.Windows.Forms.Button()
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.dtpEnd = New System.Windows.Forms.DateTimePicker()
-        Me.grid = New System.Windows.Forms.DataGridView()
-        Me.CIF = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.MName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.LName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Suffix = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Gender = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.OperatorID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.MembershipType = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.IDNumber = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PrintingType = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DatePosted = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Branch = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TERMINAL = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.dtpStart = New System.Windows.Forms.DateTimePicker()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.pbSetting = New System.Windows.Forms.PictureBox()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.lblHeader = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.pic1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
-        CType(Me.grid2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.pbSetting, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -624,13 +608,12 @@ Partial Class Main
         Me.TabPage2.Controls.Add(Me.cboPrintingType)
         Me.TabPage2.Controls.Add(Me.Label27)
         Me.TabPage2.Controls.Add(Me.cboReport)
-        Me.TabPage2.Controls.Add(Me.grid2)
+        Me.TabPage2.Controls.Add(Me.grid)
         Me.TabPage2.Controls.Add(Me.lblTotal)
         Me.TabPage2.Controls.Add(Me.btnExtract)
         Me.TabPage2.Controls.Add(Me.btnSubmit)
         Me.TabPage2.Controls.Add(Me.Label25)
         Me.TabPage2.Controls.Add(Me.dtpEnd)
-        Me.TabPage2.Controls.Add(Me.grid)
         Me.TabPage2.Controls.Add(Me.Label24)
         Me.TabPage2.Controls.Add(Me.dtpStart)
         Me.TabPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -697,33 +680,32 @@ Partial Class Main
         'cboReport
         '
         Me.cboReport.FormattingEnabled = True
-        Me.cboReport.Items.AddRange(New Object() {"-SELECT REPORT-", "DAILY CAPTURED", "DAILY CAPTURED (ALL DETAILS)", "SUMMARY"})
+        Me.cboReport.Items.AddRange(New Object() {"-SELECT REPORT-", "SUMMARY PER PRINT TYPE", "SUMMARY PER RECARD REASON", "CAPTURED DATA"})
         Me.cboReport.Location = New System.Drawing.Point(151, 17)
         Me.cboReport.Margin = New System.Windows.Forms.Padding(4)
         Me.cboReport.Name = "cboReport"
         Me.cboReport.Size = New System.Drawing.Size(265, 24)
         Me.cboReport.TabIndex = 89
         '
-        'grid2
+        'grid
         '
-        Me.grid2.AllowUserToAddRows = False
-        Me.grid2.AllowUserToDeleteRows = False
-        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.grid2.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
-        Me.grid2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.grid.AllowUserToAddRows = False
+        Me.grid.AllowUserToDeleteRows = False
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.grid.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        Me.grid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grid2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
-        Me.grid2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grid2.Location = New System.Drawing.Point(4, 251)
-        Me.grid2.Margin = New System.Windows.Forms.Padding(4)
-        Me.grid2.Name = "grid2"
-        Me.grid2.ReadOnly = True
-        Me.grid2.RowHeadersWidth = 51
-        Me.grid2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grid2.Size = New System.Drawing.Size(1389, 361)
-        Me.grid2.TabIndex = 88
-        Me.grid2.Visible = False
+        Me.grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
+        Me.grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.grid.Location = New System.Drawing.Point(4, 251)
+        Me.grid.Margin = New System.Windows.Forms.Padding(4)
+        Me.grid.Name = "grid"
+        Me.grid.ReadOnly = True
+        Me.grid.RowHeadersWidth = 51
+        Me.grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.grid.Size = New System.Drawing.Size(1389, 361)
+        Me.grid.TabIndex = 88
         '
         'lblTotal
         '
@@ -766,7 +748,7 @@ Partial Class Main
         Me.btnSubmit.Location = New System.Drawing.Point(16, 204)
         Me.btnSubmit.Margin = New System.Windows.Forms.Padding(4)
         Me.btnSubmit.Name = "btnSubmit"
-        Me.btnSubmit.Size = New System.Drawing.Size(151, 39)
+        Me.btnSubmit.Size = New System.Drawing.Size(130, 39)
         Me.btnSubmit.TabIndex = 83
         Me.btnSubmit.Text = "SUBMIT"
         Me.btnSubmit.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -791,146 +773,6 @@ Partial Class Main
         Me.dtpEnd.Size = New System.Drawing.Size(265, 23)
         Me.dtpEnd.TabIndex = 64
         '
-        'grid
-        '
-        Me.grid.AllowUserToAddRows = False
-        Me.grid.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.grid.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
-        Me.grid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
-        Me.grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.CIF, Me.FName, Me.MName, Me.LName, Me.Suffix, Me.Gender, Me.OperatorID, Me.MembershipType, Me.IDNumber, Me.PrintingType, Me.DatePosted, Me.Branch, Me.TERMINAL})
-        Me.grid.Location = New System.Drawing.Point(4, 251)
-        Me.grid.Margin = New System.Windows.Forms.Padding(4)
-        Me.grid.Name = "grid"
-        Me.grid.ReadOnly = True
-        Me.grid.RowHeadersWidth = 51
-        Me.grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grid.Size = New System.Drawing.Size(1389, 361)
-        Me.grid.TabIndex = 63
-        '
-        'CIF
-        '
-        Me.CIF.DataPropertyName = "CIF"
-        Me.CIF.HeaderText = "CIF"
-        Me.CIF.MinimumWidth = 6
-        Me.CIF.Name = "CIF"
-        Me.CIF.ReadOnly = True
-        Me.CIF.Width = 59
-        '
-        'FName
-        '
-        Me.FName.DataPropertyName = "FName"
-        Me.FName.HeaderText = "FIRST"
-        Me.FName.MinimumWidth = 6
-        Me.FName.Name = "FName"
-        Me.FName.ReadOnly = True
-        Me.FName.Width = 77
-        '
-        'MName
-        '
-        Me.MName.DataPropertyName = "MName"
-        Me.MName.HeaderText = "MIDDLE"
-        Me.MName.MinimumWidth = 6
-        Me.MName.Name = "MName"
-        Me.MName.ReadOnly = True
-        Me.MName.Width = 88
-        '
-        'LName
-        '
-        Me.LName.DataPropertyName = "LName"
-        Me.LName.HeaderText = "LAST"
-        Me.LName.MinimumWidth = 6
-        Me.LName.Name = "LName"
-        Me.LName.ReadOnly = True
-        Me.LName.Width = 72
-        '
-        'Suffix
-        '
-        Me.Suffix.DataPropertyName = "Suffix"
-        Me.Suffix.HeaderText = "SUFFIX"
-        Me.Suffix.MinimumWidth = 6
-        Me.Suffix.Name = "Suffix"
-        Me.Suffix.ReadOnly = True
-        Me.Suffix.Width = 84
-        '
-        'Gender
-        '
-        Me.Gender.DataPropertyName = "Gender"
-        Me.Gender.HeaderText = "GENDER"
-        Me.Gender.MinimumWidth = 6
-        Me.Gender.Name = "Gender"
-        Me.Gender.ReadOnly = True
-        Me.Gender.Width = 95
-        '
-        'OperatorID
-        '
-        Me.OperatorID.DataPropertyName = "OperatorID"
-        Me.OperatorID.HeaderText = "OPERATOR"
-        Me.OperatorID.MinimumWidth = 6
-        Me.OperatorID.Name = "OperatorID"
-        Me.OperatorID.ReadOnly = True
-        Me.OperatorID.Width = 114
-        '
-        'MembershipType
-        '
-        Me.MembershipType.DataPropertyName = "MembershipType"
-        Me.MembershipType.HeaderText = "MEMBER TYPE"
-        Me.MembershipType.MinimumWidth = 6
-        Me.MembershipType.Name = "MembershipType"
-        Me.MembershipType.ReadOnly = True
-        Me.MembershipType.Width = 125
-        '
-        'IDNumber
-        '
-        Me.IDNumber.DataPropertyName = "IDNumber"
-        Me.IDNumber.HeaderText = "IDNUMBER"
-        Me.IDNumber.MinimumWidth = 6
-        Me.IDNumber.Name = "IDNumber"
-        Me.IDNumber.ReadOnly = True
-        Me.IDNumber.Width = 107
-        '
-        'PrintingType
-        '
-        Me.PrintingType.DataPropertyName = "PrintingType"
-        Me.PrintingType.HeaderText = "TYPE"
-        Me.PrintingType.MinimumWidth = 6
-        Me.PrintingType.Name = "PrintingType"
-        Me.PrintingType.ReadOnly = True
-        Me.PrintingType.Width = 73
-        '
-        'DatePosted
-        '
-        Me.DatePosted.DataPropertyName = "DatePosted"
-        DataGridViewCellStyle3.Format = "MM/dd/yyyy"
-        Me.DatePosted.DefaultCellStyle = DataGridViewCellStyle3
-        Me.DatePosted.HeaderText = "DATE CAPTURED"
-        Me.DatePosted.MinimumWidth = 6
-        Me.DatePosted.Name = "DatePosted"
-        Me.DatePosted.ReadOnly = True
-        Me.DatePosted.Width = 139
-        '
-        'Branch
-        '
-        Me.Branch.DataPropertyName = "Branch"
-        Me.Branch.HeaderText = "BRANCH"
-        Me.Branch.MinimumWidth = 6
-        Me.Branch.Name = "Branch"
-        Me.Branch.ReadOnly = True
-        Me.Branch.Width = 93
-        '
-        'TERMINAL
-        '
-        Me.TERMINAL.DataPropertyName = "TerminalName"
-        Me.TERMINAL.HeaderText = "TERMINAL"
-        Me.TERMINAL.MinimumWidth = 6
-        Me.TERMINAL.Name = "TERMINAL"
-        Me.TERMINAL.ReadOnly = True
-        Me.TERMINAL.Width = 105
-        '
         'Label24
         '
         Me.Label24.AutoSize = True
@@ -949,6 +791,7 @@ Partial Class Main
         Me.dtpStart.Name = "dtpStart"
         Me.dtpStart.Size = New System.Drawing.Size(265, 23)
         Me.dtpStart.TabIndex = 0
+        Me.dtpStart.Value = New Date(2020, 7, 16, 9, 27, 0, 0)
         '
         'TextBox1
         '
@@ -963,6 +806,7 @@ Partial Class Main
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.DarkSeaGreen
+        Me.Panel1.Controls.Add(Me.lblHeader)
         Me.Panel1.Controls.Add(Me.pbSetting)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
@@ -985,6 +829,18 @@ Partial Class Main
         '
         Me.Timer1.Interval = 1000
         '
+        'lblHeader
+        '
+        Me.lblHeader.AutoSize = True
+        Me.lblHeader.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHeader.ForeColor = System.Drawing.Color.White
+        Me.lblHeader.Location = New System.Drawing.Point(42, 6)
+        Me.lblHeader.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblHeader.Name = "lblHeader"
+        Me.lblHeader.Size = New System.Drawing.Size(120, 18)
+        Me.lblHeader.TabIndex = 95
+        Me.lblHeader.Text = "USER: [USER]"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -999,16 +855,16 @@ Partial Class Main
         Me.MaximizeBox = False
         Me.Name = "Main"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "] v2"
+        Me.Text = "AFPSLAI EMV - CARD PRINTING AND MERGING SOFTWARE"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
         CType(Me.pic1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
-        CType(Me.grid2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         CType(Me.pbSetting, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1054,27 +910,13 @@ Partial Class Main
     Friend WithEvents btnSubmit As System.Windows.Forms.Button
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents dtpEnd As System.Windows.Forms.DateTimePicker
-    Friend WithEvents grid As System.Windows.Forms.DataGridView
     Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents dtpStart As System.Windows.Forms.DateTimePicker
     Friend WithEvents lblTotal As System.Windows.Forms.Label
-    Friend WithEvents CIF As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents FName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents MName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents LName As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Suffix As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Gender As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents OperatorID As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents MembershipType As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents IDNumber As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents PrintingType As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DatePosted As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Branch As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents TERMINAL As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents chkIncludeIdTemplate As System.Windows.Forms.CheckBox
     Friend WithEvents chkPreview As System.Windows.Forms.CheckBox
     Friend WithEvents Timer1 As System.Windows.Forms.Timer
-    Friend WithEvents grid2 As System.Windows.Forms.DataGridView
+    Friend WithEvents grid As System.Windows.Forms.DataGridView
     Friend WithEvents Label29 As System.Windows.Forms.Label
     Friend WithEvents cboReason As System.Windows.Forms.ComboBox
     Friend WithEvents Label28 As System.Windows.Forms.Label
@@ -1087,4 +929,5 @@ Partial Class Main
     Friend WithEvents txtDateCaptured As TextBox
     Friend WithEvents txtCardName As TextBox
     Friend WithEvents Label10 As Label
+    Friend WithEvents lblHeader As Label
 End Class

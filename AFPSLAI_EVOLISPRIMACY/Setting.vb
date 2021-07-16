@@ -4,6 +4,8 @@ Public Class Setting
     Private Sub Setting_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         GetInstalledPrinters()
 
+        PopulateBranch()
+
         BindElementType(cboPhoto_Type)
         BindElementType(cboMemberSince_Type)
         BindElementType(cboValidThru_Type)
@@ -22,12 +24,26 @@ Public Class Setting
         cboCIF_Style.SelectedIndex = 1
 
         BindSettings()
-        'BindCardElements()
 
         cboMemberSince_Style.SelectedIndex = 0
         cboValidThru_Style.SelectedIndex = 0
         cboName_Style.SelectedIndex = 0
         cboCIF_Style.SelectedIndex = 0
+    End Sub
+
+    Private Sub PopulateBranch()
+        Dim obj As Object
+        If Main.msa.GetTable(accAfpslaiEmvObjct.MiddleServerApi.msApi.getBranch, obj) Then
+            Dim printTypes = Newtonsoft.Json.JsonConvert.DeserializeObject(Of List(Of accAfpslaiEmvObjct.branch))(obj.ToString())
+            printTypes.Insert(0, New accAfpslaiEmvObjct.branch With {
+        .id = 0,
+        .branchName = "-Select-"
+    })
+            cboBranch.DataSource = printTypes
+            cboBranch.DisplayMember = "branchName"
+            cboBranch.ValueMember = "id"
+            cboBranch.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub BindElementType(ByVal cbo As ComboBox)

@@ -384,6 +384,7 @@ Public Class MagEncoding
 
             Return True
         Catch ex As Exception
+            Main.logger.Error(String.Format("CIF {0} - {1}", Main.cfp.cif, ex.Message))
             ThrowCommand("Ser")
             Return False
         End Try
