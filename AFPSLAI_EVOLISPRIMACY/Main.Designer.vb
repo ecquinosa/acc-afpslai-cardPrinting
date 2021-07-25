@@ -24,7 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.txtCardName = New System.Windows.Forms.TextBox()
@@ -82,9 +82,9 @@ Partial Class Main
         Me.dtpStart = New System.Windows.Forms.DateTimePicker()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.lblHeader = New System.Windows.Forms.Label()
         Me.pbSetting = New System.Windows.Forms.PictureBox()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.lblHeader = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.pic1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -224,8 +224,6 @@ Partial Class Main
         'chkPreview
         '
         Me.chkPreview.AutoSize = True
-        Me.chkPreview.Checked = True
-        Me.chkPreview.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkPreview.Location = New System.Drawing.Point(1161, 578)
         Me.chkPreview.Margin = New System.Windows.Forms.Padding(4)
         Me.chkPreview.Name = "chkPreview"
@@ -237,8 +235,6 @@ Partial Class Main
         'chkIncludeIdTemplate
         '
         Me.chkIncludeIdTemplate.AutoSize = True
-        Me.chkIncludeIdTemplate.Checked = True
-        Me.chkIncludeIdTemplate.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkIncludeIdTemplate.Location = New System.Drawing.Point(1161, 549)
         Me.chkIncludeIdTemplate.Margin = New System.Windows.Forms.Padding(4)
         Me.chkIncludeIdTemplate.Name = "chkIncludeIdTemplate"
@@ -691,8 +687,8 @@ Partial Class Main
         '
         Me.grid.AllowUserToAddRows = False
         Me.grid.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.grid.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.grid.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.grid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -815,6 +811,18 @@ Partial Class Main
         Me.Panel1.Size = New System.Drawing.Size(1429, 33)
         Me.Panel1.TabIndex = 3
         '
+        'lblHeader
+        '
+        Me.lblHeader.AutoSize = True
+        Me.lblHeader.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHeader.ForeColor = System.Drawing.Color.White
+        Me.lblHeader.Location = New System.Drawing.Point(42, 6)
+        Me.lblHeader.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblHeader.Name = "lblHeader"
+        Me.lblHeader.Size = New System.Drawing.Size(120, 18)
+        Me.lblHeader.TabIndex = 95
+        Me.lblHeader.Text = "USER: [USER]"
+        '
         'pbSetting
         '
         Me.pbSetting.Image = CType(resources.GetObject("pbSetting.Image"), System.Drawing.Image)
@@ -828,18 +836,6 @@ Partial Class Main
         'Timer1
         '
         Me.Timer1.Interval = 1000
-        '
-        'lblHeader
-        '
-        Me.lblHeader.AutoSize = True
-        Me.lblHeader.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblHeader.ForeColor = System.Drawing.Color.White
-        Me.lblHeader.Location = New System.Drawing.Point(42, 6)
-        Me.lblHeader.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lblHeader.Name = "lblHeader"
-        Me.lblHeader.Size = New System.Drawing.Size(120, 18)
-        Me.lblHeader.TabIndex = 95
-        Me.lblHeader.Text = "USER: [USER]"
         '
         'Main
         '

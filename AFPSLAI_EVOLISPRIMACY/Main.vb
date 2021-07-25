@@ -79,6 +79,7 @@ Public Class Main
         SessionIsAlive()
 
         If txtCIF.Text = "" Then Return
+        If cfp Is Nothing Then Return
 
         If MessageBox.Show("Are you sure you want to proceed?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
             ControlDispo(True)
@@ -92,51 +93,70 @@ Public Class Main
         'FeedCard()
 
         'cfp.cardNo =txt
-        cfp.card_valid_thru = "2405"
-        PrintCard()
-        Return
+        'cfp.card_valid_thru = "2405"
+        'PrintCard()
+        'Return
 
         Dim meap As New MagEncoding
         Try
-            If meap.ReadTracks() Then
-                Dim track2 As String = meap.TrackRead(1)
+            Select Case meap.ReadTracks()
+                Case 0
+                    Dim track2 As String = meap.TrackRead(1)
 
-                If track2.Contains("=") Then
+                    If track2 = Nothing Then
+                        logger.Error(String.Format("CIF {0} - Failed to read card's mag data", cfp.cif))
+                        Utilities.ShowWarningMessage("Failed to read card's mag data.")
+                        EjectCard()
+                    ElseIf track2.Contains("=") Then
 
-                    cfp.cardNo = track2.Split("=")(0)
-                    cfp.card_valid_thru = track2.Split("=")(1).Substring(0, 4)
-                    ShowPreview = True
-                    pic1.Refresh()
+                        cfp.cardNo = track2.Split("=")(0)
 
-                    logger.Info(String.Format("CIF {0} - printer read card track " & Microsoft.VisualBasic.Right(cfp.cardNo, 4), cfp.cif))
+                        If cfp.cardNo.Length = 16 Then
+                            cfp.card_valid_thru = track2.Split("=")(1).Substring(0, 4)
+                            ShowPreview = True
+                            pic1.Refresh()
 
-                    System.Threading.Thread.Sleep(1000)
-                    Application.DoEvents()
+                            logger.Info(String.Format("CIF {0} - printer read card track " & Microsoft.VisualBasic.Right(cfp.cardNo, 4), cfp.cif))
 
-                    If AddCard() Then
-                        If PushToCMS() Then
-                            If txtDatePrinted.Text <> "" Then
-                                If MessageBox.Show("Card has been issued to this record before. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Return
-                                Dim cc As New cancelCapture
-                                cc.cardId = cfp.cardId
-                                Dim responseCancelCapture = msa.cancelCapture(cc)
-                                logger.Info(String.Format("{0} proceeded to recard cif {1}. cancelCapture response for cardId {2} is {3}", dcsUser.userName, cfp.cif, cfp.cardId, responseCancelCapture))
+                            System.Threading.Thread.Sleep(1000)
+                            Application.DoEvents()
+
+                            Dim oldCardId As Integer = cfp.cardId
+
+                            If AddCard() Then
+                                If PushToCMS() Then
+                                    If txtDatePrinted.Text <> "" Then
+                                        If MessageBox.Show("Card has been issued to this record before. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Return
+                                        Dim cc As New cancelCapture
+                                        cc.cardId = oldCardId
+                                        Dim responseCancelCapture = msa.cancelCapture(cc)
+                                        logger.Info(String.Format("{0} proceeded to recard cif {1}. cancelCapture response for cardId {2} is {3}", dcsUser.userName, cfp.cif, cfp.cardId, responseCancelCapture))
+                                    End If
+
+                                    PrintCard()
+                                End If
                             End If
-
-                            PrintCard()
+                        Else
+                            logger.Error(String.Format("CIF {0} - Card no {1} is invalid", cfp.cif, cfp.cardNo))
+                            Utilities.ShowWarningMessage(String.Format("Card no {0} Is invalid", cfp.cardNo))
+                            EjectCard()
                         End If
-                    End If
 
-                Else
-                    logger.Error(String.Format("CIF {0} - Card's mag data is invalid {1}", cfp.cif, track2))
-                    Utilities.ShowWarningMessage("Card's mag data is invalid '" & track2 & "'.")
+
+                    Else
+                        logger.Error(String.Format("CIF {0} - Card's mag data is invalid {1}", cfp.cif, track2))
+                        Utilities.ShowWarningMessage("Card's mag data is invalid '" & track2 & "'.")
+                        EjectCard()
+                    End If
+                Case 1
+                    logger.Error(String.Format("Unable to detect printer. Check printer setup or printer connection."))
+                    Utilities.ShowWarningMessage("Unable to detect printer. Check printer setup or printer connection.")
                     EjectCard()
-                End If
-            Else
-                logger.Error(String.Format("CIF {0} - Failed to read card's mag data", cfp.cif))
-                Utilities.ShowWarningMessage("Failed to read card's mag data.")
-                EjectCard()
-            End If
+                Case 2
+                    logger.Error(String.Format("CIF {0} - Failed to read card's mag data", cfp.cif))
+                    Utilities.ShowWarningMessage("Failed to read card's mag data.")
+                    EjectCard()
+            End Select
         Catch ex As Exception
             Main.logger.Error(String.Format("CIF {0} - {1}", cfp.cif, ex.Message))
             Utilities.ShowErrorMessage(ex.Message)
@@ -559,7 +579,7 @@ Public Class Main
     End Function
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        logger.Info(String.Format("{0} logout", dcsUser.userName))
+        If Not dcsUser Is Nothing Then logger.Info(String.Format("{0} logout", dcsUser.userName))
     End Sub
 
 End Class

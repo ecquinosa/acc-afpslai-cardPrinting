@@ -162,17 +162,19 @@ Public Class MagEncoding
     '    End If
     'End Function
 
-    Private Function ReadMags() As Boolean
+    Private Function ReadMags() As Short
         Me.Printer.mag.gsCoer = Me._coer
 
-        If Me.Printer.ReadTracks() Then
-            'TrackRead(0) = Me.Printer.mag.gDataReadFromTrack(1)
-            TrackRead(1) = Me.Printer.mag.gDataReadFromTrack(2)
-            'TrackRead(2) = Me.Printer.mag.gDataReadFromTrack(3)
-            Return True
-        Else
-            Return False
-        End If
+        Dim response = Me.Printer.ReadTracks()
+
+        Select Case response
+            Case 0
+                TrackRead(1) = Me.Printer.mag.gDataReadFromTrack(2)
+
+                Return response
+            Case Else
+                Return response
+        End Select
     End Function
 
     Private Function InitPrinterList() As Boolean
@@ -375,14 +377,21 @@ Public Class MagEncoding
     '    End Try
     'End Function
 
-    Public Function ReadTracks() As Boolean
+    Public Function ReadTracks() As Short
         Try
-            If ReadMags() = False Then 'Write Tracks
-                ThrowCommand("Ser")
-                Return False
-            End If
+            Me.Printer.mag.gsCoer = Me._coer
 
-            Return True
+            Dim response = Me.Printer.ReadTracks()
+
+            Select Case response
+                Case 0
+                    TrackRead(1) = Me.Printer.mag.gDataReadFromTrack(2)
+
+                    Return response
+                Case Else
+                    ThrowCommand("Ser")
+                    Return response
+            End Select
         Catch ex As Exception
             Main.logger.Error(String.Format("CIF {0} - {1}", Main.cfp.cif, ex.Message))
             ThrowCommand("Ser")

@@ -109,7 +109,6 @@ D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\AFPSLA
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\AFPSLAI_EVOLISPRIMACY.xml
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\AllcardEncryptDecrypt.dll
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\DCS_OfflineUsers.dll
-D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\GenCode128.dll
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\CrystalDecisions.ReportAppServer.DataDefModel.dll
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\CrystalDecisions.ReportAppServer.ClientDoc.dll
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\CrystalDecisions.ReportAppServer.ReportDefModel.dll
@@ -186,3 +185,10 @@ C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Microsoft.IO
 C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.config
 C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.dll
 C:\Drive D\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.xml
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.config
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.dll
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\System.ComponentModel.Annotations.dll
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\EPPlus.xml
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.xml
