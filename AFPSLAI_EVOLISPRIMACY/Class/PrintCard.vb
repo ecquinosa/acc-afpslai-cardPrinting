@@ -64,6 +64,15 @@ Public Class PrintCard
             If CBool(Main.chkIncludeIdTemplate.Checked) Then e.Graphics.DrawImage(imgTemplate, 0, 0, 1020, 650)
 
             Dim imgPhoto As Image = Image.FromStream(New System.IO.MemoryStream(Convert.FromBase64String(Main.cfp.base64Photo)))
+
+            'Dim imgBox As Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(Application.StartupPath & "\Images\box.jpg")))
+            'Dim imgBoxPhoto As Image = Image.FromStream(New System.IO.MemoryStream(Convert.FromBase64String(Main.cfp.base64Photo)))
+
+            'Dim boxAdd As Integer = 10
+            'Dim boxInt As Integer = 231
+            'e.Graphics.DrawImage(imgBox, CSng(objPhoto.x - boxInt - (boxAdd / 2)), CSng(objPhoto.y - (boxAdd / 2)), CSng(objPhoto.width + boxAdd), CSng(objPhoto.height + boxAdd))
+            'e.Graphics.DrawImage(imgBoxPhoto, CSng(objPhoto.x - boxInt), CSng(objPhoto.y), CSng(objPhoto.width), CSng(objPhoto.height))
+
             e.Graphics.DrawImage(imgPhoto, CSng(objPhoto.x), CSng(objPhoto.y), CSng(objPhoto.width), CSng(objPhoto.height))
 
             Dim cardNo As String = Main.cfp.cardNo

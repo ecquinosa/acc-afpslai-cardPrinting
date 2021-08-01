@@ -43,6 +43,8 @@ Public Class Main
             txtCIF.SelectAll()
             txtCIF.Focus()
             grid.AutoGenerateColumns = True
+
+            'txtCIF.Text = "1111111111104"
         Else
             Close()
             Environment.Exit(0)
@@ -92,9 +94,10 @@ Public Class Main
 
         'FeedCard()
 
-        'cfp.cardNo =txt
+        ''cfp.cardNo = txt
         'cfp.card_valid_thru = "2405"
         'PrintCard()
+        'ControlDispo(True)
         'Return
 
         Dim meap As New MagEncoding
@@ -510,6 +513,31 @@ Public Class Main
         Return response
     End Function
 
+    Private Function PushToCMS_Test() As Boolean
+        If txtCIF.Text = "" Then Return False
+        If TextBox2.Text = "" Then Return False
+
+        Dim rn1 As New Random
+        Dim rn2 As New Random
+        Dim rn3 As New Random
+
+        Dim cbsCms As New cbsCms
+        cbsCms.cardNo = TextBox2.Text
+        cbsCms.cif = txtCIF.Text
+        'cbsCms.mobileNo = "09193385385" 'String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
+        cbsCms.mobileNo = "" 'String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
+        'cbsCms.mobileNo = String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
+
+        Dim response As Boolean = msa.PushCMSData(cbsCms)
+        cbsCms = Nothing
+        'If response Then
+        '    logger.Info(String.Format("CIF {0} - pushToCMS response {1}", cfp.cif, response))
+        'Else
+        '    logger.Error(String.Format("CIF {0} - pushToCMS response {1}", cfp.cif, response))
+        'End If
+        Return response
+    End Function
+
     Private Function AddCard() As Boolean
         Dim card As New card
         card.member_id = cfp.memberId
@@ -557,6 +585,7 @@ Public Class Main
     End Sub
 
     Private Sub ResetForm()
+        cfp = Nothing
         DataID = 0
         txtFirst.Clear()
         txtMiddle.Clear()
@@ -567,6 +596,7 @@ Public Class Main
         txtBranchIssued.Clear()
         txtDateCaptured.Clear()
         txtDatePrinted.Clear()
+        txtCardName.Clear()
 
         ShowPreview = False
         pic1.Refresh()
@@ -582,4 +612,7 @@ Public Class Main
         If Not dcsUser Is Nothing Then logger.Info(String.Format("{0} logout", dcsUser.userName))
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        PushToCMS_Test()
+    End Sub
 End Class

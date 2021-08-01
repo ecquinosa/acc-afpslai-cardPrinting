@@ -4,7 +4,7 @@ Public Class LogIN
     Public IsSuccess As Boolean = False
 
     Private Sub LogIN_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-
+        LinkLabel1.Text = My.Settings.MiddleServerUrl
     End Sub
 
     Private Sub btnLogin_Click(sender As System.Object, e As System.EventArgs) Handles btnLogin.Click

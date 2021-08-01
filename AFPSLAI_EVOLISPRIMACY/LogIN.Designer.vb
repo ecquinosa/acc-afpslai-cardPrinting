@@ -31,6 +31,7 @@ Partial Class LogIN
         Me.Label10 = New System.Windows.Forms.Label()
         Me.btnLogin = New System.Windows.Forms.Button()
         Me.panel1 = New System.Windows.Forms.Panel()
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.SuspendLayout()
         '
         'lblResult
@@ -121,12 +122,23 @@ Partial Class LogIN
         Me.panel1.Size = New System.Drawing.Size(355, 64)
         Me.panel1.TabIndex = 22
         '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.AutoSize = True
+        Me.LinkLabel1.Location = New System.Drawing.Point(4, 183)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(91, 17)
+        Me.LinkLabel1.TabIndex = 23
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "API SOURCE"
+        '
         'LogIN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(504, 202)
+        Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.panel1)
         Me.Controls.Add(Me.lblResult)
         Me.Controls.Add(Me.panel2)
@@ -152,4 +164,5 @@ Partial Class LogIN
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Private WithEvents btnLogin As System.Windows.Forms.Button
     Private WithEvents panel1 As System.Windows.Forms.Panel
+    Friend WithEvents LinkLabel1 As LinkLabel
 End Class

@@ -27,6 +27,8 @@ Partial Class Main
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.txtCardName = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -108,6 +110,8 @@ Partial Class Main
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Button1)
+        Me.TabPage1.Controls.Add(Me.TextBox2)
         Me.TabPage1.Controls.Add(Me.txtCardName)
         Me.TabPage1.Controls.Add(Me.Label10)
         Me.TabPage1.Controls.Add(Me.Label6)
@@ -154,6 +158,34 @@ Partial Class Main
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "CARD PERSO"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.White
+        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.ForeColor = System.Drawing.Color.SeaGreen
+        Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
+        Me.Button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button1.Location = New System.Drawing.Point(851, 355)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(191, 39)
+        Me.Button1.TabIndex = 121
+        Me.Button1.Text = "PERSO CARD"
+        Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Button1.UseVisualStyleBackColor = False
+        Me.Button1.Visible = False
+        '
+        'TextBox2
+        '
+        Me.TextBox2.BackColor = System.Drawing.Color.White
+        Me.TextBox2.Location = New System.Drawing.Point(853, 402)
+        Me.TextBox2.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(281, 23)
+        Me.TextBox2.TabIndex = 120
+        Me.TextBox2.Visible = False
         '
         'txtCardName
         '
@@ -224,6 +256,8 @@ Partial Class Main
         'chkPreview
         '
         Me.chkPreview.AutoSize = True
+        Me.chkPreview.Checked = True
+        Me.chkPreview.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkPreview.Location = New System.Drawing.Point(1161, 578)
         Me.chkPreview.Margin = New System.Windows.Forms.Padding(4)
         Me.chkPreview.Name = "chkPreview"
@@ -231,10 +265,13 @@ Partial Class Main
         Me.chkPreview.TabIndex = 112
         Me.chkPreview.Text = "Preview only"
         Me.chkPreview.UseVisualStyleBackColor = True
+        Me.chkPreview.Visible = False
         '
         'chkIncludeIdTemplate
         '
         Me.chkIncludeIdTemplate.AutoSize = True
+        Me.chkIncludeIdTemplate.Checked = True
+        Me.chkIncludeIdTemplate.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkIncludeIdTemplate.Location = New System.Drawing.Point(1161, 549)
         Me.chkIncludeIdTemplate.Margin = New System.Windows.Forms.Padding(4)
         Me.chkIncludeIdTemplate.Name = "chkIncludeIdTemplate"
@@ -242,6 +279,7 @@ Partial Class Main
         Me.chkIncludeIdTemplate.TabIndex = 111
         Me.chkIncludeIdTemplate.Text = "Include id template"
         Me.chkIncludeIdTemplate.UseVisualStyleBackColor = True
+        Me.chkIncludeIdTemplate.Visible = False
         '
         'Label23
         '
@@ -429,7 +467,6 @@ Partial Class Main
         Me.txtCIF.Name = "txtCIF"
         Me.txtCIF.Size = New System.Drawing.Size(228, 23)
         Me.txtCIF.TabIndex = 1
-        Me.txtCIF.Text = "1111111111104"
         '
         'txtMiddle
         '
@@ -926,4 +963,6 @@ Partial Class Main
     Friend WithEvents txtCardName As TextBox
     Friend WithEvents Label10 As Label
     Friend WithEvents lblHeader As Label
+    Friend WithEvents Button1 As Button
+    Friend WithEvents TextBox2 As TextBox
 End Class
