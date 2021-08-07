@@ -130,6 +130,7 @@ Public Class Main
                                 If PushToCMS() Then
                                     If txtDatePrinted.Text <> "" Then
                                         If MessageBox.Show("Card has been issued to this record before. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Return
+                                        'cancel previous card
                                         Dim cc As New cancelCapture
                                         cc.cardId = oldCardId
                                         Dim responseCancelCapture = msa.cancelCapture(cc)
@@ -137,6 +138,12 @@ Public Class Main
                                     End If
 
                                     PrintCard()
+                                Else
+                                    'cancel card if pushToCMS failed
+                                    Dim cc As New cancelCapture
+                                    cc.cardId = cfp.cardId
+                                    Dim responseCancelCapture = msa.cancelCapture(cc)
+                                    logger.Info(String.Format("Cif {0} - Cardno {1} with cardId {2} is cancelled due to pushToPMS response is failed. cancelCapture response is {3}", cfp.cif, cfp.cardNo, cfp.cardId, responseCancelCapture))
                                 End If
                             End If
                         Else
@@ -144,8 +151,6 @@ Public Class Main
                             Utilities.ShowWarningMessage(String.Format("Card no {0} Is invalid", cfp.cardNo))
                             EjectCard()
                         End If
-
-
                     Else
                         logger.Error(String.Format("CIF {0} - Card's mag data is invalid {1}", cfp.cif, track2))
                         Utilities.ShowWarningMessage("Card's mag data is invalid '" & track2 & "'.")
@@ -295,7 +300,13 @@ Public Class Main
             btnExtract.Visible = False
         Else
             btnExtract.Visible = True
+            Dim arrDates = {"cDatePost", "dateCMS", "dateCBS", "mDatePost", "membershipDate", "birthDate"}
+            For Each arrDate In arrDates
+                grid.Columns(arrDate).DefaultCellStyle.Format = "MM/dd/yyyy"
+            Next
         End If
+
+        lblTotal.Text = String.Format("TOTAL : {0}", grid.Rows.Count.ToString("N0"))
     End Sub
 
     Private Sub btnExtract_Click(sender As System.Object, e As System.EventArgs) Handles btnExtract.Click
@@ -456,7 +467,7 @@ Public Class Main
         ResetForm()
 
         If txtCIF.Text = "" Then
-            MessageBox.Show("Please enter CIF to search...", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Utilities.ShowWarningMessage("Please enter CIF to search.")
             Exit Sub
         End If
 
@@ -524,8 +535,9 @@ Public Class Main
         Dim cbsCms As New cbsCms
         cbsCms.cardNo = TextBox2.Text
         cbsCms.cif = txtCIF.Text
+        cbsCms.cardName = "JUAN DELA CRUZ"
         'cbsCms.mobileNo = "09193385385" 'String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
-        cbsCms.mobileNo = "" 'String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
+        'cbsCms.mobileNo = "" 'String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
         'cbsCms.mobileNo = String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
 
         Dim response As Boolean = msa.PushCMSData(cbsCms)
@@ -566,7 +578,7 @@ Public Class Main
             txtMembershipDate.Text = cfp.membership_date
             txtBranchIssued.Text = cfp.branch_issued
             txtDateCaptured.Text = cfp.dateCaptured
-            txtDatePrinted.Text = cfp.datePrinted
+            txtDatePrinted.Text = CDate(cfp.datePrinted).ToString("MM/dd/yyyy hh:mm:ss tt")
 
             If String.IsNullOrEmpty(cfp.cardNo) Then
                 cfp.cardNo = "0000000000000000"
@@ -576,11 +588,14 @@ Public Class Main
                 cfp.card_valid_thru = ""
             End If
 
-            If txtBranchIssued.Text = "" Then txtBranchIssued.Text = "AGUINALDO"
+            'If txtBranchIssued.Text = "" Then txtBranchIssued.Text = "AGUINALDO"
             logger.Info(String.Format("{0} searched cif {1}", dcsUser.userName, cfp.cif))
+            ShowPreview = True
+        Else
+            Utilities.ShowWarningMessage("Sorry, CIF is invalid. Please check and try again.")
+            ShowPreview = False
         End If
 
-        ShowPreview = True
         pic1.Refresh()
     End Sub
 

@@ -175,7 +175,6 @@ Partial Class Main
         Me.Button1.Text = "PERSO CARD"
         Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Button1.UseVisualStyleBackColor = False
-        Me.Button1.Visible = False
         '
         'TextBox2
         '
@@ -185,7 +184,6 @@ Partial Class Main
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(281, 23)
         Me.TextBox2.TabIndex = 120
-        Me.TextBox2.Visible = False
         '
         'txtCardName
         '
