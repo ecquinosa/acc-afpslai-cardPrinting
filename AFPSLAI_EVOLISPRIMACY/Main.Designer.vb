@@ -87,6 +87,7 @@ Partial Class Main
         Me.lblHeader = New System.Windows.Forms.Label()
         Me.pbSetting = New System.Windows.Forms.PictureBox()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.pic1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -837,6 +838,7 @@ Partial Class Main
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.DarkSeaGreen
+        Me.Panel1.Controls.Add(Me.LinkLabel1)
         Me.Panel1.Controls.Add(Me.lblHeader)
         Me.Panel1.Controls.Add(Me.pbSetting)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
@@ -871,6 +873,17 @@ Partial Class Main
         'Timer1
         '
         Me.Timer1.Interval = 1000
+        '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LinkLabel1.Location = New System.Drawing.Point(1089, 8)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(331, 18)
+        Me.LinkLabel1.TabIndex = 113
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "API SOURCE"
+        Me.LinkLabel1.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Main
         '
@@ -963,4 +976,5 @@ Partial Class Main
     Friend WithEvents lblHeader As Label
     Friend WithEvents Button1 As Button
     Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents LinkLabel1 As LinkLabel
 End Class

@@ -43,7 +43,7 @@ Public Class Main
             txtCIF.SelectAll()
             txtCIF.Focus()
             grid.AutoGenerateColumns = True
-
+            LinkLabel1.Text = My.Settings.MiddleServerUrl
             'txtCIF.Text = "1111111111104"
         Else
             Close()
@@ -538,7 +538,7 @@ Public Class Main
         cbsCms.cardName = "JUAN DELA CRUZ"
         'cbsCms.mobileNo = "09193385385" 'String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
         'cbsCms.mobileNo = "" 'String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
-        'cbsCms.mobileNo = String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
+        cbsCms.mobileNo = String.Format("0919{0}{1}{2}", rn1.Next(1, 9), rn2.Next(111, 999), rn3.Next(111, 999))
 
         Dim response As Boolean = msa.PushCMSData(cbsCms)
         cbsCms = Nothing
@@ -569,28 +569,34 @@ Public Class Main
         Dim obj As Object
         If msa.GetCardForPrint(txtCIF.Text, obj) Then
             cfp = Newtonsoft.Json.JsonConvert.DeserializeObject(Of cardForPrint)(obj.ToString)
-            txtFirst.Text = cfp.first_name
-            txtMiddle.Text = cfp.middle_name
-            txtLast.Text = cfp.last_name
-            txtSuffix.Text = cfp.suffix
-            txtCardName.Text = cfp.cardName
-            txtGender.Text = cfp.gender
-            txtMembershipDate.Text = cfp.membership_date
-            txtBranchIssued.Text = cfp.branch_issued
-            txtDateCaptured.Text = cfp.dateCaptured
-            txtDatePrinted.Text = CDate(cfp.datePrinted).ToString("MM/dd/yyyy hh:mm:ss tt")
+            If cfp.cardId > 0 Then
+                txtFirst.Text = cfp.first_name
+                txtMiddle.Text = cfp.middle_name
+                txtLast.Text = cfp.last_name
+                txtSuffix.Text = cfp.suffix
+                txtCardName.Text = cfp.cardName
+                txtGender.Text = cfp.gender
+                txtMembershipDate.Text = cfp.membership_date
+                txtBranchIssued.Text = cfp.branch_issued
+                txtDateCaptured.Text = cfp.dateCaptured
+                If Not String.IsNullOrEmpty(cfp.datePrinted) Then txtDatePrinted.Text = CDate(cfp.datePrinted).ToString("MM/dd/yyyy hh:mm:ss tt")
 
-            If String.IsNullOrEmpty(cfp.cardNo) Then
-                cfp.cardNo = "0000000000000000"
-                cfp.card_valid_thru = "0000"
+                If String.IsNullOrEmpty(cfp.cardNo) Then
+                    cfp.cardNo = "0000000000000000"
+                    cfp.card_valid_thru = "0000"
+                Else
+                    cfp.cardNo = cfp.cardNo
+                    cfp.card_valid_thru = ""
+                End If
+
+                'If txtBranchIssued.Text = "" Then txtBranchIssued.Text = "AGUINALDO"
+                logger.Info(String.Format("{0} searched cif {1}", dcsUser.userName, cfp.cif))
+                ShowPreview = True
             Else
-                cfp.cardNo = cfp.cardNo
-                cfp.card_valid_thru = ""
+                Utilities.ShowWarningMessage("Sorry, CIF is invalid. Please check and try again.")
+                ShowPreview = False
             End If
 
-            'If txtBranchIssued.Text = "" Then txtBranchIssued.Text = "AGUINALDO"
-            logger.Info(String.Format("{0} searched cif {1}", dcsUser.userName, cfp.cif))
-            ShowPreview = True
         Else
             Utilities.ShowWarningMessage("Sorry, CIF is invalid. Please check and try again.")
             ShowPreview = False
