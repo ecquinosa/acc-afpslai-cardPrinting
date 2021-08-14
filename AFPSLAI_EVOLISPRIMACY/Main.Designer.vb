@@ -84,10 +84,10 @@ Partial Class Main
         Me.dtpStart = New System.Windows.Forms.DateTimePicker()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.lblHeader = New System.Windows.Forms.Label()
         Me.pbSetting = New System.Windows.Forms.PictureBox()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.pic1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -176,6 +176,7 @@ Partial Class Main
         Me.Button1.Text = "PERSO CARD"
         Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Button1.UseVisualStyleBackColor = False
+        Me.Button1.Visible = False
         '
         'TextBox2
         '
@@ -185,6 +186,7 @@ Partial Class Main
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(281, 23)
         Me.TextBox2.TabIndex = 120
+        Me.TextBox2.Visible = False
         '
         'txtCardName
         '
@@ -255,8 +257,6 @@ Partial Class Main
         'chkPreview
         '
         Me.chkPreview.AutoSize = True
-        Me.chkPreview.Checked = True
-        Me.chkPreview.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkPreview.Location = New System.Drawing.Point(1161, 578)
         Me.chkPreview.Margin = New System.Windows.Forms.Padding(4)
         Me.chkPreview.Name = "chkPreview"
@@ -269,8 +269,6 @@ Partial Class Main
         'chkIncludeIdTemplate
         '
         Me.chkIncludeIdTemplate.AutoSize = True
-        Me.chkIncludeIdTemplate.Checked = True
-        Me.chkIncludeIdTemplate.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkIncludeIdTemplate.Location = New System.Drawing.Point(1161, 549)
         Me.chkIncludeIdTemplate.Margin = New System.Windows.Forms.Padding(4)
         Me.chkIncludeIdTemplate.Name = "chkIncludeIdTemplate"
@@ -848,6 +846,17 @@ Partial Class Main
         Me.Panel1.Size = New System.Drawing.Size(1429, 33)
         Me.Panel1.TabIndex = 3
         '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LinkLabel1.Location = New System.Drawing.Point(1089, 8)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(331, 18)
+        Me.LinkLabel1.TabIndex = 113
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "API SOURCE"
+        Me.LinkLabel1.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
         'lblHeader
         '
         Me.lblHeader.AutoSize = True
@@ -873,17 +882,6 @@ Partial Class Main
         'Timer1
         '
         Me.Timer1.Interval = 1000
-        '
-        'LinkLabel1
-        '
-        Me.LinkLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LinkLabel1.Location = New System.Drawing.Point(1089, 8)
-        Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(331, 18)
-        Me.LinkLabel1.TabIndex = 113
-        Me.LinkLabel1.TabStop = True
-        Me.LinkLabel1.Text = "API SOURCE"
-        Me.LinkLabel1.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Main
         '

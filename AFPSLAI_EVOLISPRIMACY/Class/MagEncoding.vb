@@ -58,21 +58,32 @@ Public Class MagEncoding
     'End Sub
 
     Public Sub New()
+        Try
+            cmbPrinters.Items.Clear()
 
-        cmbPrinters.Items.Clear()
+            For Each strPrinter As [String] In System.Drawing.Printing.PrinterSettings.InstalledPrinters
+                If strPrinter.StartsWith("Evolis") Then
+                    cmbPrinters.Items.Add(strPrinter)
+                End If
+            Next
 
-        For Each strPrinter As [String] In System.Drawing.Printing.PrinterSettings.InstalledPrinters
-            If strPrinter.StartsWith("Evolis") Then
-                cmbPrinters.Items.Add(strPrinter)
+            If InitPrinterList() Then
+                RefreshListStat()
             End If
+
+            InitializePrinters()
+        Catch ex As Exception
+            SharedFunction.ShowErrorMessage("New(): " & ex.Message)
+        End Try
+    End Sub
+
+    Public Shared Function CheckEvolisPrinter() As Boolean
+        For Each strPrinter As [String] In System.Drawing.Printing.PrinterSettings.InstalledPrinters
+            If strPrinter.StartsWith("Evolis") Then Return True
         Next
 
-        If InitPrinterList() Then
-            RefreshListStat()
-        End If
-
-        InitializePrinters()
-    End Sub
+        Return False
+    End Function
 
     Public Sub CheckSlotForCard()
         ThrowCommand("Sic")
@@ -279,43 +290,48 @@ Public Class MagEncoding
     End Sub
 
     Sub InitializePrinters()
-        If Me.cmbPrinters.Items.Count <> 0 Then
+        Try
+            If Me.cmbPrinters.Items.Count <> 0 Then
 
-            cmbPrinters.SelectedIndex = cmbPrinters.Items.IndexOf(My.Settings.CardPrinter)
+                cmbPrinters.SelectedIndex = cmbPrinters.Items.IndexOf(My.Settings.CardPrinter)
 
-            'Me.cmbPrinters.SelectedIndex = 0
+                'Me.cmbPrinters.SelectedIndex = 0
 
-            Dim enuId As IDictionaryEnumerator
-            'Cursor = Cursors.WaitCursor
-            enuId = Me._drvPrt.GetEnumerator()
-            While enuId.MoveNext
-                If (enuId.Key = cmbPrinters.SelectedItem()) Then
-                    If ((Me.Printer Is Nothing) = False) Then
-                        Me.Printer.Dispose()
+                Dim enuId As IDictionaryEnumerator
+                'Cursor = Cursors.WaitCursor
+                enuId = Me._drvPrt.GetEnumerator()
+                While enuId.MoveNext
+                    If (enuId.Key = cmbPrinters.SelectedItem()) Then
+                        If ((Me.Printer Is Nothing) = False) Then
+                            Me.Printer.Dispose()
+                        End If
+                        'Me.Printer.Dispose()
+
+                        If (enuId.Value.EndsWith("Dualys")) Then
+                            Me.Printer = New CDualys
+                        ElseIf (enuId.Value.EndsWith("Pebble")) Then
+                            Me.Printer = New CPebble
+                        ElseIf (enuId.Value.EndsWith("Tattoo")) Then
+                            Me.Printer = New CTattoo
+                        ElseIf (enuId.Value.EndsWith("Quantum")) Then
+                            Me.Printer = New CQuantum
+                        Else
+                            Me.Printer = New CPrinter
+                        End If
+
+                        Me.Printer.gsDriverName = enuId.Value
+                        Me.Printer.gsPrinterName = enuId.Key
+                        'Me.Printer = New CPrinter
+                        RefreshListStat()
+                        Exit While
                     End If
-                    'Me.Printer.Dispose()
+                End While
+                'Cursor = Cursors.Arrow
+            End If
+        Catch ex As Exception
+            SharedFunction.ShowErrorMessage("InitializePrinters(): " & ex.Message)
+        End Try
 
-                    If (enuId.Value.EndsWith("Dualys")) Then
-                        Me.Printer = New CDualys
-                    ElseIf (enuId.Value.EndsWith("Pebble")) Then
-                        Me.Printer = New CPebble
-                    ElseIf (enuId.Value.EndsWith("Tattoo")) Then
-                        Me.Printer = New CTattoo
-                    ElseIf (enuId.Value.EndsWith("Quantum")) Then
-                        Me.Printer = New CQuantum
-                    Else
-                        Me.Printer = New CPrinter
-                    End If
-
-                    Me.Printer.gsDriverName = enuId.Value
-                    Me.Printer.gsPrinterName = enuId.Key
-                    'Me.Printer = New CPrinter
-                    RefreshListStat()
-                    Exit While
-                End If
-            End While
-            'Cursor = Cursors.Arrow
-        End If
     End Sub
 
     Private Function GetResource(ByVal FileName As String, ByVal Resource As String) As Boolean

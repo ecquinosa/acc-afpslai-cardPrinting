@@ -45,6 +45,12 @@ Public Class Main
             grid.AutoGenerateColumns = True
             LinkLabel1.Text = My.Settings.MiddleServerUrl
             'txtCIF.Text = "1111111111104"
+
+            Dim IsHaveEvolisPrinter = MagEncoding.CheckEvolisPrinter
+
+            btnEjectCard.Enabled = IsHaveEvolisPrinter
+            btnInsertCard.Enabled = IsHaveEvolisPrinter
+            btnProcessCard.Enabled = IsHaveEvolisPrinter
         Else
             Close()
             Environment.Exit(0)
@@ -509,6 +515,7 @@ Public Class Main
         cbsCms.cardId = cfp.cardId
         cbsCms.memberId = cfp.memberId
         cbsCms.cardNo = cfp.cardNo
+        cbsCms.cardName = cfp.cardName
         cbsCms.cif = cfp.cif
         cbsCms.mobileNo = cfp.mobileNo
         cbsCms.branchId = cfp.branch_issued
@@ -635,5 +642,9 @@ Public Class Main
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         PushToCMS_Test()
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
     End Sub
 End Class
