@@ -43,7 +43,7 @@ Public Class Main
             txtCIF.SelectAll()
             txtCIF.Focus()
             grid.AutoGenerateColumns = True
-            LinkLabel1.Text = My.Settings.MiddleServerUrl
+            MiddleServerUrlDisplay()
             'txtCIF.Text = "1111111111104"
 
             Dim IsHaveEvolisPrinter = MagEncoding.CheckEvolisPrinter
@@ -55,6 +55,10 @@ Public Class Main
             Close()
             Environment.Exit(0)
         End If
+    End Sub
+
+    Public Sub MiddleServerUrlDisplay()
+        LinkLabel1.Text = My.Settings.MiddleServerUrl
     End Sub
 
     Private Function CompleteName() As String
@@ -78,13 +82,21 @@ Public Class Main
             pc = Nothing
             logger.Info(String.Format("CIF {0} - successfully sent to printer", cfp.cif))
         Catch ex As Exception
+            AddCard(False)
+            Utilities.ShowErrorMessage("Card printing encountered error")
             Main.logger.Error(String.Format("CIF {0} - {1}", cfp.cif, ex.Message))
         End Try
-
     End Sub
 
     Private Sub btnProcessCard_Click(sender As System.Object, e As System.EventArgs) Handles btnProcessCard.Click
+        PersoCard2()
+    End Sub
+
+    Private Sub PersoCard()
         SessionIsAlive()
+
+        'AddCardTest(False)
+        'Return
 
         If txtCIF.Text = "" Then Return
         If cfp Is Nothing Then Return
@@ -146,10 +158,12 @@ Public Class Main
                                     PrintCard()
                                 Else
                                     'cancel card if pushToCMS failed
-                                    Dim cc As New cancelCapture
-                                    cc.cardId = cfp.cardId
-                                    Dim responseCancelCapture = msa.cancelCapture(cc)
-                                    logger.Info(String.Format("Cif {0} - Cardno {1} with cardId {2} is cancelled due to pushToPMS response is failed. cancelCapture response is {3}", cfp.cif, cfp.cardNo, cfp.cardId, responseCancelCapture))
+                                    'Dim cc As New cancelCapture
+                                    'cc.cardId = cfp.cardId
+                                    'Dim responseCancelCapture = msa.cancelCapture(cc)
+
+                                    AddCard(False)
+                                    logger.Info(String.Format("Cif {0} - Cardno {1} with cardId {2} is cancelled due to pushToPMS response is failed.", cfp.cif, cfp.cardNo, cfp.cardId))
                                 End If
                             End If
                         Else
@@ -179,6 +193,59 @@ Public Class Main
             meap = Nothing
             ControlDispo(True)
         End Try
+    End Sub
+
+    Private Sub PersoCard2()
+        SessionIsAlive()
+
+
+        If txtCIF.Text = "" Then Return
+        If cfp Is Nothing Then Return
+
+        If MessageBox.Show("Are you sure you want to proceed?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
+            ControlDispo(True)
+            Exit Sub
+        End If
+
+        ControlDispo(False)
+
+        logger.Info(String.Format("CIF {0} - start of perso process", cfp.cif))
+
+        cfp.card_valid_thru = "2701"
+        cfp.cardNo = "6389760030117172"
+        ShowPreview = True
+        pic1.Refresh()
+
+        logger.Info(String.Format("CIF {0} - printer read card track " & Microsoft.VisualBasic.Right(cfp.cardNo, 4), cfp.cif))
+
+        System.Threading.Thread.Sleep(1000)
+        Application.DoEvents()
+
+        Dim oldCardId As Integer = cfp.cardId
+
+        If AddCard() Then
+            If PushToCMS() Then
+                If txtDatePrinted.Text <> "" Then
+                    If MessageBox.Show("Card has been issued to this record before. Continue?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then Return
+                    'cancel previous card
+                    Dim cc As New cancelCapture
+                    cc.cardId = oldCardId
+                    Dim responseCancelCapture = msa.cancelCapture(cc)
+                    logger.Info(String.Format("{0} proceeded to recard cif {1}. cancelCapture response for cardId {2} is {3}", dcsUser.userName, cfp.cif, cfp.cardId, responseCancelCapture))
+                End If
+
+                PrintCard()
+            Else
+                'cancel card if pushToCMS failed
+                'Dim cc As New cancelCapture
+                'cc.cardId = cfp.cardId
+                'Dim responseCancelCapture = msa.cancelCapture(cc)
+
+                AddCard(False)
+                logger.Info(String.Format("Cif {0} - Cardno {1} with cardId {2} is cancelled due to pushToPMS response is failed.", cfp.cif, cfp.cardNo, cfp.cardId))
+            End If
+        End If
+
     End Sub
 
     Private Sub SystemStatus(ByVal status As String, Optional intType As Short = 0)
@@ -280,9 +347,15 @@ Public Class Main
     Private Sub btnSubmit_Click(sender As System.Object, e As System.EventArgs) Handles btnSubmit.Click
         SessionIsAlive()
 
+        If dtpStart.Value.Date > dtpEnd.Value.Date Then
+            Utilities.ShowErrorMessage("Please re-check dates")
+            Return
+        End If
+
         Dim branch As String = My.Settings.BranchIssue
-        If dcsUser.roleId = 2 Then branch = ""
+        If dcsUser.roleDesc = "DCS Admin" Then branch = ""
         Dim obj As Object
+        grid.DataSource = Nothing
         Select Case cboReport.SelectedIndex
             Case 0
             Case 1
@@ -296,7 +369,11 @@ Public Class Main
                     grid.DataSource = data
                 End If
             Case 3
-                If msa.GetMember(0, "", branch, obj) Then
+                Dim printTypeId = 0
+                Dim recardReasonId = 0
+                If cboPrintingType.SelectedIndex > 0 Then printTypeId = cboPrintingType.SelectedValue
+                If cboReason.SelectedIndex > 0 Then recardReasonId = cboReason.SelectedValue
+                If msa.GetMember(0, "", branch, dtpStart.Value.Date, dtpEnd.Value.Date, printTypeId, recardReasonId, obj) Then
                     Dim data = obj
                     grid.DataSource = data
                 End If
@@ -306,10 +383,12 @@ Public Class Main
             btnExtract.Visible = False
         Else
             btnExtract.Visible = True
-            Dim arrDates = {"cDatePost", "dateCMS", "dateCBS", "mDatePost", "membershipDate", "birthDate"}
-            For Each arrDate In arrDates
-                grid.Columns(arrDate).DefaultCellStyle.Format = "MM/dd/yyyy"
-            Next
+            If cboReport.SelectedIndex = 3 Then
+                Dim arrDates = {"cDatePost", "dateCMS", "dateCBS", "mDatePost", "membershipDate", "birthDate"}
+                For Each arrDate In arrDates
+                    grid.Columns(arrDate).DefaultCellStyle.Format = "MM/dd/yyyy"
+                Next
+            End If
         End If
 
         lblTotal.Text = String.Format("TOTAL : {0}", grid.Rows.Count.ToString("N0"))
@@ -557,16 +636,51 @@ Public Class Main
         Return response
     End Function
 
-    Private Function AddCard() As Boolean
+    Private Function AddCard(Optional isAdd As Boolean = True) As Boolean
         Dim card As New card
+        Dim desc As String = "add"
         card.member_id = cfp.memberId
-        card.cardNo = cfp.cardNo
+        If isAdd Then
+            card.cardNo = cfp.cardNo
+        Else
+            desc = "cancel"
+            card.id = cfp.cardId
+            card.date_post = Nothing
+            card.time_post = Nothing
+            card.cardNo = ""
+            card.is_cancel = False
+        End If
         Dim response As Boolean = msa.addCard(card, cfp.cardId)
         card = Nothing
         If response Then
-            logger.Info(String.Format("CIF {0} - addCard response {1}", cfp.cif, response))
+            logger.Info(String.Format("CIF {0} - addCard ({1}) response {2}", cfp.cif, desc, response))
         Else
-            logger.Error(String.Format("CIF {0} - addCard response {1}", cfp.cif, response))
+            logger.Error(String.Format("CIF {0} - addCard ({1}) response {2}", cfp.cif, desc, response))
+        End If
+        Return response
+    End Function
+
+    Private Function AddCardTest(Optional isAdd As Boolean = True) As Boolean
+        Dim card As New card
+        Dim desc As String = "add"
+        If isAdd Then
+            card.cardNo = cfp.cardNo
+        Else
+            desc = "cancel"
+            card.id = 10
+            card.member_id = 2
+            card.date_post = Nothing
+            card.time_post = Nothing
+            card.cardNo = ""
+            card.is_cancel = False
+        End If
+        Dim cardId As Integer = 0
+        Dim response As Boolean = msa.addCard(card, cardId)
+        card = Nothing
+        If response Then
+            logger.Info(String.Format("CIF {0} - addCard ({1}) response {2}", cfp.cif, desc, response))
+        Else
+            logger.Error(String.Format("CIF {0} - addCard ({1}) response {2}", cfp.cif, desc, response))
         End If
         Return response
     End Function
@@ -576,17 +690,37 @@ Public Class Main
         Dim obj As Object
         If msa.GetCardForPrint(txtCIF.Text, obj) Then
             cfp = Newtonsoft.Json.JsonConvert.DeserializeObject(Of cardForPrint)(obj.ToString)
-            If cfp.cardId > 0 Then
+            If cfp.memberId > 0 Then
                 txtFirst.Text = cfp.first_name
                 txtMiddle.Text = cfp.middle_name
                 txtLast.Text = cfp.last_name
                 txtSuffix.Text = cfp.suffix
-                txtCardName.Text = cfp.cardName
+                txtCardName.Text = cfp.cardName.ToUpper()
                 txtGender.Text = cfp.gender
-                txtMembershipDate.Text = cfp.membership_date
+                txtMembershipDate.Text = CDate(cfp.membership_date).ToString("MM/dd/yyyy")
                 txtBranchIssued.Text = cfp.branch_issued
-                txtDateCaptured.Text = cfp.dateCaptured
-                If Not String.IsNullOrEmpty(cfp.datePrinted) Then txtDatePrinted.Text = CDate(cfp.datePrinted).ToString("MM/dd/yyyy hh:mm:ss tt")
+                txtDateCaptured.Text = CDate(cfp.dateCaptured).ToString("MM/dd/yyyy")
+                Dim datePrinted As String = ""
+                If Not cfp.datePrinted Is Nothing Then datePrinted = CDate(cfp.datePrinted).ToString("MM/dd/yyyy")
+                If Not cfp.timePrinted Is Nothing Then
+                    Dim ts As TimeSpan = TimeSpan.Parse(cfp.timePrinted.ToString())
+                    Dim hh = ts.ToString("hh")
+                    Dim mm = ts.ToString("mm")
+                    Dim ss = ts.ToString("ss")
+                    Dim tt = "AM"
+
+                    If CInt(hh) = 0 Or CInt(hh) = 24 Then
+                        hh = "12"
+                    ElseIf CInt(hh) = 12 Then
+                        tt = "PM"
+                    ElseIf CInt(hh) > 12 Then
+                        hh = (CInt(hh) - 12).ToString.PadLeft(2, "0")
+                        tt = "PM"
+                    End If
+                    datePrinted += " " & String.Format("{0}:{1}:{2} {3}", hh, mm, ss, tt)
+                End If
+
+                txtDatePrinted.Text = datePrinted
 
                 If String.IsNullOrEmpty(cfp.cardNo) Then
                     cfp.cardNo = "0000000000000000"

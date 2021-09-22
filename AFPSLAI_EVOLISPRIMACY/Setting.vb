@@ -126,6 +126,8 @@ Public Class Setting
         My.Settings.BranchIssue = cboBranch.Text
         My.Settings.ApiKey = txtApiKey.Text
         My.Settings.Save()
+        My.Settings.Reload()
+        Main.MiddleServerUrlDisplay()
 
         Dim cces As New List(Of accAfpslaiEmvObjct.cps_card_elements)
         Dim ccePhoto As New accAfpslaiEmvObjct.cps_card_elements

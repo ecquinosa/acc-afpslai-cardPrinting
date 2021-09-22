@@ -79,7 +79,7 @@ Public Class PrintCard
             'e.Graphics.DrawString(String.Format("{0} {1} {2} {3}", cardNo.Substring(0, 4), cardNo.Substring(4, 4), cardNo.Substring(8, 4), cardNo.Substring(12, 4)), font12, dBlack, intTextLeftLocationBase, (intTextTopLocationBase + (intAddedValue * 2)))
             e.Graphics.DrawString(Convert.ToDateTime(Main.txtMembershipDate.Text).ToString("MM/yy"), fontMemberSince, dBlack, CSng(objMemberSince.x), CSng(objMemberSince.y))
             e.Graphics.DrawString(String.Format("{0}/{1}", Main.cfp.card_valid_thru.Substring(2, 2), Main.cfp.card_valid_thru.Substring(0, 2)), fontValidThru, dBlack, CSng(objValidThru.x), CSng(objValidThru.y))
-            e.Graphics.DrawString(Main.txtCardName.Text, fontName, dBlack, CSng(objName.x), CSng(objName.y))
+            e.Graphics.DrawString(Main.txtCardName.Text.ToUpper(), fontName, dBlack, CSng(objName.x), CSng(objName.y))
             e.Graphics.DrawString(Main.txtCIF.Text, fontCIF, dBlack, CSng(objCIF.x), CSng(objCIF.y))
         Catch ex As Exception
             Console.WriteLine(ex.Message)
