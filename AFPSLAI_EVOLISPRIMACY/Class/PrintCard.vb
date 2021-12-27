@@ -2,234 +2,89 @@
 Imports System.Runtime.InteropServices
 Imports AFPSLAI_EVOLISPRIMACY.Spooler
 Imports System.Drawing.Printing
-Imports System.Threading
-Imports System.Windows.Forms
 
 Public Class PrintCard
     Implements IDisposable
 
-    Public Shared presidentSignatureFile As String = Application.StartupPath & "\Images\pres_sign.png"
-
     Private WithEvents m_pDoc As New PrintDocument
-
-    Private cardElements(12) As String
-
-    'Private _CIF As String = "" '0
-    'Private _CompleteName As String = "" '1
-    'Private _Address As String = ""
-    'Private _ContactNos As String = ""
-    'Private _DateOfBirth As String = ""
-    'Private _IDNumber As String = ""
-    'Private _DateOfIssue As String = ""
-    'Private _ContactName As String = ""
-    'Private _ContactContactNos As String = ""
-    'Private _Branch As String = "" '9
-    'Private _PhotoPath As String = "" '10
-    'Private _SignaturePath As String = "" '11 
-    'Private _BarcodePath As String = "" '11 
-
-    Public X As Integer
-    Public Y As Integer
-    Public imgWidth As Integer
-    Public imgHeight As Integer
-
-    Public intPage As Short = 1
-
-    Public _IsHasMorePages As Boolean = True
-
-    Public Property HasMorePages() As Boolean
-        Get
-            Return _IsHasMorePages
-        End Get
-        Set(ByVal value As Boolean)
-            _IsHasMorePages = value
-        End Set
-    End Property
-
-    Public Property Page() As Short
-        Get
-            Return intPage
-        End Get
-        Set(ByVal value As Short)
-            intPage = value
-        End Set
-    End Property
-
 
 #Region " Printing "
 
-    Private fingerprints As List(Of String)
-
-    Public Sub New(ByVal fingerprints As List(Of String), ByVal ParamArray param() As String)
-        cardElements = param
-        Me.fingerprints = fingerprints
-    End Sub
-
     Private Sub m_pDoc_BeginPrint(ByVal sender As Object, ByVal e As System.Drawing.Printing.PrintEventArgs) Handles m_pDoc.BeginPrint
-        'm_pDoc.DocumentName = "Card Personalization of ID No." & cardElements(0)
-        'm_pDoc.DefaultPageSettings.Landscape = True
-        'm_pDoc.PrinterSettings.Copies = 1
-        'm_pDoc.PrinterSettings.PrinterName = My.Settings.CardPrinter
+        m_pDoc.DocumentName = "Card Personalization of ID No." & Main.cfp.cardNo
+        m_pDoc.DefaultPageSettings.Landscape = True
+        m_pDoc.PrinterSettings.Copies = 1
+        m_pDoc.PrinterSettings.PrinterName = My.Settings.CardPrinter
 
         ''for testing purpose only
-        Dim ps As PaperSize = Nothing
+        'Dim ps As PaperSize = Nothing
 
-        For Each s In m_pDoc.PrinterSettings.PaperSizes
-            If s.PaperName = "CR80" Then
-                ps = s
-                Console.WriteLine(s)
-            End If
-        Next
+        'For Each s In m_pDoc.PrinterSettings.PaperSizes
+        '    If s.PaperName = "CR80" Then
+        '        ps = s
+        '        Console.WriteLine(s)
+        '    End If
+        'Next
 
-        m_pDoc.DocumentName = "Card Personalization of ID No." & cardElements(0)
-        m_pDoc.DefaultPageSettings.PaperSize = ps
-        m_pDoc.DefaultPageSettings.Landscape = False
-        m_pDoc.PrinterSettings.Copies = 1
-        m_pDoc.PrinterSettings.PrinterName = "Microsoft Print To PDF"
+        'm_pDoc.DocumentName = "Card Personalization of ID No." & Main.cfp.cardNo
+        ''m_pDoc.DefaultPageSettings.PaperSize = ps
+        'm_pDoc.DefaultPageSettings.Landscape = False
+        'm_pDoc.PrinterSettings.Copies = 1
+        'm_pDoc.PrinterSettings.PrinterName = "Microsoft XPS Document Writer"
     End Sub
+
+    Private Function GetFontStyle(ByVal fs As Integer) As FontStyle
+        Select Case fs
+            Case 1
+                Return FontStyle.Regular
+            Case 2
+                Return FontStyle.Bold
+            Case 3
+                Return FontStyle.Italic
+        End Select
+    End Function
 
     Private Sub m_pDoc_PrintPage(ByVal sender As System.Object, ByVal e As PrintPageEventArgs) Handles m_pDoc.PrintPage
         Try
             e.Graphics.PageUnit = GraphicsUnit.Pixel
 
+            Dim objPhoto = Main.cardElements.Photo
+            Dim objMemberSince = Main.cardElements.MemberSince
+            Dim objValidThru = Main.cardElements.ValidThru
+            Dim objName = Main.cardElements.Name
+            Dim objCIF = Main.cardElements.CIF
+
             Dim dBlack As New SolidBrush(Color.Black)
+            Dim fontMemberSince As New Font(objMemberSince.font_name, CSng(objMemberSince.font_size), GetFontStyle(objMemberSince.font_style))
+            Dim fontValidThru As New Font(objValidThru.font_name, CSng(objValidThru.font_size), GetFontStyle(objValidThru.font_style))
+            Dim fontName As New Font(objName.font_name, CSng(objName.font_size), GetFontStyle(objName.font_style))
+            Dim fontCIF As New Font(objCIF.font_name, CSng(objCIF.font_size), GetFontStyle(objCIF.font_style))
 
-            Dim fontHightlight As New Font("Arial", 10, FontStyle.Bold)
+            Dim imgTemplate As Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(Application.StartupPath & "\card_front.jpg")))
+            If CBool(Main.chkIncludeIdTemplate.Checked) Then e.Graphics.DrawImage(imgTemplate, 0, 0, 1020, 650)
 
-            Dim fontHightlight_max1 As New Font("Arial", 9, FontStyle.Bold)
-            Dim fontHightlight_max2 As New Font("Arial", 8, FontStyle.Bold)
+            Dim imgPhoto As Image = Image.FromStream(New System.IO.MemoryStream(Convert.FromBase64String(Main.cfp.base64Photo)))
 
-            Dim fontGeneric As New Font("Arial", 8)
-            Dim fontGeneric2 As New Font("Arial", 5)
+            'Dim imgBox As Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(Application.StartupPath & "\Images\box.jpg")))
+            'Dim imgBoxPhoto As Image = Image.FromStream(New System.IO.MemoryStream(Convert.FromBase64String(Main.cfp.base64Photo)))
 
-            Dim ce As New CardElements
+            'Dim boxAdd As Integer = 10
+            'Dim boxInt As Integer = 231
+            'e.Graphics.DrawImage(imgBox, CSng(objPhoto.x - boxInt - (boxAdd / 2)), CSng(objPhoto.y - (boxAdd / 2)), CSng(objPhoto.width + boxAdd), CSng(objPhoto.height + boxAdd))
+            'e.Graphics.DrawImage(imgBoxPhoto, CSng(objPhoto.x - boxInt), CSng(objPhoto.y), CSng(objPhoto.width), CSng(objPhoto.height))
 
-            If intPage = 1 Then
-                Dim imgTemplate As Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes("Approval AFPSLAI ID 051017 MPL-03.jpg")))
-                If CBool(cardElements(13)) Then e.Graphics.DrawImage(imgTemplate, 0, 0, 1020, 650)
+            e.Graphics.DrawImage(imgPhoto, CSng(objPhoto.x), CSng(objPhoto.y), CSng(objPhoto.width), CSng(objPhoto.height))
 
-                If IO.File.Exists(cardElements(10)) Then
-                    Dim imgPhoto As Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(cardElements(10))))
-                    e.Graphics.DrawImage(imgPhoto, ce.Photo_X, ce.Photo_Y, ce.Photo_Width, ce.Photo_Height)
-                End If
-
-                If IO.File.Exists(cardElements(11)) Then
-                    Dim myBitmap As New Bitmap(cardElements(11))
-                    myBitmap.MakeTransparent()
-                    e.Graphics.DrawImage(myBitmap, ce.Signature_X, ce.Signature_Y, ce.Signature_Width, ce.Signature_Height)
-                Else
-                    Dim myBitmap As New Bitmap(fingerprints(0))
-                    myBitmap.MakeTransparent(Color.White)
-                    e.Graphics.DrawImage(myBitmap, ce.Biometric_X, ce.Biometric_Y, ce.Biometric_Width, ce.Biometric_Height)
-                    'e.Graphics.DrawImage(myBitmap, Me.X, Me.Y, Me.imgWidth, Me.imgHeight)
-                End If
-
-                If IO.File.Exists(cardElements(12)) Then
-                    Dim imgBarcode As Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(cardElements(12))))
-                    e.Graphics.DrawImage(imgBarcode, ce.Barcode_X, ce.Barcode_Y, ce.Barcode_Width, ce.Barcode_Height)
-                End If
-
-                Dim intTextLeftLocationBase As Integer = ce.Name_X ' - 30
-                Dim intTextTopLocationBase As Integer = ce.Name_Y
-                Dim intAddedValue As Integer = 40
-
-                Dim name As String = cardElements(1)
-
-                'If name.Length > 32 Then
-                '    e.Graphics.DrawString(name, fontHightlight_max2, dBlack, intTextLeftLocationBase, (intTextTopLocationBase + (intAddedValue * 2)))
-                'ElseIf name.Length > 20 Then
-                '    e.Graphics.DrawString(name, fontHightlight_max1, dBlack, intTextLeftLocationBase, (intTextTopLocationBase + (intAddedValue * 2)))
-                'Else
-                '    e.Graphics.DrawString(name, fontHightlight, dBlack, intTextLeftLocationBase, (intTextTopLocationBase + (intAddedValue * 2)))
-                'End If
-
-                'Dim value As String = "1234567890 1234567890 1234567890 1234567890"
-                name = FormatName(name, 24)
-
-                Dim flags As TextFormatFlags = TextFormatFlags.HorizontalCenter
-                TextRenderer.DrawText(e.Graphics, name, New Font("Arial", 28, FontStyle.Bold), New Rectangle(ce.Name_X, (intTextTopLocationBase + (intAddedValue * 2)), ce.Barcode_Width + 10, 450), Color.Black, flags)
-                If name.Length < 24 Then
-                    TextRenderer.DrawText(e.Graphics, cardElements(0), New Font("Arial", 24, FontStyle.Bold), New Rectangle(ce.Name_X, (intTextTopLocationBase + (intAddedValue * 3)), ce.Barcode_Width + 10, 450), Color.Black, flags)
-                Else
-                    TextRenderer.DrawText(e.Graphics, cardElements(0), New Font("Arial", 24, FontStyle.Bold), New Rectangle(ce.Name_X, (intTextTopLocationBase + (intAddedValue * 4)), ce.Barcode_Width + 10, 450), Color.Black, flags)
-                End If
-
-
-                'e.Graphics.DrawString(cardElements(0), fontGeneric, dBlack, intTextLeftLocationBase + 60, (intTextTopLocationBase + (intAddedValue * 3)))
-
-                e.HasMorePages = _IsHasMorePages
-                intPage += 1
-                'Else
-
-            ElseIf intPage = 2 Then
-                Dim imgTemplate As Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes("Approval AFPSLAI ID 051017 MPL-04.jpg")))
-                If CBool(cardElements(13)) Then e.Graphics.DrawImage(imgTemplate, 0, 0, 1020, 650)
-
-                'address
-                Dim address As String = FormatName(cardElements(2), 50)
-                e.Graphics.DrawString(address, fontGeneric2, dBlack, ce.Address_X, ce.Address_Y)
-                'contact#
-                e.Graphics.DrawString(cardElements(3), fontGeneric2, dBlack, ce.ContactNos_X, ce.ContactNos_Y)
-                'contactperson and contact#
-                e.Graphics.DrawString(cardElements(7), fontGeneric2, dBlack, ce.ContactName_X, ce.ContactName_Y)
-                e.Graphics.DrawString(cardElements(8), fontGeneric2, dBlack, ce.ContactContactNos_X, ce.ContactContactNos_Y)
-                'dob
-                e.Graphics.DrawString(CDate(cardElements(4)).ToString("MMMM dd, yyyy"), fontGeneric2, dBlack, ce.DOB_X, ce.DOB_Y)
-                'id#
-                e.Graphics.DrawString(cardElements(5), fontGeneric2, dBlack, ce.IDNumber_X, ce.IDNumber_Y)
-                'branch
-                e.Graphics.DrawString(cardElements(9), fontGeneric2, dBlack, ce.Branch_X, ce.Branch_Y)
-                'dateissued
-                e.Graphics.DrawString(CDate(cardElements(6)).ToString("MMMM dd, yyyy"), fontGeneric2, dBlack, ce.IssueDate_X, ce.IssueDate_Y)
-
-                If IO.File.Exists(presidentSignatureFile) Then
-                    Dim myBitmap2 As New Bitmap(presidentSignatureFile)
-                    myBitmap2.MakeTransparent()
-                    e.Graphics.DrawImage(myBitmap2, X, Y, imgWidth, imgHeight)
-                End If
-
-                intPage += 1
-                _IsHasMorePages = False
-            End If
-
-            ce = Nothing
+            Dim cardNo As String = Main.cfp.cardNo
+            'e.Graphics.DrawString(String.Format("{0} {1} {2} {3}", cardNo.Substring(0, 4), cardNo.Substring(4, 4), cardNo.Substring(8, 4), cardNo.Substring(12, 4)), font12, dBlack, intTextLeftLocationBase, (intTextTopLocationBase + (intAddedValue * 2)))
+            e.Graphics.DrawString(Convert.ToDateTime(Main.txtMembershipDate.Text).ToString("MM/yy"), fontMemberSince, dBlack, CSng(objMemberSince.x), CSng(objMemberSince.y))
+            e.Graphics.DrawString(String.Format("{0}/{1}", Main.cfp.card_valid_thru.Substring(2, 2), Main.cfp.card_valid_thru.Substring(0, 2)), fontValidThru, dBlack, CSng(objValidThru.x), CSng(objValidThru.y))
+            e.Graphics.DrawString(Main.txtCardName.Text.ToUpper(), fontName, dBlack, CSng(objName.x), CSng(objName.y))
+            e.Graphics.DrawString(Main.txtCIF.Text, fontCIF, dBlack, CSng(objCIF.x), CSng(objCIF.y))
         Catch ex As Exception
             Console.WriteLine(ex.Message)
         End Try
     End Sub
-
-    Private Function FormatName(ByVal value As String, ByVal intCharLength As Short) As String
-        'Dim intCharLength As Short = 24
-        Dim space As String = " "
-
-        Dim sbOld As New System.Text.StringBuilder
-        sbOld.Append(value)
-
-        Dim sbNew As New System.Text.StringBuilder
-
-        Do While sbOld.ToString <> ""
-            Dim intSpaceLastIndex As Short
-            If sbOld.ToString.Length > intCharLength Then
-                If sbOld.ToString.Substring(intCharLength - 1, 1) = space Then
-                    sbNew.AppendLine(Trim(sbOld.ToString.Substring(0, intCharLength)))
-                    sbOld.Remove(0, intCharLength)
-                ElseIf sbOld.ToString.Substring(intCharLength - 1, 1) <> space And sbOld.ToString.Substring(intCharLength, 1) <> space Then
-                    intSpaceLastIndex = sbOld.ToString.Substring(0, intCharLength).LastIndexOf(space)
-                    sbNew.AppendLine(Trim(sbOld.ToString.Substring(0, intSpaceLastIndex)))
-                    sbOld.Remove(0, intSpaceLastIndex)
-                Else
-                    sbNew.AppendLine(Trim(sbOld.ToString.Substring(0, intCharLength)))
-                    sbOld.Remove(0, intCharLength)
-                End If
-            Else
-                sbNew.AppendLine(Trim(sbOld.ToString.Substring(0)))
-                sbOld.Clear()
-            End If
-        Loop
-
-        Return sbNew.ToString
-    End Function
-
 
     Public Sub Print()
         m_pDoc.Print()

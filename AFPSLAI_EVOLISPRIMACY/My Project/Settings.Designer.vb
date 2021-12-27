@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.7.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -56,18 +56,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("OMNIKEY CardMan 5x21-CL 0")>  _
-        Public Property PCSCReader() As String
-            Get
-                Return CType(Me("PCSCReader"),String)
-            End Get
-            Set
-                Me("PCSCReader") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("Evolis Primacy")>  _
         Public Property CardPrinter() As String
             Get
@@ -80,49 +68,13 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("LAPTOP-NIBVC02K")>  _
-        Public Property Server() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("https://localhost:44348")>  _
+        Public Property MiddleServerUrl() As String
             Get
-                Return CType(Me("Server"),String)
+                Return CType(Me("MiddleServerUrl"),String)
             End Get
             Set
-                Me("Server") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("dbcAFPSLAI")>  _
-        Public Property Database() As String
-            Get
-                Return CType(Me("Database"),String)
-            End Get
-            Set
-                Me("Database") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("sa")>  _
-        Public Property User() As String
-            Get
-                Return CType(Me("User"),String)
-            End Get
-            Set
-                Me("User") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("acc2020")>  _
-        Public Property Password() As String
-            Get
-                Return CType(Me("Password"),String)
-            End Get
-            Set
-                Me("Password") = value
+                Me("MiddleServerUrl") = value
             End Set
         End Property
         
@@ -147,6 +99,32 @@ Namespace My
             End Get
             Set
                 Me("OperatorID") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property BranchIssue() As String
+            Get
+                Return CType(Me("BranchIssue"),String)
+            End Get
+            Set
+                Me("BranchIssue") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("eyJpdiI6IkgzRHhKd2VKVFpmUHZVSitKMVZlUHc9PSIsInZhbHVlIjoiTFMwcVZ0M0JLNVJrR1U0SEJEQ"& _ 
+            "WtCUT09IiwibWFjIjoiZTFjMGM0OGU3MmVmNzdkM2MyNmYwYjdjMGFhMTg0Njk4MjcyN2E5ZDM4ZjE0Z"& _ 
+            "WUwZDFkZjUzNDU2ZDg3NDQxYyJ9")>  _
+        Public Property ApiKey() As String
+            Get
+                Return CType(Me("ApiKey"),String)
+            End Get
+            Set
+                Me("ApiKey") = value
             End Set
         End Property
     End Class

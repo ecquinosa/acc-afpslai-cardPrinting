@@ -215,9 +215,10 @@ Public Class CPrinter
     '</summary>
     '<returns> True: done</returns>
     '<returns> False: </returns>
-    Public Function ReadTracks() As Boolean
+    Public Function ReadTracks() As Short
         Dim i As Integer
         ReadTracks = True
+        Dim response As Short = 0
 
         If (Me.OpenEvoPrinter()) Then
             ReadTracks = doAction(Chr(27) & "Pem;2" & Chr(13), 2000, ReadTracks)
@@ -226,22 +227,37 @@ Public Class CPrinter
             Me.gsTimeout() = 30000
             Me.setCde() = mag.ReadMagTracks()
             If (Me.WRPrinterOK(ReadTracks) = True) Then
-                For i = 1 To 3
+                'For i = 1 To 3
+                '    If (ReadTracks) Then
+                '        Me.setCde() = mag.ReadMagTracksBuffer(i)
+                '        If (Me.WRPrinter(ReadTracks) = False) Then
+                '            ReadTracks = False
+                '        End If
+
+                '        mag.SetStatusCdeTrack(getLastAnswer(), i)
+                '    End If
+                'Next i
+
+                For i = 1 To 1
                     If (ReadTracks) Then
-                        Me.setCde() = mag.ReadMagTracksBuffer(i)
+                        Me.setCde() = mag.ReadMagTracksBuffer(i + 1)
                         If (Me.WRPrinter(ReadTracks) = False) Then
                             ReadTracks = False
+                            response = 2
                         End If
 
-                        mag.SetStatusCdeTrack(getLastAnswer(), i)
+                        mag.SetStatusCdeTrack(getLastAnswer(), i + 1)
                     End If
                 Next i
             End If
             ReadTracks = doAction(Chr(27) & "Pem;0" & Chr(13), 2000, ReadTracks)
 
             Me.CloseEvoPrinter()
+        Else
+            response = 1
         End If
 
+        Return response
     End Function
     '<summary>
     'To print YMCKO card by downloading data with uncompressed format.
