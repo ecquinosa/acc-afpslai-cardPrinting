@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class LogIN
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class LogIN
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(LogIN))
         Me.lblResult = New System.Windows.Forms.Label()
@@ -64,7 +64,6 @@ Partial Class LogIN
         Me.txtPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(64)
         Me.txtPassword.Size = New System.Drawing.Size(240, 25)
         Me.txtPassword.TabIndex = 15
-        Me.txtPassword.Text = "afPsL@ieMv2021"
         '
         'label1
         '
@@ -86,7 +85,6 @@ Partial Class LogIN
         Me.txtUsername.Name = "txtUsername"
         Me.txtUsername.Size = New System.Drawing.Size(240, 25)
         Me.txtUsername.TabIndex = 14
-        Me.txtUsername.Text = "admin"
         '
         'Label10
         '
@@ -127,10 +125,11 @@ Partial Class LogIN
         Me.LinkLabel1.AutoSize = True
         Me.LinkLabel1.Location = New System.Drawing.Point(4, 183)
         Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(91, 17)
+        Me.LinkLabel1.Size = New System.Drawing.Size(88, 16)
         Me.LinkLabel1.TabIndex = 23
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "API SOURCE"
+        Me.LinkLabel1.Visible = False
         '
         'LogIN
         '

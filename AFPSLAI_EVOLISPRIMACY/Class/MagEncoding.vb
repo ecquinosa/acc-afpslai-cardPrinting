@@ -58,22 +58,31 @@ Public Class MagEncoding
     'End Sub
 
     Public Sub New()
+        Dim sb As New System.Text.StringBuilder
         Try
+
             cmbPrinters.Items.Clear()
 
             For Each strPrinter As [String] In System.Drawing.Printing.PrinterSettings.InstalledPrinters
                 If strPrinter.StartsWith("Evolis") Then
                     cmbPrinters.Items.Add(strPrinter)
+                    sb.AppendLine("Detected printer: " & strPrinter)
                 End If
             Next
 
+            sb.AppendLine("InitPrinterList start...")
             If InitPrinterList() Then
+                sb.AppendLine("InitPrinterList end...")
+                sb.AppendLine("RefreshListStat start...")
                 RefreshListStat()
+                sb.AppendLine("RefreshListStat end...")
             End If
 
+            sb.AppendLine("InitializePrinters start...")
             InitializePrinters()
+            sb.AppendLine("InitializePrinters end...")
         Catch ex As Exception
-            SharedFunction.ShowErrorMessage("New(): " & ex.Message)
+            SharedFunction.ShowErrorMessage("New(): " & ex.Message & vbNewLine & vbNewLine & sb.ToString())
         End Try
     End Sub
 
@@ -100,7 +109,8 @@ Public Class MagEncoding
     End Function
 
     Public Sub EjectCard()
-        ThrowCommand("Se")
+        'ThrowCommand("Se")
+        ThrowCommand("Ser")
     End Sub
 
     Public ReadOnly Property Success() As Boolean
@@ -200,7 +210,7 @@ Public Class MagEncoding
                 pPrinters = Marshal.AllocHGlobal(pcbNeeded)
                 pcbProvided = pcbNeeded
                 If Not EnumPrinters2(EnumPrinterFlags.PRINTER_ENUM_LOCAL, String.Empty, 2, pPrinters, pcbProvided, pcbNeeded, pcReturned) Then
-                    'Throw New Win32Exception
+                    Throw New System.ComponentModel.Win32Exception
                 End If
             End If
         End If

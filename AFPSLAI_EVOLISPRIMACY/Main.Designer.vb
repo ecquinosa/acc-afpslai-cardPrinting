@@ -82,7 +82,7 @@ Partial Class Main
         Me.dtpEnd = New System.Windows.Forms.DateTimePicker()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.dtpStart = New System.Windows.Forms.DateTimePicker()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.TextBox11 = New System.Windows.Forms.TextBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.lblHeader = New System.Windows.Forms.Label()
@@ -106,7 +106,7 @@ Partial Class Main
         Me.TabControl1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1408, 649)
+        Me.TabControl1.Size = New System.Drawing.Size(1408, 656)
         Me.TabControl1.TabIndex = 1
         '
         'TabPage1
@@ -155,7 +155,7 @@ Partial Class Main
         Me.TabPage1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(4)
-        Me.TabPage1.Size = New System.Drawing.Size(1400, 620)
+        Me.TabPage1.Size = New System.Drawing.Size(1400, 627)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "CARD PERSO"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -191,6 +191,7 @@ Partial Class Main
         'txtCardName
         '
         Me.txtCardName.BackColor = System.Drawing.Color.White
+        Me.txtCardName.Enabled = False
         Me.txtCardName.Location = New System.Drawing.Point(851, 155)
         Me.txtCardName.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCardName.Name = "txtCardName"
@@ -205,7 +206,7 @@ Partial Class Main
         Me.Label10.Location = New System.Drawing.Point(749, 158)
         Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(89, 16)
+        Me.Label10.Size = New System.Drawing.Size(88, 16)
         Me.Label10.TabIndex = 118
         Me.Label10.Text = "CARD NAME"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -217,7 +218,7 @@ Partial Class Main
         Me.Label6.Location = New System.Drawing.Point(715, 282)
         Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(123, 16)
+        Me.Label6.Size = New System.Drawing.Size(122, 16)
         Me.Label6.TabIndex = 116
         Me.Label6.Text = "DATE CAPTURED"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -225,6 +226,7 @@ Partial Class Main
         'txtDateCaptured
         '
         Me.txtDateCaptured.BackColor = System.Drawing.Color.White
+        Me.txtDateCaptured.Enabled = False
         Me.txtDateCaptured.Location = New System.Drawing.Point(851, 279)
         Me.txtDateCaptured.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDateCaptured.Name = "txtDateCaptured"
@@ -239,7 +241,7 @@ Partial Class Main
         Me.Label5.Location = New System.Drawing.Point(731, 313)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(107, 16)
+        Me.Label5.Size = New System.Drawing.Size(106, 16)
         Me.Label5.TabIndex = 114
         Me.Label5.Text = "DATE PRINTED"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -247,6 +249,7 @@ Partial Class Main
         'txtDatePrinted
         '
         Me.txtDatePrinted.BackColor = System.Drawing.Color.White
+        Me.txtDatePrinted.Enabled = False
         Me.txtDatePrinted.Location = New System.Drawing.Point(851, 310)
         Me.txtDatePrinted.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDatePrinted.Name = "txtDatePrinted"
@@ -260,7 +263,7 @@ Partial Class Main
         Me.chkPreview.Location = New System.Drawing.Point(1161, 578)
         Me.chkPreview.Margin = New System.Windows.Forms.Padding(4)
         Me.chkPreview.Name = "chkPreview"
-        Me.chkPreview.Size = New System.Drawing.Size(109, 20)
+        Me.chkPreview.Size = New System.Drawing.Size(108, 20)
         Me.chkPreview.TabIndex = 112
         Me.chkPreview.Text = "Preview only"
         Me.chkPreview.UseVisualStyleBackColor = True
@@ -272,7 +275,7 @@ Partial Class Main
         Me.chkIncludeIdTemplate.Location = New System.Drawing.Point(1161, 549)
         Me.chkIncludeIdTemplate.Margin = New System.Windows.Forms.Padding(4)
         Me.chkIncludeIdTemplate.Name = "chkIncludeIdTemplate"
-        Me.chkIncludeIdTemplate.Size = New System.Drawing.Size(148, 20)
+        Me.chkIncludeIdTemplate.Size = New System.Drawing.Size(147, 20)
         Me.chkIncludeIdTemplate.TabIndex = 111
         Me.chkIncludeIdTemplate.Text = "Include id template"
         Me.chkIncludeIdTemplate.UseVisualStyleBackColor = True
@@ -285,7 +288,7 @@ Partial Class Main
         Me.Label23.Location = New System.Drawing.Point(461, 490)
         Me.Label23.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(58, 16)
+        Me.Label23.Size = New System.Drawing.Size(57, 16)
         Me.Label23.TabIndex = 105
         Me.Label23.Text = "HEIGHT"
         Me.Label23.Visible = False
@@ -297,7 +300,7 @@ Partial Class Main
         Me.Label22.Location = New System.Drawing.Point(467, 458)
         Me.Label22.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(52, 16)
+        Me.Label22.Size = New System.Drawing.Size(51, 16)
         Me.Label22.TabIndex = 104
         Me.Label22.Text = "WIDTH"
         Me.Label22.Visible = False
@@ -309,7 +312,7 @@ Partial Class Main
         Me.Label21.Location = New System.Drawing.Point(460, 422)
         Me.Label21.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(60, 16)
+        Me.Label21.Size = New System.Drawing.Size(59, 16)
         Me.Label21.TabIndex = 103
         Me.Label21.Text = "TOP (Y)"
         Me.Label21.Visible = False
@@ -321,7 +324,7 @@ Partial Class Main
         Me.Label20.Location = New System.Drawing.Point(460, 386)
         Me.Label20.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(65, 16)
+        Me.Label20.Size = New System.Drawing.Size(64, 16)
         Me.Label20.TabIndex = 102
         Me.Label20.Text = "LEFT (X)"
         Me.Label20.Visible = False
@@ -468,6 +471,7 @@ Partial Class Main
         'txtMiddle
         '
         Me.txtMiddle.BackColor = System.Drawing.Color.White
+        Me.txtMiddle.Enabled = False
         Me.txtMiddle.Location = New System.Drawing.Point(851, 68)
         Me.txtMiddle.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMiddle.Name = "txtMiddle"
@@ -478,6 +482,7 @@ Partial Class Main
         'txtLast
         '
         Me.txtLast.BackColor = System.Drawing.Color.White
+        Me.txtLast.Enabled = False
         Me.txtLast.Location = New System.Drawing.Point(851, 96)
         Me.txtLast.Margin = New System.Windows.Forms.Padding(4)
         Me.txtLast.Name = "txtLast"
@@ -488,6 +493,7 @@ Partial Class Main
         'txtSuffix
         '
         Me.txtSuffix.BackColor = System.Drawing.Color.White
+        Me.txtSuffix.Enabled = False
         Me.txtSuffix.Location = New System.Drawing.Point(851, 124)
         Me.txtSuffix.Margin = New System.Windows.Forms.Padding(4)
         Me.txtSuffix.Name = "txtSuffix"
@@ -502,7 +508,7 @@ Partial Class Main
         Me.Label13.Location = New System.Drawing.Point(721, 251)
         Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(117, 16)
+        Me.Label13.Size = New System.Drawing.Size(116, 16)
         Me.Label13.TabIndex = 73
         Me.Label13.Text = "BRANCH ISSUED"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -510,6 +516,7 @@ Partial Class Main
         'txtMembershipDate
         '
         Me.txtMembershipDate.BackColor = System.Drawing.Color.White
+        Me.txtMembershipDate.Enabled = False
         Me.txtMembershipDate.Location = New System.Drawing.Point(851, 186)
         Me.txtMembershipDate.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMembershipDate.Name = "txtMembershipDate"
@@ -520,6 +527,7 @@ Partial Class Main
         'txtBranchIssued
         '
         Me.txtBranchIssued.BackColor = System.Drawing.Color.White
+        Me.txtBranchIssued.Enabled = False
         Me.txtBranchIssued.Location = New System.Drawing.Point(851, 248)
         Me.txtBranchIssued.Margin = New System.Windows.Forms.Padding(4)
         Me.txtBranchIssued.Name = "txtBranchIssued"
@@ -530,6 +538,7 @@ Partial Class Main
         'txtFirst
         '
         Me.txtFirst.BackColor = System.Drawing.Color.White
+        Me.txtFirst.Enabled = False
         Me.txtFirst.Location = New System.Drawing.Point(851, 39)
         Me.txtFirst.Margin = New System.Windows.Forms.Padding(4)
         Me.txtFirst.Name = "txtFirst"
@@ -543,7 +552,7 @@ Partial Class Main
         Me.Label8.Location = New System.Drawing.Point(772, 221)
         Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(66, 16)
+        Me.Label8.Size = New System.Drawing.Size(65, 16)
         Me.Label8.TabIndex = 65
         Me.Label8.Text = "GENDER"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -555,7 +564,7 @@ Partial Class Main
         Me.Label9.Location = New System.Drawing.Point(748, 42)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(90, 16)
+        Me.Label9.Size = New System.Drawing.Size(89, 16)
         Me.Label9.TabIndex = 61
         Me.Label9.Text = "FIRST NAME"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -563,6 +572,7 @@ Partial Class Main
         'txtGender
         '
         Me.txtGender.BackColor = System.Drawing.Color.White
+        Me.txtGender.Enabled = False
         Me.txtGender.Location = New System.Drawing.Point(851, 217)
         Me.txtGender.Margin = New System.Windows.Forms.Padding(4)
         Me.txtGender.Name = "txtGender"
@@ -577,7 +587,7 @@ Partial Class Main
         Me.Label7.Location = New System.Drawing.Point(701, 190)
         Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(137, 16)
+        Me.Label7.Size = New System.Drawing.Size(136, 16)
         Me.Label7.TabIndex = 57
         Me.Label7.Text = "MEMBERSHIP DATE"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -589,7 +599,7 @@ Partial Class Main
         Me.Label4.Location = New System.Drawing.Point(783, 128)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(55, 16)
+        Me.Label4.Size = New System.Drawing.Size(54, 16)
         Me.Label4.TabIndex = 53
         Me.Label4.Text = "SUFFIX"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -601,7 +611,7 @@ Partial Class Main
         Me.Label3.Location = New System.Drawing.Point(753, 100)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(85, 16)
+        Me.Label3.Size = New System.Drawing.Size(84, 16)
         Me.Label3.TabIndex = 51
         Me.Label3.Text = "LAST NAME"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -613,7 +623,7 @@ Partial Class Main
         Me.Label2.Location = New System.Drawing.Point(737, 71)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(101, 16)
+        Me.Label2.Size = New System.Drawing.Size(100, 16)
         Me.Label2.TabIndex = 49
         Me.Label2.Text = "MIDDLE NAME"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -650,7 +660,7 @@ Partial Class Main
         Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(1400, 620)
+        Me.TabPage2.Size = New System.Drawing.Size(1400, 627)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "DATA"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -662,7 +672,7 @@ Partial Class Main
         Me.Label29.Location = New System.Drawing.Point(27, 140)
         Me.Label29.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(65, 16)
+        Me.Label29.Size = New System.Drawing.Size(64, 16)
         Me.Label29.TabIndex = 94
         Me.Label29.Text = "REASON"
         '
@@ -683,7 +693,7 @@ Partial Class Main
         Me.Label28.Location = New System.Drawing.Point(27, 110)
         Me.Label28.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(115, 16)
+        Me.Label28.Size = New System.Drawing.Size(114, 16)
         Me.Label28.TabIndex = 92
         Me.Label28.Text = "PRINTING TYPE:"
         '
@@ -703,7 +713,7 @@ Partial Class Main
         Me.Label27.Location = New System.Drawing.Point(27, 22)
         Me.Label27.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(68, 16)
+        Me.Label27.Size = New System.Drawing.Size(67, 16)
         Me.Label27.TabIndex = 90
         Me.Label27.Text = "REPORT:"
         '
@@ -734,7 +744,7 @@ Partial Class Main
         Me.grid.ReadOnly = True
         Me.grid.RowHeadersWidth = 51
         Me.grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grid.Size = New System.Drawing.Size(1389, 361)
+        Me.grid.Size = New System.Drawing.Size(1389, 525)
         Me.grid.TabIndex = 88
         '
         'lblTotal
@@ -791,7 +801,7 @@ Partial Class Main
         Me.Label25.Location = New System.Drawing.Point(27, 80)
         Me.Label25.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(80, 16)
+        Me.Label25.Size = New System.Drawing.Size(79, 16)
         Me.Label25.TabIndex = 65
         Me.Label25.Text = "END DATE:"
         '
@@ -810,7 +820,7 @@ Partial Class Main
         Me.Label24.Location = New System.Drawing.Point(27, 53)
         Me.Label24.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(97, 16)
+        Me.Label24.Size = New System.Drawing.Size(96, 16)
         Me.Label24.TabIndex = 62
         Me.Label24.Text = "START DATE:"
         '
@@ -823,15 +833,16 @@ Partial Class Main
         Me.dtpStart.TabIndex = 0
         Me.dtpStart.Value = New Date(2020, 7, 16, 9, 27, 0, 0)
         '
-        'TextBox1
+        'TextBox11
         '
-        Me.TextBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.Location = New System.Drawing.Point(12, 689)
-        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ReadOnly = True
-        Me.TextBox1.Size = New System.Drawing.Size(1405, 22)
-        Me.TextBox1.TabIndex = 1
+        Me.TextBox11.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox11.Location = New System.Drawing.Point(12, 689)
+        Me.TextBox11.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextBox11.Name = "TextBox11"
+        Me.TextBox11.ReadOnly = True
+        Me.TextBox11.Size = New System.Drawing.Size(1405, 22)
+        Me.TextBox11.TabIndex = 1
+        Me.TextBox11.Visible = False
         '
         'Panel1
         '
@@ -856,6 +867,7 @@ Partial Class Main
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "API SOURCE"
         Me.LinkLabel1.TextAlign = System.Drawing.ContentAlignment.TopRight
+        Me.LinkLabel1.Visible = False
         '
         'lblHeader
         '
@@ -889,7 +901,7 @@ Partial Class Main
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1429, 716)
         Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.TextBox11)
         Me.Controls.Add(Me.TabControl1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -914,7 +926,7 @@ Partial Class Main
     End Sub
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox11 As System.Windows.Forms.TextBox
     Friend WithEvents txtBranchIssued As System.Windows.Forms.TextBox
     Friend WithEvents Label13 As System.Windows.Forms.Label
     Friend WithEvents txtGender As System.Windows.Forms.TextBox

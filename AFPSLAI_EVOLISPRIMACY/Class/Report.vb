@@ -37,7 +37,9 @@ Public Class Report
                 'rng.Merge = True
 
                 For Each gridCol As DataGridViewColumn In grid.Columns
-                    PopulateCell(ws, gridCol.HeaderText, intRow, intCol, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelVerticalAlignment.Top, 10, True, False, True, "", False)
+                    If gridCol.Name.Substring(gridCol.Name.Length - 2).ToUpper() <> "ID" Then
+                        PopulateCell(ws, gridCol.HeaderText, intRow, intCol, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelVerticalAlignment.Top, 10, True, False, True, "", False)
+                    End If
                 Next
 
                 intCol = intColBase
@@ -45,15 +47,17 @@ Public Class Report
 
                 For Each gridRow As DataGridViewRow In grid.Rows
                     For Each gridCol As DataGridViewColumn In grid.Columns
-                        Dim value = grid.Item(gridCol.Index, gridRow.Index).Value
-                        If IsDate(value.ToString()) Then
-                            value = CDate(value).ToString("MM/dd/yyyy")
-                        End If
+                        If gridCol.Name.Substring(gridCol.Name.Length - 2).ToUpper() <> "ID" Then
+                            Dim value = grid.Item(gridCol.Index, gridRow.Index).Value
+                            If IsDate(value.ToString()) Then
+                                value = CDate(value).ToString("MM/dd/yyyy")
+                            End If
 
-                        If Not IsNumeric(value.ToString()) Then
-                            PopulateCell(ws, value, intRow, intCol, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelVerticalAlignment.Top, 10, False, False, True, "", False)
-                        Else
-                            PopulateCell(ws, value, intRow, intCol, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelVerticalAlignment.Top, 10, False, False, True, "", False)
+                            If Not IsNumeric(value.ToString()) Then
+                                PopulateCell(ws, value, intRow, intCol, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelVerticalAlignment.Top, 10, False, False, True, "", False)
+                            Else
+                                PopulateCell(ws, value, intRow, intCol, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelVerticalAlignment.Top, 10, False, False, True, "", False)
+                            End If
                         End If
                     Next
                     intRow += 1

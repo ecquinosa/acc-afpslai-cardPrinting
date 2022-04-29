@@ -59,6 +59,9 @@ Public Class Setting
         cboBranch.SelectedValue = cboBranch.FindString(My.Settings.BranchIssue)
         txtApiKey.Text = My.Settings.ApiKey
 
+        Main.logger.Info(String.Concat(Main.dcsUser.userName, " load settings. ", "Middle server Url: ", My.Settings.MiddleServerUrl, ", Branch: ", My.Settings.BranchIssue, ", Printer: ", My.Settings.CardPrinter))
+        Main.logger.Info("Load Key: ", My.Settings.ApiKey)
+
         Dim objPhoto = Main.cardElements.Photo
         Dim objMemberSince = Main.cardElements.MemberSince
         Dim objValidThru = Main.cardElements.ValidThru
@@ -121,14 +124,35 @@ Public Class Setting
     End Sub
 
     Private Sub SaveSettings()
+        Dim middleServerUrl As String = txtServer.Text.Trim
+        Dim lastChar As String = middleServerUrl.Substring(middleServerUrl.Length - 1, 1)
+        If lastChar = "/" Then middleServerUrl = middleServerUrl.Substring(0, middleServerUrl.Length - 1)
+
+        Dim sbSettings As New System.Text.StringBuilder
+        If cboBranch.Text <> My.Settings.BranchIssue Then sbSettings.Append(". Changed branch to " & cboBranch.Text)
+        If cboPrinter.Text <> My.Settings.CardPrinter Then sbSettings.Append(". Changed printer to " & cboPrinter.Text)
+        If middleServerUrl <> My.Settings.MiddleServerUrl Then sbSettings.Append(". Changed url to " & middleServerUrl)
+        If txtApiKey.Text <> My.Settings.ApiKey Then sbSettings.Append(". Changed api key to " & txtApiKey.Text)
+
+        Dim logDesc As String = ""
+        If sbSettings.ToString <> "" Then _
+            logDesc = String.Concat(Main.dcsUser.userName, " clicked save button settings", sbSettings.ToString, ".")
+
+        'If TabControl1.SelectedTab.Text = "MAIN" Then
         If cboPrinter.Text <> "" Then My.Settings.CardPrinter = cboPrinter.Text
-        My.Settings.MiddleServerUrl = txtServer.Text
+
+        My.Settings.MiddleServerUrl = middleServerUrl
         My.Settings.BranchIssue = cboBranch.Text
         My.Settings.ApiKey = txtApiKey.Text
+
+        Main.logger.Info(String.Concat(logDesc))
+
         My.Settings.Save()
         My.Settings.Reload()
-        Main.MiddleServerUrlDisplay()
 
+
+        Main.MiddleServerUrlDisplay()
+        'ElseIf TabControl1.SelectedTab.Text = "CARD" Then
         Dim cces As New List(Of accAfpslaiEmvObjct.cps_card_elements)
         Dim ccePhoto As New accAfpslaiEmvObjct.cps_card_elements
         Dim cceMemberSince As New accAfpslaiEmvObjct.cps_card_elements
@@ -176,7 +200,18 @@ Public Class Setting
             Main.msa.AddCPSCardElements(cce)
         Next
 
+        If logDesc <> "" Then
+            Dim sl As New accAfpslaiEmvObjct.system_log
+            If logDesc.Length <= 500 Then
+                sl.log_desc = String.Concat("Branch ", My.Settings.BranchIssue, ". ", logDesc)
+            Else
+                sl.log_desc = String.Concat("Branch ", My.Settings.BranchIssue, ". ", logDesc.Substring(0, 500))
+            End If
+            Main.msa.saveSystemLog(sl)
+        End If
+
         Main.cardElements.Populate()
+        'End If
     End Sub
 
     Private Sub CreateCardElement(ByVal elementType As String, ByVal element As String, ByVal x As Integer, ByVal y As Integer, ByVal width As Integer, ByVal height As Integer,

@@ -178,3 +178,7 @@ D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Micros
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.xml
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\AllcardEncryptDecrypt.pdb
 D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\AllcardEncryptDecrypt.xml
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\System.Net.Http.Formatting.dll
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\accAfpslaiEmvObjct.dll.config
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\System.Net.Http.Formatting.xml
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.exe.config
