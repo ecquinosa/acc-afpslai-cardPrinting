@@ -54,6 +54,8 @@ Public Class Report
                             End If
 
                             If Not IsNumeric(value.ToString()) Then
+                                'If value.ToString().Trim().ToUpper() = "CORPORATE REGULAR" Then value = "Regular"
+
                                 PopulateCell(ws, value, intRow, intCol, OfficeOpenXml.Style.ExcelHorizontalAlignment.Left, OfficeOpenXml.Style.ExcelVerticalAlignment.Top, 10, False, False, True, "", False)
                             Else
                                 PopulateCell(ws, value, intRow, intCol, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center, OfficeOpenXml.Style.ExcelVerticalAlignment.Top, 10, False, False, True, "", False)

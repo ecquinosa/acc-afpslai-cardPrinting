@@ -14,9 +14,16 @@ Public Class Main
     Public cardElements As CardElements
     Private card As card = Nothing
 
+    Private gridData
+    Private sortAscending As Boolean = False
+
     Public Shared logger As NLog.Logger = NLog.LogManager.GetCurrentClassLogger()
 
     Private Sub Main_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+        'My.Settings.MiddleServerUrl = "http://10.130.66.12"
+        'My.Settings.Save()
+        'Application.Exit()
+
         Me.Text &= GetAppVersion()
 
         msa = New MiddleServerApi(My.Settings.MiddleServerUrl, My.Settings.ApiKey, My.Settings.BranchIssue, MiddleServerApi.afpslaiEmvSystem.cps)
@@ -47,7 +54,7 @@ Public Class Main
             MiddleServerUrlDisplay()
             'txtCIF.Text = "1111111111104"
 
-            Dim IsHaveEvolisPrinter = MagEncoding.CheckEvolisPrinter
+            Dim IsHaveEvolisPrinter = MagEncodingv1.CheckEvolisPrinter
 
             btnEjectCard.Enabled = IsHaveEvolisPrinter
             btnInsertCard.Enabled = IsHaveEvolisPrinter
@@ -122,7 +129,7 @@ Public Class Main
         'ControlDispo(True)
         'Return
 
-        Dim meap As New MagEncoding
+        Dim meap As New MagEncodingv1
         Try
             Select Case meap.ReadTracks()
                 Case 0
@@ -287,19 +294,20 @@ Public Class Main
     End Sub
 
     Private Sub FeedCard()
-        Dim meap As New MagEncoding
+        'Dim meap As New MagEncodingv2
+        Dim meap As New MagEncodingv1
         meap.FeedCard()
         meap = Nothing
     End Sub
 
     Private Sub EjectCard()
-        Dim meap As New MagEncoding
+        Dim meap As New MagEncodingv1
         meap.EjectCard()
         meap = Nothing
     End Sub
 
     Private Sub ReadCardMags()
-        Dim meap As New MagEncoding
+        Dim meap As New MagEncodingv1
         If meap.ReadTracks() Then
             'read cardNo and validThru from card
             'cfp.cardNo = "1234567890123456"
@@ -327,7 +335,7 @@ Public Class Main
 
     Private Function GetPrinterCounter() As Integer
         Try
-            Dim meap As New MagEncoding
+            Dim meap As New MagEncodingv1
             Dim intCntr As String = meap.GetPrinterCounter()
             meap = Nothing
             If IsNumeric(intCntr) Then
@@ -367,7 +375,7 @@ Public Class Main
         End If
 
         Dim branch As String = My.Settings.BranchIssue
-        If dcsUser.roleDesc = "DCS Admin" Then branch = ""
+        If dcsUser.roleId = 2 Then branch = ""
         Dim obj As Object
         grid.DataSource = Nothing
         Select Case cboReport.SelectedIndex
@@ -375,11 +383,13 @@ Public Class Main
             Case 1
                 If msa.GetMembersPrintingTypeSummary(branch, dtpStart.Value.Date, dtpEnd.Value.Date, obj) Then
                     Dim data = obj
+                    'gridData = data
                     grid.DataSource = data
                 End If
             Case 2
                 If msa.GetMembersRecardReasonSummary(branch, dtpStart.Value.Date, dtpEnd.Value.Date, obj) Then
                     Dim data = obj
+                    'gridData = data
                     grid.DataSource = data
                 End If
             Case 3
@@ -387,8 +397,9 @@ Public Class Main
                 Dim recardReasonId = 0
                 If cboPrintingType.SelectedIndex > 0 Then printTypeId = cboPrintingType.SelectedValue
                 If cboReason.SelectedIndex > 0 Then recardReasonId = cboReason.SelectedValue
-                If msa.GetMember(0, "", branch, dtpStart.Value.Date, dtpEnd.Value.Date, printTypeId, recardReasonId, obj) Then
+                If msa.GetMemberReport(0, "", branch, dtpStart.Value.Date, dtpEnd.Value.Date, printTypeId, recardReasonId, obj) Then
                     Dim data = obj
+                    'gridData = data
                     grid.DataSource = data
                 End If
         End Select
@@ -534,12 +545,15 @@ Public Class Main
                     cboReason.Enabled = False
                     dtpStart.Enabled = False
                     dtpEnd.Enabled = False
+                    lblTotal.Visible = False
                 Case 1, 2
                     cboPrintingType.Enabled = False
                     cboReason.Enabled = False
                     dtpStart.Enabled = True
                     dtpEnd.Enabled = True
+                    lblTotal.Visible = False
                 Case Else
+                    lblTotal.Visible = True
                     cboPrintingType.Enabled = True
                     dtpStart.Enabled = True
                     dtpEnd.Enabled = True
@@ -854,18 +868,26 @@ Public Class Main
     End Function
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        If Not dcsUser Is Nothing Then
-            logger.Info(String.Format("{0} logout", dcsUser.userName))
-            Dim user As New system_user
-            user.id = msa.dcsUser.userId
-            user.user_name = msa.dcsUser.userName
-            msa.userLogOut(user)
-        End If
+        Logout()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        'PushToCMS_Test()
-        PersoCard_TestingOnly()
+    Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
+        Logout()
+        Environment.Exit(0)
+    End Sub
+
+    Private Sub Logout()
+        If Not dcsUser Is Nothing Then
+            logger.Info(String.Format("{0} logout", dcsUser.userName))
+            Try
+                Dim user As New system_user
+                user.id = msa.dcsUser.userId
+                user.user_name = msa.dcsUser.userName
+                msa.userLogOut(user)
+            Catch ex As Exception
+                logger.Error(String.Format("{0} failed to logout. {1}", dcsUser.userName, ex.Message))
+            End Try
+        End If
     End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
@@ -877,4 +899,15 @@ Public Class Main
             ShowPreview = True
         End If
     End Sub
+
+    'Private Sub grid_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles grid.ColumnHeaderMouseClick
+    '    If sortAscending Then
+    '        grid.DataSource = gridData.OrderBy(grid.Columns(e.ColumnIndex).DataPropertyName).ToList()
+    '    Else
+    '        grid.DataSource = gridData.OrderBy(grid.Columns(e.ColumnIndex).DataPropertyName).Reverse().ToList()
+    '    End If
+
+    '    sortAscending = Not sortAscending
+    'End Sub
+
 End Class

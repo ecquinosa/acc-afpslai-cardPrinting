@@ -18,7 +18,7 @@
     </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
@@ -117,8 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\CardElements.vb" />
+    <Compile Include="Class\MagEncodingv2.vb" />
     <Compile Include="Class\PrintCard.vb" />
-    <Compile Include="Class\MagEncoding.vb" />
+    <Compile Include="Class\MagEncodingv1.vb" />
     <Compile Include="Class\Misc.vb" />
     <Compile Include="Class\Modules\dllEvolib.vb" />
     <Compile Include="Class\Modules\dllIomem.vb" />

@@ -10,7 +10,7 @@ Imports System.IO
 
 #End Region
 
-Public Class MagEncoding
+Public Class MagEncodingv1
 
 #Region " Variables "
 
