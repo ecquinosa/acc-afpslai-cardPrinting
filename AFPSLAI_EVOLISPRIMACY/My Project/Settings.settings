@@ -6,7 +6,7 @@
       <Value Profile="(Default)">Evolis Primacy</Value>
     </Setting>
     <Setting Name="MiddleServerUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://localhost:44348</Value>
+      <Value Profile="(Default)">http://10.130.66.12</Value>
     </Setting>
     <Setting Name="CapturedData" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -15,7 +15,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="BranchIssue" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">AGUINALDO</Value>
     </Setting>
     <Setting Name="ApiKey" Type="System.String" Scope="User">
       <Value Profile="(Default)">eyJpdiI6IkgzRHhKd2VKVFpmUHZVSitKMVZlUHc9PSIsInZhbHVlIjoiTFMwcVZ0M0JLNVJrR1U0SEJEQWtCUT09IiwibWFjIjoiZTFjMGM0OGU3MmVmNzdkM2MyNmYwYjdjMGFhMTg0Njk4MjcyN2E5ZDM4ZjE0ZWUwZDFkZjUzNDU2ZDg3NDQxYyJ9</Value>

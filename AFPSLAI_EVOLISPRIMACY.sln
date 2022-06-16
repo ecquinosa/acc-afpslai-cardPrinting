@@ -1,7 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32510.428
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AFPSLAI_EVOLISPRIMACY", "AFPSLAI_EVOLISPRIMACY\AFPSLAI_EVOLISPRIMACY.vbproj", "{224895DB-1F07-4EEF-87C6-07DFF07C88F3}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AFPSLAI - PMS", "AFPSLAI - PMS\AFPSLAI - PMS.vdproj", "{629545EF-D4B2-488F-AA0C-02C22608DC18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +17,13 @@ Global
 		{224895DB-1F07-4EEF-87C6-07DFF07C88F3}.Debug|x86.Build.0 = Debug|x86
 		{224895DB-1F07-4EEF-87C6-07DFF07C88F3}.Release|x86.ActiveCfg = Release|x86
 		{224895DB-1F07-4EEF-87C6-07DFF07C88F3}.Release|x86.Build.0 = Release|x86
+		{629545EF-D4B2-488F-AA0C-02C22608DC18}.Debug|x86.ActiveCfg = Debug
+		{629545EF-D4B2-488F-AA0C-02C22608DC18}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2A0BE86-8D02-4EE1-B994-E8F785F6EC3E}
 	EndGlobalSection
 EndGlobal
