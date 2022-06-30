@@ -198,7 +198,6 @@ C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Micros
 C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\Newtonsoft.Json.xml
 C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\NLog.xml
 C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\System.Net.Http.Formatting.xml
-C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.vbproj.AssemblyReference.cache
 C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.exe.config
 C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.LogIN.resources
 C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.Main.resources
