@@ -209,3 +209,4 @@ C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AF
 C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.exe
 C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.xml
 C:\EDEL\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\obj\x86\Debug\AFPSLAI_EVOLISPRIMACY.pdb
+D:\WORK\Projects\acc-afpslai-cardPrinting\AFPSLAI_EVOLISPRIMACY\bin\Debug\AllcardEncryptDecrypt.dll

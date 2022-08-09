@@ -60,8 +60,13 @@ Public Class PrintCard
             Dim fontName As New Font(objName.font_name, CSng(objName.font_size), GetFontStyle(objName.font_style))
             Dim fontCIF As New Font(objCIF.font_name, CSng(objCIF.font_size), GetFontStyle(objCIF.font_style))
 
-            Dim imgTemplate As Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(Application.StartupPath & "\card_front.jpg")))
-            If CBool(Main.chkIncludeIdTemplate.Checked) Then e.Graphics.DrawImage(imgTemplate, 0, 0, 1020, 650)
+            If CBool(Main.chkIncludeIdTemplate.Checked) Then
+                Dim cardFrontJpg As String = Application.StartupPath & "\card_front.jpg"
+                If System.IO.File.Exists(cardFrontJpg) Then
+                    Dim imgTemplate As Image = Image.FromStream(New System.IO.MemoryStream(System.IO.File.ReadAllBytes(cardFrontJpg)))
+                    e.Graphics.DrawImage(imgTemplate, 0, 0, 1020, 650)
+                End If
+            End If
 
             Dim imgPhoto As Image = Image.FromStream(New System.IO.MemoryStream(Convert.FromBase64String(Main.cfp.base64Photo)))
 
